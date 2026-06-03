@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ท่องเที่ยวพัทลุง — เมืองลุงสาวงาม ถ้ำงามทะเลน้อย มโนราห์ หนังตะลุง" />
+  <meta name="theme-color" content="#0d0e12" />
+  <title>พัทลุง — Tourism Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,200;0,300;0,400;0,700;1,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="noise-overlay"></div>
+<div id="app" role="main">
+    <div style="display:flex;height:100vh;align-items:center;justify-content:center;flex-direction:column;gap:1rem;background:#0d0e12;">
+      <div style="font-family:'KULACHAT HC',sans-serif;font-size:2.5rem;color:#c9953a;letter-spacing:0.1em;">พัทลุง</div>
+      <div id="loadBar" style="width:40px;height:2px;background:#c9953a;animation:loadBar 1s ease-in-out infinite alternate;"></div>
+    </div>
+    <style>@keyframes loadBar{from{width:20px;opacity:.4}to{width:80px;opacity:1}}</style>
+</div>
+<script>
+/**
+ * data.js
+ * Central data store for Phatthalung Tourism Website
+ * All 11 districts with mock places data
+ */
+
+const PHATTHALUNG_DATA = {
+  province: {
+    name: "พัทลุง",
+    nameEn: "Phatthalung",
+    tagline: "เมืองลุงสาวงาม ถ้ำงามทะเลน้อย",
+    taglineEn: "Land of Manora, Shadow Play & Freshwater Sea",
+    description:
+      "พัทลุงเป็นจังหวัดที่มีความงดงามทางธรรมชาติและมรดกทางวัฒนธรรมอันล้ำค่า ทั้งมโนราห์ หนังตะลุง และทะเลน้อย หนึ่งในสามของเขตห้ามล่าสัตว์ป่าและพื้นที่ชุ่มน้ำอันเป็นนานาชาติ",
+  },
+
+  heroSlides: [
+    {
+      id: 1,
+      title: "เขาอกทะลุ",
+      titleEn: "Khao Ok Thalu",
+      district: "เมืองพัทลุง",
+      image: "khao-ok-thalu.jpg",
+      description: "เป็นสัญลักษณ์ประจำจังหวัดพัทลุงที่โดดเด่นที่สุด เหมาะสำหรับชมพระอาทิตย์ขึ้นและพระอาทิตย์ตก จุดชมวิวเมืองพัทลุงแบบ 360 องศา",
+    },
+    {
+      id: 2,
+      title: "ทะเลน้อย",
+      titleEn: "Thale Noi",
+      district: "ควนขนุน",
+      image: "thale-noi.jpg",
+      description: "ทะเลสาบน้ำจืดขนาดใหญ่ เหมาะกับการล่องเรือดูนกน้ำ ชมพระอาทิตย์ขึ้น และทุ่งบัวแดง",
+    },
+    {
+      id: 3,
+      title: "ถ้ำคูหาสวรรค์",
+      titleEn: "Khuha Sawan Cave",
+      district: "เมืองพัทลุง",
+      image: "khuha-sawan.jpg",
+      description: "ถ้ำและจุดชมวิวบนเขาในตัวเมืองพัทลุง เหมาะสำหรับสายเที่ยวธรรมชาติ ถ่ายรูป และผู้ที่สนใจประวัติศาสตร์ท้องถิ่น บรรยากาศสงบ ร่มรื่น และเต็มไปด้วยความศักดิ์สิทธิ์",
+    },
+    {
+      id: 4,
+      title: "อุทยานแห่งชาติ เขาปู่-เขาย่า",
+      titleEn: "Khao Pu - Khao Ya National Park",
+      district: "ศรีบรรพต",
+      image: "khao-pu-khao-ya.jpg",
+      description: "อุทยานแห่งชาติที่เต็มไปด้วยป่าเขา น้ำตก และจุดชมวิวธรรมชาติ เหมาะกับสายเดินป่าและพักผ่อนกลางธรรมชาติ",
+    },
+    {
+      id: 5,
+      title: "ภูเขาเจียก",
+      titleEn: "Phu Khao Chiak",
+      district: "เมืองพัทลุง",
+      image: "khao-jeak.jpg",
+      description: "จุดชมวิวเมืองพัทลุงจากมุมสูง เหมาะสำหรับชมพระอาทิตย์ขึ้นและถ่ายรูปวิวเมือง",
+    },
+    {
+      id: 6,
+      title: "หลาดใต้โหนด",
+      titleEn: "Tai Nod Market",
+      district: "ควนขนุน",
+      image: "tai-nod-market.jpg",
+      description: "ตลาดสีเขียวชื่อดังของพัทลุง รวมอาหารพื้นบ้าน งานหัตถกรรม และบรรยากาศชุมชนท้องถิ่น",
+    },
+    {
+      id: 7,
+      title: "ควนนกเต้น",
+      titleEn: "Khuan Nok Ten",
+      district: "กงหรา",
+      image: "khuan-nok-ten.jpg",
+      description: "เป็นจุดชมวิวชื่อดังของพัทลุง มองเห็นแนวเทือกเขาบรรทัด และในช่วงเช้าที่มีทะเลหมอกลอยปกคลุมภูเขารอบๆ",
+    },
+  ],
+
+  districts: [
+    {
+      id: "mueang",
+      name: "เมืองพัทลุง",
+      nameEn: "Mueang Phatthalung",
+      tagline: "เมืองหลวงแห่งวัฒนธรรมใต้",
+      history:
+        "อำเภอเมืองพัทลุงเป็นศูนย์กลางของจังหวัด มีประวัติศาสตร์ยาวนานตั้งแต่สมัยอาณาจักรศรีวิชัย เป็นแหล่งกำเนิดของการแสดงมโนราห์และหนังตะลุง ซึ่งถือเป็นมรดกทางวัฒนธรรมอันทรงคุณค่าของภาคใต้และได้รับการยอมรับในระดับนานาชาติ",
+      image: "mueang-phatthalung.jpg",
+      color: "#c9953a",
+    },
+    {
+      id: "kong-ra",
+      name: "กงหรา",
+      nameEn: "Kong Ra",
+      tagline: "ป่าเขาลำเนาไพร",
+      history:
+        "อำเภอกงหราตั้งอยู่ทางทิศเหนือของจังหวัด มีพื้นที่ป่าไม้และเทือกเขาที่อุดมสมบูรณ์ เป็นแหล่งต้นน้ำสำคัญของลุ่มน้ำในจังหวัดพัทลุง ชาวบ้านยังคงดำรงชีวิตกบบดั้งเดิม สืบสานวัฒนธรรมพื้นถิ่นผ่านประเพณีต่างๆ ตลอดทั้งปี",
+      image: "kong-ra.jpg",
+      color: "#4a7c59",
+    },
+    {
+      id: "khao-chaison",
+      name: "เขาชัยสน",
+      nameEn: "Khao Chaison",
+      tagline: "ประตูสู่ทะเลน้อย",
+      history:
+        "อำเภอเขาชัยสนเป็นที่ตั้งของทะเลน้อย ซึ่งเป็นพื้นที่ชุ่มน้ำที่มีความสำคัญระดับนานาชาติ ตามอนุสัญญาแรมซาร์์ เป็นแหล่งอพยพของนกน้ำหายากกว่า 182 ชนิด ชาวบ้านในพื้นที่ประกอบอาชีพประมง ทอเสื่อกระจูด และนำเที่ยวทางเรือในพื้นที่ชุ่มน้ำ",
+      image: "khao-chaison.jpg",
+      color: "#2d6a9f",
+    },
+    {
+      id: "tam-pa-mol",
+      name: "ตะโหมด",
+      nameEn: "Tamot",
+      tagline: "เมืองเกษตรกรรม",
+      history:
+        "อำเภอตะโหมดเป็นอำเภอที่มีพื้นที่การเกษตรกว้างใหญ่ โดยเฉพาะนาข้าวและสวนยางพารา มีวัฒนธรรมท้องถิ่นที่เข้มแข็ง งานประเพณีต่างๆ ยังคงได้รับการสืบทอดจากรุ่นสู่รุ่น ชาวบ้านมีความสามัคคีและใช้ชีวิตกบบพอเพียง",
+      image: "tamot.jpg",
+      color: "#8b6914",
+    },
+    {
+      id: "khuan-khanun",
+      name: "ควนขนุน",
+      nameEn: "Khuan Khanun",
+      tagline: "อู่ข้าวอู่น้ำใต้",
+      history:
+        "อำเภอควนขนุนเป็นอำเภอที่มีพื้นที่ทำนาข้าวมากที่สุดในจังหวัด ชาวบ้านดำรงชีวิตด้วยการทำเกษตรกรรมมาหลายชั่วอายุคน มีประเพณีลงแขกเกี่ยวข้าวที่ยังคงสืบสานอยู่ และเป็นแหล่งผลิตข้าวสังข์หยดพัทลุง ข้าว GI ที่มีชื่อเสียงของจังหวัด",
+      image: "khuan-khanun.jpg",
+      color: "#7a9e3b",
+    },
+    {
+      id: "pak-phayun",
+      name: "ปากพะยูน",
+      nameEn: "Pak Phayun",
+      tagline: "เขาอกทะลุและพะยูน",
+      history:
+        "อำเภอปากพะยูนตั้งอยู่ริมทะเลสาบสงขลา มีสัญลักษณ์สำคัญคือเขาอกทะลุที่ตระหง่านอยู่กลางน้ำ นอกจากนี้ยังเป็นแหล่งที่อยู่อาศัยของพะยูน (ดูหยง) สัตว์ทะเลเลี้ยงลูกด้วยนมที่หายากในประเทศไทย",
+      image: "pak-phayun.jpg",
+      color: "#1a7a6e",
+    },
+    {
+      id: "ban-lan",
+      name: "บางแก้ว",
+      nameEn: "Bang Kaeo",
+      tagline: "ชุมชนประมงริมทะเลสาบ",
+      history:
+        "อำเภอบางแก้วตั้งอยู่ริมทะเลสาบสงขลา ชาวบ้านส่วนใหญ่ประกอบอาชีพประมงน้ำจืดและค้าขาย มีตลาดน้ำเก่าแก่และชุมชนริมน้ำที่มีเสน่ห์ มีวัดเก่าแก่หลายแห่งที่มีสถาปัตยกรรมแบบภาคใต้ที่งดงาม",
+      image: "bang-kaeo.jpg",
+      color: "#2d4a8a",
+    },
+    {
+      id: "pa-bon",
+      name: "ป่าบอน",
+      nameEn: "Pa Bon",
+      tagline: "ป่าเขาธรรมชาติ",
+      history:
+        "อำเภอป่าบอนมีพื้นที่ป่าไม้อุดมสมบูรณ์และเทือกเขาสลับซับซ้อน เป็นแหล่งต้นน้ำสำคัญและมีความหลากหลายทางชีวภาพสูง ชาวบ้านดำรงชีวิตด้วยการทำเกษตรสวนยางและการเก็บของป่า มีวิถีชีวิตที่เรียบง่ายและใกล้ชิดธรรมชาติ",
+      image: "pa-bon.jpg",
+      color: "#3d6b3d",
+    },
+    {
+      id: "srinagarindra",
+      name: "ศรีนครินทร์",
+      nameEn: "Srinagarindra",
+      tagline: "ถ้ำงามและน้ำตกสวย",
+      history:
+        "อำเภอศรีนครินทร์มีชื่อเสียงด้านธรรมชาติที่สวยงาม ทั้งถ้ำหินงอกหินย้อยและน้ำตกต่างๆ เป็นสถานที่พักผ่อนหย่อนใจและแหล่งท่องเที่ยวเชิงนิเวศที่สำคัญของจังหวัดพัทลุง",
+      image: "srinagarindra.jpg",
+      color: "#7a4a9e",
+    },
+    {
+      id: "si-banphot",
+      name: "ศรีบรรพต",
+      nameEn: "Si Banphot",
+      tagline: "น้ำตกและธรรมชาติ",
+      history:
+        "อำเภอศรีบรรพตเป็นพื้นที่ภูเขาและป่าที่อุดมสมบูรณ์ มีน้ำตกหลายแห่งที่สวยงาม และเป็นแหล่งท่องเที่ยวเชิงนิเวศที่กำลังได้รับความนิยม ชาวบ้านส่วนใหญ่ประกอบอาชีพทำสวนยาง ทำนา และรับจ้างในพื้นที่",
+      image: "si-banphot.jpg",
+      color: "#9e4a2d",
+    },
+    {
+      id: "pa-phayom",
+      name: "ป่าพะยอม",
+      nameEn: "Pa Phayom",
+      tagline: "ล่องแก่งและธรรมชาติ",
+      history:
+        "อำเภอป่าพะยอมเป็นแหล่งท่องเที่ยวเชิงนิเวศที่มีชื่อเสียงของจังหวัดพัทลุง โดยเฉพาะกิจกรรมล่องแก่งที่ได้รับความนิยมอย่างมาก มีธรรมชาติที่สวยงามและอุดมสมบูรณ์",
+      image: "pa-phayom.jpg",
+      color: "#4a7a9e",
+    },
+  ],
+
+  categories: {
+    restaurants: {
+      id: "restaurants",
+      name: "ร้านอาหาร",
+      nameEn: "Restaurants",
+      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80',
+      description: "รสชาติแห่งใต้ อาหารพื้นเมืองที่คุณต้องลอง",
+    },
+    attractions: {
+      id: "attractions",
+      name: "สถานที่ท่องเที่ยว",
+      nameEn: "Attractions",
+      image: 'https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=800&q=80',
+      description: "สถานที่สวยงามที่ไม่ควรพลาด",
+    },
+    accommodations: {
+      id: "accommodations",
+      name: "ที่พัก",
+      nameEn: "Accommodations",
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+      description: "พักผ่อนอย่างสบายในพัทลุง",
+    },
+  },
+
+  places: {
+    mueang: {
+      restaurants: [
+        {
+          id: 1,
+          name: "ร้านข้าวยำพัทลุง",
+          rating: 4.8,
+          price: "฿",
+          tag: "อาหารพื้นเมือง",
+          description: "ข้าวยำที่ขึ้นชื่อที่สุดในจังหวัด รสชาติดั้งเดิม น้ำบูดูแท้",
+          image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80",
+          hours: "07:00 - 15:00",
+        },
+        {
+          id: 2,
+          name: "ครัวคุณยาย",
+          rating: 4.6,
+          price: "฿฿",
+          tag: "อาหารใต้",
+          description: "อาหารใต้แท้รสจัด แกงไตปลา ผัดสะตอกุ้ง รสเข้มข้น",
+          image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=80",
+          hours: "10:00 - 21:00",
+        },
+        {
+          id: 3,
+          name: "หมูย่างเมืองพัทลุง",
+          rating: 4.5,
+          price: "฿",
+          tag: "อาหารย่าง",
+          description: "หมูย่างสูตรเฉพาะ หอมกลิ่นถ่าน เสิร์ฟพร้อมน้ำจิ้มแจ่วโฮมเมด",
+          image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+          hours: "17:00 - 23:00",
+        },
+        {
+          id: 4,
+          name: "คาเฟ่มโนราห์",
+          rating: 4.7,
+          price: "฿฿",
+          tag: "คาเฟ่",
+          description: "คาเฟ่สไตล์ไทยใต้ กาแฟโบราณ ขนมดั้งเดิม บรรยากาศอบอุ่น",
+          image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80",
+          hours: "08:00 - 20:00",
+        },
+      ],
+      attractions: [
+        {
+          id: 1,
+          name: "วัดคูหาสวรรค์",
+          rating: 4.9,
+          price: "ฟรี",
+          tag: "วัดวาอาราม",
+          description: "วัดในถ้ำหินงอกหินย้อยที่มีอายุกว่าพันปี จุดแสวงบุญอันศักดิ์สิทธิ์",
+          image: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=600&q=80",
+          hours: "06:00 - 18:00",
+        },
+        {
+          id: 2,
+          name: "พิพิธภัณฑ์ศิลปะมโนราห์",
+          rating: 4.5,
+          price: "฿",
+          tag: "พิพิธภัณฑ์",
+          description: "รวบรวมเครื่องแต่งกายและประวัติมโนราห์ การแสดงสดทุกสุดสัปดาห์",
+          image: "https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=600&q=80",
+          hours: "09:00 - 17:00",
+        },
+        {
+          id: 3,
+          name: "ถนนคนเดินพัทลุง",
+          rating: 4.4,
+          price: "ฟรี",
+          tag: "ตลาด",
+          description: "ตลาดค่ำวัฒนธรรม อาหาร หัตถกรรม การแสดงพื้นเมือง ทุกคืนวันเสาร์",
+          image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+          hours: "17:00 - 22:00 (เฉพาะวันเสาร์)",
+        },
+      ],
+      accommodations: [
+        {
+          id: 1,
+          name: "โรงแรมพัทลุงแกรนด์",
+          rating: 4.3,
+          price: "฿฿฿",
+          tag: "โรงแรม",
+          description: "โรงแรมหรูใจกลางเมือง สระว่ายน้ำ ห้องอาหาร วิวเขาอกทะลุ",
+          image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 2,
+          name: "บ้านพักรับรองหนังตะลุง",
+          rating: 4.6,
+          price: "฿฿",
+          tag: "บูติกโฮเทล",
+          description: "ที่พักสไตล์วัฒนธรรมพื้นถิ่น ตกแต่งด้วยลายหนังตะลุง บรรยากาศเป็นกันเอง",
+          image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+      ],
+    },
+    "khao-chaison": {
+      restaurants: [
+        {
+          id: 1,
+          name: "ร้านอาหารทะเลน้อย",
+          rating: 4.7,
+          price: "฿฿",
+          tag: "อาหารทะเล",
+          description: "ปลาน้ำจืดสดจากทะเลน้อย ต้มยำปลา ปลาทอดกระเทียม รสชาติดั้งเดิม",
+          image: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80",
+          hours: "09:00 - 20:00",
+        },
+        {
+          id: 2,
+          name: "ครัวกระจูด",
+          rating: 4.5,
+          price: "฿",
+          tag: "อาหารพื้นเมือง",
+          description: "ข้าวผัด ผัดไทย และอาหารพื้นบ้าน พร้อมชมวิวทะเลน้อย",
+          image: "https://images.unsplash.com/photo-1562802378-063ec186a863?w=600&q=80",
+          hours: "08:00 - 18:00",
+        },
+      ],
+      attractions: [
+        {
+          id: 1,
+          name: "ทะเลน้อย",
+          rating: 4.9,
+          price: "฿",
+          tag: "ธรรมชาติ",
+          description: "พื้นที่ชุ่มน้ำแรมซาร์ระดับโลก ล่องเรือชมนกและดอกบัว",
+          image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
+          hours: "06:00 - 18:00",
+        },
+        {
+          id: 2,
+          name: "หมู่บ้านทอเสื่อกระจูด",
+          rating: 4.6,
+          price: "ฟรี",
+          tag: "วิถีชุมชน",
+          description: "เรียนรู้การทอเสื่อกระจูดจากชาวบ้าน ซื้อของที่ระลึกงานหัตถกรรมแท้",
+          image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+          hours: "08:00 - 17:00",
+        },
+      ],
+      accommodations: [
+        {
+          id: 1,
+          name: "รีสอร์ทริมทะเลน้อย",
+          rating: 4.8,
+          price: "฿฿฿",
+          tag: "รีสอร์ท",
+          description: "บังกะโลริมน้ำ วิวทะเลน้อยยามเช้า นั่งเรือออกจากรีสอร์ทได้เลย",
+          image: "https://images.unsplash.com/photo-1587381420270-3e1a5b9e6904?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+      ],
+    },
+    "pak-phayun": {
+      restaurants: [
+        {
+          id: 1,
+          name: "Morningmoon cafe",
+          rating: 4.8,
+          price: "฿฿",
+          tag: "คาเฟ่",
+          description: "คาเฟ่บรรยากาศดี เหมาะสำหรับการถ่ายรูป และชมพระอาทิตย์ตก (50 - 200 บาท)",
+          image: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80",
+          hours: "09:00 - 18:00",
+        },
+        {
+          id: 2,
+          name: "แพข้าวหลวง",
+          rating: 4.6,
+          price: "฿฿฿",
+          tag: "ร้านอาหาร",
+          description: "ร้านอาหารบนแพกลางน้ำ บรรยากาศดี ธรรมชาติ เหมาะกับการมาเป็นกลุ่มครอบครัว (100 - 300 บาท)",
+          image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=600&q=80",
+          hours: "10:00 - 20:00",
+        },
+        {
+          id: 3,
+          name: "ร้านบ้านริมเล",
+          rating: 4.5,
+          price: "฿฿",
+          tag: "อาหารทะเล",
+          description: "ร้านอาหารบรรยากาศดี ชมวิวทะเลสาบสงขลา อาหารทะเลสด (80 - 250 บาท)",
+          image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80",
+          hours: "10:00 - 21:00",
+        },
+        {
+          id: 4,
+          name: "ร้านเอมโอษฐ์",
+          rating: 4.7,
+          price: "฿฿",
+          tag: "อาหารใต้",
+          description: "อาหารรสจัดแบบปักษ์ใต้แท้ ๆ เหมาะกับคนที่กินรสจัด (50 - 120 บาท)",
+          image: "https://images.unsplash.com/photo-1564834724105-918b73d1b9e0?w=600&q=80",
+          hours: "10:00 - 20:00",
+        },
+        {
+          id: 5,
+          name: "บ้านสวนคาเฟ่",
+          rating: 4.6,
+          price: "฿",
+          tag: "คาเฟ่",
+          description: "คาเฟ่ในสวน บรรยากาศร่มรื่น เงียบสงบ (40 - 120 บาท)",
+          image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80",
+          hours: "09:00 - 17:00",
+        },
+        {
+          id: 6,
+          name: "ร้านเก้าแสนชิลล์เล",
+          rating: 4.5,
+          price: "฿฿",
+          tag: "ร้านนั่งชิว",
+          description: "ร้านนั่งชิวริมทะเลสาบ เหมาะกับการมาช่วงเย็น ดูพระอาทิตย์ตก (40 - 250 บาท)",
+          image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=600&q=80",
+          hours: "16:00 - 23:00",
+        },
+        {
+          id: 7,
+          name: "lung nien cafe",
+          rating: 4.8,
+          price: "฿",
+          tag: "คาเฟ่",
+          description: "กาแฟดริปและกาแฟพื้นถิ่น บรรยากาศเรียบง่าย วิวธรรมชาติ เหมาะกับสายกาแฟจริงจัง (40 - 90 บาท)",
+          image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=600&q=80",
+          hours: "08:00 - 16:00",
+        },
+        {
+          id: 8,
+          name: "มาต๊ะ กาแฟ",
+          rating: 4.7,
+          price: "฿฿",
+          tag: "คาเฟ่",
+          description: "คาเฟ่กลางธรรมชาติ สไตล์บ้านไม้บนพื้นที่ชุ่มน้ำ เหมาะกับการเที่ยวคาเฟ่ธรรมชาติ (40 - 150 บาท)",
+          image: "https://images.unsplash.com/photo-1445116572660-236099cecd06?w=600&q=80",
+          hours: "09:00 - 18:00",
+        },
+      ],
+      attractions: [
+        {
+          id: 1,
+          name: "แกรนแคนยอน ปากพะยูน",
+          rating: 4.7,
+          price: "ฟรี",
+          tag: "จุดถ่ายรูป",
+          description: "จุดถ่ายรูปยอดฮิต ลักษณะเป็นหน้าผาหินและแอ่งน้ำสีสวย คล้ายแกรนด์แคนยอนขนาดย่อม",
+          image: "https://images.unsplash.com/photo-1501555088652-021faa106b9b?w=600&q=80",
+          hours: "08:00 - 18:00",
+        },
+        {
+          id: 2,
+          name: "เกาะราบ",
+          rating: 4.8,
+          price: "฿฿",
+          tag: "เกาะ",
+          description: "เกาะกลางทะเลสาบสงขลา บรรยากาศเงียบสงบ เหมาะสำหรับล่องเรือ ชมวิถีชีวิตชาวประมง และดูพระอาทิตย์ตก",
+          image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80",
+          hours: "08:00 - 18:00",
+        },
+        {
+          id: 3,
+          name: "เกาะสี่-เกาะห้า",
+          rating: 4.9,
+          price: "฿฿",
+          tag: "เกาะ",
+          description: "หมู่เกาะเล็ก ๆ ในทะเลสาบสงขลา นิยมล่องเรือชมธรรมชาติและวิถีประมงพื้นบ้าน (แหล่งรังนกนางแอ่น)",
+          image: "https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=600&q=80",
+          hours: "08:00 - 17:00",
+        },
+        {
+          id: 4,
+          name: "จุดชมวิวช่องฟืน",
+          rating: 4.5,
+          price: "ฟรี",
+          tag: "จุดชมวิว",
+          description: "จุดชมวิวเล็ก ๆ ที่มองเห็นทะเลสาบและชุมชนริมฝั่ง เหมาะกับการแวะถ่ายรูป",
+          image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80",
+          hours: "06:00 - 18:30",
+        },
+        {
+          id: 5,
+          name: "ชมดาวลานยอ",
+          rating: 4.6,
+          price: "ฟรี",
+          tag: "จุดชมวิว",
+          description: "จุดชมวิวริมทะเลสาบสงขลา เห็นวิวกว้าง มีลมดี โดยเฉพาะช่วงเย็นจะสวยมาก",
+          image: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=600&q=80",
+          hours: "06:00 - 19:00",
+        },
+      ],
+      accommodations: [
+        {
+          id: 1,
+          name: "เขาชัน รีสอร์ท",
+          rating: 4.7,
+          price: "฿฿",
+          tag: "รีสอร์ท",
+          description: "บรรยากาศเงียบสงบ ติดธรรมชาติ เหมาะกับคนที่อยากพักผ่อนริมทะเลสาบและชมวิถีชุมชน (700 - 1500 บาท)",
+          image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 2,
+          name: "โรงแรมหาดทอง รีสอร์ท",
+          rating: 4.5,
+          price: "฿฿฿",
+          tag: "รีสอร์ท",
+          description: "รีสอร์ทขนาดใหญ่ริมทะเลสาบ มีร้านอาหาร ห้องประชุม อาหารเช้า เหมาะสำหรับครอบครัว กลุ่มเพื่อน (1100 - 2100 บาท)",
+          image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 3,
+          name: "เบด แอนด์ โบ๊ท อ่าวพะยูน รีสอร์ท",
+          rating: 4.6,
+          price: "฿฿",
+          tag: "รีสอร์ท",
+          description: "ที่พักสไตล์เรียบง่าย ใกล้ธรรมชาติริมทะเลสาบ บรรยากาศเงียบสงบ (800 - 1600 บาท)",
+          image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 4,
+          name: "แสนดีโฮมสเตย์ (ปากพะยูน)",
+          rating: 4.8,
+          price: "฿",
+          tag: "โฮมสเตย์",
+          description: "โฮมสเตย์ราคาประหยัด บรรยากาศเป็นกันเอง ประหยัดและมีความเป็นวิถีชุมชนท้องถิ่น (500 - 1000 บาท)",
+          image: "https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 5,
+          name: "ทัจฮาน่า ปากพะยูน วิลล่า",
+          rating: 4.9,
+          price: "฿฿฿฿",
+          tag: "พูลวิลล่า",
+          description: "พูลวิลล่าส่วนตัว บรรยากาศใหม่และทันสมัย เหมาะสำหรับการมาเป็นกลุ่มเพื่อน (2500 - 5000 บาท)",
+          image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 6,
+          name: "บ้านแสงเทียน รีสอร์ท",
+          rating: 4.5,
+          price: "฿฿",
+          tag: "รีสอร์ท",
+          description: "ที่พักขนาดเล็กในตัวอำเภอ เดินทางสะดวก เหมาะสำหรับผู้ที่ต้องการพักค้างคืนและเดินทางต่อ (600 - 1200 บาท)",
+          image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+      ],
+    },
+    "pa-bon": {
+      restaurants: [
+        {
+          id: 1,
+          name: "ยำน้ำลายแตก zapp&cafe",
+          nameEn: "Zapp & Cafe",
+          rating: 4.6,
+          price: "฿฿",
+          tag: "ยำ & คาเฟ่",
+          description: "ยำ ส้มตำ และอาหารรสจัดจ้าน เมนูยำทะเล ยำปลาร้า และของทอด",
+          image: "https://images.unsplash.com/photo-1562802378-063ec186a863?w=600&q=80",
+          hours: "10:00 - 22:00",
+        },
+        {
+          id: 2,
+          name: "ร้านพักพิงอิงทาง คอฟฟี่",
+          nameEn: "Phakphing Ingtang Coffee",
+          rating: 4.5,
+          price: "฿",
+          tag: "คาเฟ่",
+          description: "คาเฟ่บรรยากาศอบอุ่น มีทั้งกาแฟ เครื่องดื่มเย็น และของกินเล่น",
+          image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80",
+          hours: "08:00 - 18:00",
+        },
+        {
+          id: 3,
+          name: "มะลิดง ฮาลาล",
+          nameEn: "Malidon Halal",
+          rating: 4.5,
+          price: "฿",
+          tag: "อาหารฮาลาล",
+          description: "ร้านอาหารฮาลาล อาหารใต้รสเข้มข้น เน้นอาหารทำสด",
+          image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=80",
+          hours: "09:00 - 21:00",
+        },
+        {
+          id: 4,
+          name: "ก๋วยเตี๋ยวต้มยำโหนสลิง อ่างเก็บน้ำควนเล้าเป็ด",
+          nameEn: "Rope Slide Noodle at Khuan Lao Ped Reservoir",
+          rating: 4.7,
+          price: "฿",
+          tag: "ก๋วยเตี๋ยว",
+          description: "ร้านก๋วยเตี๋ยวต้มยำที่มีจุดเด่นคือวิวอ่างเก็บน้ำและการส่งอาหารผ่านสลิง",
+          image: "https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80",
+          hours: "09:00 - 16:00",
+        },
+        {
+          id: 5,
+          name: "ร้านโรตีหนองธง",
+          nameEn: "Nong Thong Roti",
+          rating: 4.4,
+          price: "฿",
+          tag: "โรตี",
+          description: "ร้านดังช่วงเย็น–ค่ำ มีโรตี ชาชัก หรือของหวานสไตล์มุสลิม",
+          image: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600&q=80",
+          hours: "16:00 - 22:00",
+        },
+        {
+          id: 6,
+          name: "กาแฟสดบ้านไม้",
+          nameEn: "Baan Mai Fresh Coffee",
+          rating: 4.6,
+          price: "฿",
+          tag: "คาเฟ่",
+          description: "บรรยากาศบ้านไม้กลางธรรมชาติ ร่มรื่นมาก เหมาะสำหรับนั่งยาว หรือแวะดื่มกาแฟตอนเช้า",
+          image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+          hours: "07:00 - 17:00",
+        },
+        {
+          id: 7,
+          name: "Jasmine Coffee Halal",
+          nameEn: "Jasmine Coffee Halal",
+          rating: 4.4,
+          price: "฿",
+          tag: "คาเฟ่ฮาลาล",
+          description: "คาเฟ่ฮาลาลกาแฟและเครื่องดื่ม มีทั้งกาแฟ ชา และเมนูของหวาน",
+          image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80",
+          hours: "08:00 - 20:00",
+        },
+        {
+          id: 8,
+          name: "ครัวชัช ป่าบอน สเต็ก & คาเฟ่",
+          nameEn: "Khua Chat Pa Bon Steak & Cafe",
+          rating: 4.5,
+          price: "฿฿฿",
+          tag: "สเต็ก & คาเฟ่",
+          description: "ร้านสเต็กและคาเฟ่ในที่เดียว มีทั้งสเต็ก สปาเกตตี อาหารจานเดียว และเครื่องดื่ม",
+          image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80",
+          hours: "11:00 - 22:00",
+        },
+        {
+          id: 9,
+          name: "ร้านโกเมด",
+          nameEn: "Ro Komed",
+          rating: 4.7,
+          price: "฿฿",
+          tag: "คาเฟ่",
+          description: "ร้านยอดนิยมของป่าบอน มีทั้งกาแฟ อาหาร และมุมถ่ายรูป เหมาะกับการนั่งพักช่วงบ่าย",
+          image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80",
+          hours: "09:00 - 21:00",
+        },
+        {
+          id: 10,
+          name: "ร้านเราแคมป์ปิ้ง",
+          nameEn: "Rao Camping",
+          rating: 4.5,
+          price: "฿",
+          tag: "คาเฟ่กลางแจ้ง",
+          description: "สไตล์แคมป์ปิ้ง คาเฟ่กลางแจ้ง เหมาะกับการนั่งชิลช่วงเย็น ถ่ายรูป และสังสรรค์เบา",
+          image: "https://images.unsplash.com/photo-1534081333815-ae5019106622?w=600&q=80",
+          hours: "15:00 - 22:00",
+        },
+        {
+          id: 11,
+          name: "กนกคาเฟ่",
+          nameEn: "Kanok Cafe",
+          rating: 4.3,
+          price: "฿",
+          tag: "คาเฟ่",
+          description: "คาเฟ่ขนาดไม่ใหญ่ บรรยากาศสงบ เหมาะกับคนชอบร้านโลคอล ไม่วุ่นวาย",
+          image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80",
+          hours: "08:00 - 18:00",
+        },
+      ],
+      attractions: [
+        {
+          id: 1,
+          name: "อ่างเก็บน้ำคลองป่าบอน",
+          nameEn: "Khlong Pa Bon Reservoir",
+          rating: 4.7,
+          price: "ฟรี",
+          tag: "ธรรมชาติ",
+          description: "อ่างเก็บน้ำขนาดใหญ่ที่โอบล้อมด้วยแนวเทือกเขาบรรทัด บรรยากาศเงียบสงบ อากาศดี เหมาะกับการขับรถเล่น นั่งชมวิว และถ่ายรูปธรรมชาติ",
+          image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
+          hours: "ตลอด 24 ชั่วโมง",
+        },
+        {
+          id: 2,
+          name: "Phu Banthat Viewpoint",
+          nameEn: "Phu Banthat Viewpoint",
+          rating: 4.8,
+          price: "ฟรี",
+          tag: "จุดชมวิว",
+          description: "จุดชมวิวที่มองเห็นแนวเทือกเขาบรรทัดได้กว้างสุดลูกหูลูกตา เหมาะสำหรับสายถ่ายรูป มีความเป็นธรรมชาติมาก",
+          image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80",
+          hours: "05:00 - 18:00",
+        },
+        {
+          id: 3,
+          name: "สวนน้ำโหล๊ะหารประชารัฐ",
+          nameEn: "Loh Han Pracharath Water Park",
+          rating: 4.5,
+          price: "฿",
+          tag: "สวนน้ำ",
+          description: "สวนน้ำชุมชนเหมาะกับการพาครอบครัวมาเล่นน้ำ มีสไลเดอร์ สระน้ำ และลำธารธรรมชาติ บรรยากาศร่มรื่น มีร้านอาหารและบริการเช่าห่วงยาง",
+          image: "https://images.unsplash.com/photo-1575919220114-2a8e8f3ca753?w=600&q=80",
+          hours: "09:00 - 18:00",
+        },
+        {
+          id: 4,
+          name: "น้ำตกวังใต้หนาน",
+          nameEn: "Wang Tai Nan Waterfall",
+          rating: 4.4,
+          price: "ฟรี",
+          tag: "น้ำตก",
+          description: "น้ำตกธรรมชาติที่มีความสงบและความเป็นธรรมชาติ เหมาะสำหรับคนที่อยากเลี่ยงความวุ่นวาย เล่นน้ำหรือพักผ่อนท่ามกลางป่าเขา",
+          image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80",
+          hours: "08:00 - 17:00",
+        },
+        {
+          id: 5,
+          name: "น้ำตกโตนสะตอ",
+          nameEn: "Ton Sato Waterfall",
+          rating: 4.6,
+          price: "ฟรี",
+          tag: "น้ำตก",
+          description: "รายล้อมด้วยป่าไม้และธรรมชาติค่อนข้างสมบูรณ์ น้ำใสเย็น เหมาะกับการเล่นน้ำและพักผ่อน มีบรรยากาศธรรมชาติแบบเทือกเขาบรรทัด",
+          image: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?w=600&q=80",
+          hours: "08:00 - 17:00",
+        },
+      ],
+      accommodations: [
+        {
+          id: 1,
+          name: "เกรซรูมรีสอร์ท",
+          nameEn: "Grace Room Resort",
+          rating: 4.3,
+          price: "฿",
+          tag: "รีสอร์ท",
+          description: "ที่พักขนาดเล็กในอำเภอป่าบอน บรรยากาศเงียบ สะอาด เหมาะสำหรับคนที่ต้องการพักผ่อนแบบเรียบง่าย",
+          image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 2,
+          name: "ดาหลารีสอร์ท",
+          nameEn: "Dahla Resort",
+          rating: 4.5,
+          price: "฿฿",
+          tag: "รีสอร์ท",
+          description: "รีสอร์ทสไตล์ส่วนตัว บรรยากาศสงบ มีพื้นที่สีเขียวรอบที่พัก เดินทางสะดวก เหมาะกับคนที่ชอบความเป็นส่วนตัวและบรรยากาศเงียบ",
+          image: "https://images.unsplash.com/photo-1587381420270-3e1a5b9e6904?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 3,
+          name: "ไทฟิชชิ่ง โฮมสเตย์",
+          nameEn: "Thai Fishing Homestay",
+          rating: 4.4,
+          price: "฿",
+          tag: "โฮมสเตย์",
+          description: "เหมาะสำหรับสายธรรมชาติ บรรยากาศแบบโฮมสเตย์ท้องถิ่น ได้ฟีลพักผ่อนใกล้ชิดธรรมชาติ มีความเป็นส่วนตัว",
+          image: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 4,
+          name: "แสนสุข 2 รีสอร์ท",
+          nameEn: "Saensuk 2 Resort",
+          rating: 4.2,
+          price: "฿",
+          tag: "รีสอร์ท",
+          description: "ราคาค่อนข้างเข้าถึงง่าย บรรยากาศเรียบง่าย เหมาะกับการพักค้างคืนเพื่อออกเที่ยวต่อในวันถัดไป",
+          image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+        {
+          id: 5,
+          name: "โรงแรม สกายปาร์ค วิว",
+          nameEn: "Sky Park View Hotel",
+          rating: 4.4,
+          price: "฿฿",
+          tag: "โรงแรม",
+          description: "โรงแรมที่อยู่ใกล้ถนนหลัก เดินทางสะดวก เหมาะกับคนที่ต้องการห้องพักมาตรฐานและเข้าถึงร้านอาหารหรือคาเฟ่ใกล้เคียง",
+          image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80",
+          hours: "Check-in 14:00",
+        },
+      ],
+    },
+  },
+
+  // Default places template for districts without specific data
+  defaultPlaces: {
+    restaurants: [
+      {
+        id: 1,
+        name: "ร้านอาหารพื้นเมือง",
+        rating: 4.4,
+        price: "฿",
+        tag: "อาหารพื้นเมือง",
+        description: "รสชาติอาหารใต้แท้ๆ ที่สืบสานสูตรโบราณมาหลายชั่วคน",
+        image: "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=80",
+        hours: "10:00 - 21:00",
+      },
+      {
+        id: 2,
+        name: "คาเฟ่ริมน้ำ",
+        rating: 4.5,
+        price: "฿฿",
+        tag: "คาเฟ่",
+        description: "กาแฟสดจากไร่กาแฟท้องถิ่น บรรยากาศเงียบสงบริมน้ำ",
+        image: "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80",
+        hours: "08:00 - 18:00",
+      },
+      {
+        id: 3,
+        name: "ตลาดเช้าชุมชน",
+        rating: 4.3,
+        price: "฿",
+        tag: "ตลาดเช้า",
+        description: "ขนมพื้นบ้าน อาหารเช้า ผักสดจากสวน บรรยากาศชุมชนแท้ๆ",
+        image: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=600&q=80",
+        hours: "06:00 - 11:00",
+      },
+    ],
+    attractions: [
+      {
+        id: 1,
+        name: "วัดประจำอำเภอ",
+        rating: 4.6,
+        price: "ฟรี",
+        tag: "วัดวาอาราม",
+        description: "วัดเก่าแก่ที่มีสถาปัตยกรรมภาคใต้อันงดงาม ศิลปกรรมล้ำค่า",
+        image: "https://images.unsplash.com/photo-1563492065599-3520f775eeed?w=600&q=80",
+        hours: "06:00 - 18:00",
+      },
+      {
+        id: 2,
+        name: "จุดชมวิวธรรมชาติ",
+        rating: 4.7,
+        price: "ฟรี",
+        tag: "ธรรมชาติ",
+        description: "ทิวทัศน์ที่สวยงามของภูเขาและทุ่งนา วิวพระอาทิตย์ตกที่น่าประทับใจ",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80",
+        hours: "ตลอด 24 ชั่วโมง",
+      },
+      {
+        id: 3,
+        name: "ตลาดวัฒนธรรมท้องถิ่น",
+        rating: 4.4,
+        price: "ฟรี",
+        tag: "ตลาด",
+        description: "สินค้าพื้นเมือง งานหัตถกรรม ของฝาก และอาหารท้องถิ่น",
+        image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80",
+        hours: "17:00 - 22:00 (วันเสาร์)",
+      },
+    ],
+    accommodations: [
+      {
+        id: 1,
+        name: "โฮมสเตย์ชุมชน",
+        rating: 4.5,
+        price: "฿",
+        tag: "โฮมสเตย์",
+        description: "ที่พักแบบพื้นบ้านแท้ๆ อาหารเช้าโฮมเมด ประสบการณ์วิถีชีวิตท้องถิ่น",
+        image: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&q=80",
+        hours: "Check-in 14:00",
+      },
+      {
+        id: 2,
+        name: "รีสอร์ทธรรมชาติ",
+        rating: 4.6,
+        price: "฿฿",
+        tag: "รีสอร์ท",
+        description: "บังกะโลท่ามกลางธรรมชาติ สระว่ายน้ำ สปา บรรยากาศผ่อนคลาย",
+        image: "https://images.unsplash.com/photo-1587381420270-3e1a5b9e6904?w=600&q=80",
+        hours: "Check-in 14:00",
+      },
+    ],
+  },
+
+  /**
+   * Helper: Get places for a district & category
+   */
+  getPlaces(districtId, categoryId) {
+    if (this.places[districtId] && this.places[districtId][categoryId]) {
+      return this.places[districtId][categoryId];
+    }
+    return this.defaultPlaces[categoryId] || [];
+  },
+
+  /**
+   * Helper: Get district by ID
+   */
+  getDistrict(districtId) {
+    return this.districts.find((d) => d.id === districtId) || null;
+  },
+};
+
+/**
+ * app.js
+ * Phatthalung Tourism — Main Application
+ * =========================================
+ * Single-page routing via hash-based navigation
+ * Views: home | district | category
+ * All rendering is dynamic from data.js
+ */
+
+'use strict';
+
+/* ─── Router ─────────────────────────────────────────────────────── */
+const Router = {
+  /** Current state */
+  state: {
+    view: 'home',
+    districtId: null,
+    categoryId: null,
+    placeId: null,
+  },
+
+  /** Navigate to a new view */
+  navigate(view, districtId = null, categoryId = null, placeId = null) {
+    this.state = { view, districtId, categoryId, placeId };
+    const hash = this._buildHash(view, districtId, categoryId, placeId);
+    history.pushState(this.state, '', hash);
+    App.render();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  },
+
+  /** Parse hash from URL */
+  parseHash() {
+    const hash = window.location.hash.replace('#', '') || 'home';
+    const parts = hash.split('/');
+    this.state.view = parts[0] || 'home';
+    this.state.districtId = parts[1] || null;
+    this.state.categoryId = parts[2] || null;
+    this.state.placeId = parts[3] || null;
+  },
+
+  _buildHash(view, districtId, categoryId, placeId) {
+    let h = '#' + view;
+    if (districtId) h += '/' + districtId;
+    if (categoryId) h += '/' + categoryId;
+    if (placeId) h += '/' + placeId;
+    return h;
+  },
+};
+
+/* ─── App ─────────────────────────────────────────────────────────── */
+const App = {
+  /** Mount point */
+  root: null,
+
+  init() {
+    this.root = document.getElementById('app');
+    if (!this.root) {
+      console.error('[App] #app container not found');
+      return;
+    }
+
+    // Handle back/forward
+    window.addEventListener('popstate', (e) => {
+      if (e.state) Router.state = e.state;
+      else Router.parseHash();
+      this.render();
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+
+    // Initial parse
+    Router.parseHash();
+    this.render();
+  },
+
+  render() {
+    const { view, districtId, categoryId, placeId } = Router.state;
+
+    // Clean up any existing carousel
+    Carousel.destroy();
+
+    // Render based on view
+    switch (view) {
+      case 'district':
+        this.root.innerHTML = Views.district(districtId);
+        break;
+      case 'category':
+        this.root.innerHTML = Views.category(districtId, categoryId);
+        break;
+      case 'place':
+        this.root.innerHTML = Views.place(districtId, categoryId, placeId);
+        break;
+      default:
+        this.root.innerHTML = Views.home();
+        break;
+    }
+
+    // Post-render hooks
+    this._postRender(view);
+  },
+
+  _postRender(view) {
+    // Navbar scroll effect
+    Nav.init();
+
+    // Scroll reveal
+    ScrollReveal.init();
+
+    // View-specific init
+    if (view === 'home') {
+      Carousel.init();
+    }
+  },
+};
+
+/* ─── Views ───────────────────────────────────────────────────────── */
+const Views = {
+  /**
+   * HOME PAGE
+   * Hero carousel + District grid
+   */
+  home() {
+    const slides = PHATTHALUNG_DATA.heroSlides.map((s, i) => `
+      <div class="hero__slide ${i === 0 ? 'active' : ''}" data-slide="${i}">
+        <img
+          class="hero__slide-img"
+          src="${s.image}"
+          alt="${s.titleEn}"
+          loading="${i === 0 ? 'eager' : 'lazy'}"
+        />
+        <div class="hero__slide-overlay"></div>
+        <div class="hero__slide-content editorial-hero-content">
+          <div class="editorial-hero-tag">${s.district}</div>
+          <h2 class="editorial-hero-title">${s.title}</h2>
+          <p class="editorial-hero-desc">${s.description}</p>
+        </div>
+      </div>
+    `).join('');
+
+    const dots = PHATTHALUNG_DATA.heroSlides.map((_, i) => `
+      <button
+        class="hero__dot ${i === 0 ? 'active' : ''}"
+        aria-label="Slide ${i + 1}"
+        data-dot="${i}"
+      ></button>
+    `).join('');
+
+    const districtCards = PHATTHALUNG_DATA.districts.map((d, i) => `
+      <article
+        class="district-card reveal reveal--delay-${(i % 4) + 1}"
+        role="button"
+        tabindex="0"
+        aria-label="สำรวจ${d.name}"
+        data-district="${d.id}"
+      >
+        <img
+          class="district-card__img"
+          src="${d.image}"
+          alt="${d.name}"
+          loading="lazy"
+        />
+        <div class="district-card__glow"></div>
+        <div class="district-card__info">
+          <div class="district-card__number">
+            ${String(i + 1).padStart(2, '0')} / 11
+          </div>
+          <h3 class="district-card__name">${d.name}</h3>
+          <p class="district-card__name-en">${d.nameEn}</p>
+          <p class="district-card__tagline">${d.tagline}</p>
+        </div>
+        <div class="district-card__arrow" aria-hidden="true">→</div>
+      </article>
+    `).join('');
+
+    return `
+      <div class="page">
+        ${_navHTML('home')}
+
+        <!-- HERO CAROUSEL -->
+        <section class="hero" id="hero" aria-label="สไลด์แสดงสถานที่ท่องเที่ยว">
+          <div class="hero__slides" id="heroSlides">
+            ${slides}
+          </div>
+
+          <button class="hero__nav hero__nav--prev" id="heroPrev" aria-label="สไลด์ก่อนหน้า">‹</button>
+          <button class="hero__nav hero__nav--next" id="heroNext" aria-label="สไลด์ถัดไป">›</button>
+
+          <div class="hero__dots" id="heroDots" role="tablist">
+            ${dots}
+          </div>
+
+          <div class="hero__scroll-hint" aria-hidden="true">
+            <div class="hero__scroll-line"></div>
+            <span>Scroll</span>
+          </div>
+        </section>
+
+        <!-- DISTRICTS -->
+        <section class="section districts pattern-bg" id="districts">
+          <div class="section__container">
+            <div class="section__header reveal">
+              <span class="section__eyebrow">สำรวจ 11 อำเภอ</span>
+              <h2 class="section__title">เลือก<span>อำเภอ</span>ของคุณ</h2>
+              <div class="divider-gold"><div class="divider-gold__diamond"></div></div>
+              <p class="section__desc">
+                พัทลุง — 11 อำเภอ 11 เรื่องราว แต่ละที่มีเสน่ห์และวัฒนธรรมที่แตกต่าง
+                รอให้คุณค้นพบ
+              </p>
+            </div>
+            <div class="districts__grid" id="districtsGrid">
+              ${districtCards}
+            </div>
+          </div>
+        </section>
+
+        ${_footerHTML()}
+      </div>
+    `;
+  },
+
+  /**
+   * DISTRICT PAGE
+   * Hero + History + Category selection
+   */
+  district(districtId) {
+    const district = PHATTHALUNG_DATA.getDistrict(districtId);
+
+    if (!district) {
+      return `<div class="page">${_navHTML('district')}
+        <div style="padding:8rem 2rem;text-align:center;color:var(--t-muted);">
+          ไม่พบข้อมูลอำเภอนี้
+        </div>
+      </div>`;
+    }
+
+    const categoryKeys = Object.keys(PHATTHALUNG_DATA.categories);
+    const categoryCards = categoryKeys.map((key, i) => {
+      const cat = PHATTHALUNG_DATA.categories[key];
+      return `
+        <article
+          class="category-card reveal reveal--delay-${i + 1}"
+          role="button"
+          tabindex="0"
+          aria-label="ดู${cat.name}"
+          data-district="${districtId}"
+          data-category="${cat.id}"
+          style="padding: var(--sp-4xl) var(--sp-xl); justify-content: center; min-height: 250px;"
+        >
+          <img src="${cat.image}" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.3) saturate(0.8); z-index:0; transition: filter 0.4s var(--ease-smooth);" onmouseover="this.style.filter='brightness(0.5) saturate(1)'" onmouseout="this.style.filter='brightness(0.3) saturate(0.8)'" />
+          <h3 class="category-card__name" style="position:relative; z-index:1; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${cat.name}</h3>
+          <p class="category-card__name-en" style="position:relative; z-index:1; font-size: 1rem; color: var(--c-gold-light);">${cat.nameEn}</p>
+          <p class="category-card__desc" style="position:relative; z-index:1; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${cat.description}</p>
+        </article>
+      `;
+    }).join('');
+
+    return `
+      <div class="page">
+        ${_navHTML('district', district)}
+
+        <!-- DISTRICT HERO -->
+        <section class="district-hero" aria-label="${district.name}">
+          <div class="district-hero__bg">
+            <img
+              class="district-hero__img"
+              src="${district.image}"
+              alt="${district.name}"
+              loading="eager"
+            />
+            <div class="district-hero__overlay"></div>
+            <div class="district-hero__silhouette" aria-hidden="true"></div>
+          </div>
+
+          <div class="district-hero__content">
+            <p class="district-hero__tag">อำเภอพัทลุง</p>
+            <h1 class="district-hero__name">
+              ${district.nameEn}
+              <span class="district-hero__name-th">${district.name}</span>
+            </h1>
+            <p class="district-hero__tagline">${district.tagline}</p>
+          </div>
+        </section>
+
+        <!-- HISTORY -->
+        <section class="district-history">
+          <div class="district-history__inner reveal">
+            <span class="section__eyebrow">ประวัติและที่มา</span>
+            <div class="divider-gold" style="margin:1rem 0 1.5rem">
+              <div class="divider-gold__diamond"></div>
+            </div>
+            <p class="district-history__text">${district.history}</p>
+          </div>
+        </section>
+
+        <!-- CATEGORIES -->
+        <section class="section categories pattern-bg">
+          <div class="section__container">
+            <div class="section__header reveal">
+              <span class="section__eyebrow">เลือกประเภท</span>
+              <h2 class="section__title">คุณสนใจ<span>อะไร?</span></h2>
+              <div class="divider-gold"><div class="divider-gold__diamond"></div></div>
+              <p class="section__desc">
+                เลือกสิ่งที่คุณต้องการสำรวจในอำเภอ${district.name}
+              </p>
+            </div>
+            <div class="categories__grid">
+              ${categoryCards}
+            </div>
+          </div>
+        </section>
+
+        ${_footerHTML()}
+      </div>
+    `;
+  },
+
+  /**
+   * CATEGORY PAGE
+   * Header + Places grid
+   */
+  category(districtId, categoryId) {
+    const district = PHATTHALUNG_DATA.getDistrict(districtId);
+    const cat = PHATTHALUNG_DATA.categories[categoryId];
+
+    if (!district || !cat) {
+      return `<div class="page">${_navHTML('category')}
+        <div style="padding:8rem 2rem;text-align:center;color:var(--t-muted);">
+          ไม่พบข้อมูล
+        </div>
+      </div>`;
+    }
+
+    const places = PHATTHALUNG_DATA.getPlaces(districtId, categoryId);
+
+    const placeCards = places.length > 0
+      ? places.map((place, i) => {
+          const stars = _renderStars(place.rating);
+          return `
+            <article class="place-card reveal reveal--delay-${(i % 3) + 1}"
+                     onclick="Router.navigate('place', '${districtId}', '${categoryId}', ${place.id})"
+                     style="cursor: pointer;"
+                     title="คลิกเพื่อดูรายละเอียด ${place.name}">
+              <div class="place-card__body">
+                <div class="place-card__top">
+                  <h3 class="place-card__name">${place.name}</h3>
+                  <span class="place-card__price">${place.price}</span>
+                </div>
+                <!-- Image and details removed for now -->
+                <div class="place-card__footer" style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--c-border); padding-top:var(--sp-sm); margin-top:var(--sp-md);">
+                  <div class="place-card__rating" style="font-family:var(--font-display); font-size:0.9rem; color:var(--c-gold);">
+                    <span style="letter-spacing:0.1em;">RATING: </span>
+                    <span style="font-weight:700;">${place.rating}</span>
+                  </div>
+                  <span class="place-card__hours" style="font-size:0.8rem; color:var(--t-muted); font-family:var(--font-thai); letter-spacing:0.05em;">เวลาทำการ: ${place.hours}</span>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('')
+      : `<div class="places__empty">ยังไม่มีข้อมูลในขณะนี้</div>`;
+
+    return `
+      <div class="page">
+        ${_navHTML('category', district, cat)}
+
+        <!-- CATEGORY HERO (full-bleed image) -->
+        <header class="category-hero">
+          <div class="category-hero__bg">
+            <img src="${cat.image}" alt="${cat.name}" class="category-hero__bg-img" loading="eager" />
+            <div class="category-hero__overlay"></div>
+            <div class="category-hero__sidelight" aria-hidden="true"></div>
+          </div>
+          <div class="category-hero__inner">
+            <nav class="category-hero__path" aria-label="breadcrumb">
+              <span role="button" tabindex="0" onclick="Router.navigate('home')" style="cursor:pointer;">หน้าแรก</span>
+              <span class="category-hero__path-sep">›</span>
+              <span role="button" tabindex="0" onclick="Router.navigate('district','${districtId}')" style="cursor:pointer;">${district.name}</span>
+              <span class="category-hero__path-sep">›</span>
+              <span class="category-hero__path-item--current">${cat.name}</span>
+            </nav>
+            <p class="category-hero__district">${district.name}</p>
+            <h1 class="category-hero__title">${cat.name}</h1>
+            <p class="category-hero__count">พบ <span>${places.length}</span> แห่งที่แนะนำ</p>
+          </div>
+        </header>
+
+        <!-- PLACES GRID -->
+        <section class="places">
+          <div class="places__grid">
+            ${placeCards}
+          </div>
+        </section>
+
+        ${_footerHTML()}
+      </div>
+    `;
+  },
+
+  /**
+   * PLACE DETAILS PAGE
+   */
+  place(districtId, categoryId, placeId) {
+    const district = PHATTHALUNG_DATA.getDistrict(districtId);
+    const cat = PHATTHALUNG_DATA.categories[categoryId];
+    const places = PHATTHALUNG_DATA.getPlaces(districtId, categoryId);
+    const place = places.find(p => String(p.id) === String(placeId));
+
+    if (!district || !cat || !place) {
+      return `<div class="page">${_navHTML('home')}
+        <div style="padding:8rem 2rem;text-align:center;color:var(--t-muted);">
+          ไม่พบข้อมูลสถานที่
+        </div>
+      </div>`;
+    }
+
+    const stars = _renderStars(place.rating);
+    const phoneNum = "08" + Math.floor(Math.random() * 9000000 + 1000000);
+    const mockFb = `facebook.com/${place.nameEn ? place.nameEn.replace(/\s+/g, '') : 'Phatthalung'}`;
+
+    return `
+      <div class="page">
+        ${_navHTML('place', district, cat, place)}
+
+        <!-- PLACE HERO — Editorial -->
+        <div class="editorial-place-hero" style="position:relative; min-height:80vh; display:flex; flex-direction:column; justify-content:flex-end; padding:var(--sp-4xl) var(--sp-2xl);">
+          <div style="position:absolute; inset:0; z-index:-1;">
+            <img src="${place.image}" alt="${place.name}" style="width:100%; height:100%; object-fit:cover; filter:brightness(0.6);" loading="eager" />
+            <div style="position:absolute; inset:0; background:linear-gradient(0deg, var(--c-midnight) 0%, transparent 100%);"></div>
+          </div>
+          
+          <div style="max-width:1200px; margin:0 auto; width:100%;">
+            <p style="font-family:var(--font-display); font-size:1rem; color:var(--c-gold); letter-spacing:0.2em; text-transform:uppercase; margin-bottom:1rem;">
+              ${cat.name} &nbsp;—&nbsp; ${district.name}
+            </p>
+            <h1 style="font-family:var(--font-thai); font-size:clamp(3.5rem, 8vw, 6rem); font-weight:700; color:var(--c-light); line-height:1.1; margin-bottom:1.5rem;">
+              ${place.name}
+              ${place.nameEn ? `<span style="display:block; font-family:var(--font-display); font-size:clamp(1.5rem, 4vw, 3rem); font-style:italic; font-weight:300; color:var(--c-gold-light); margin-top:0.5rem;">${place.nameEn}</span>` : ''}
+            </h1>
+            <div style="display:flex; gap:2rem; align-items:center; flex-wrap:wrap; font-family:var(--font-display); font-size:0.9rem; letter-spacing:0.1em; color:var(--c-cream);">
+              <span>RATING: <strong style="color:var(--c-gold);">${place.rating}/5.0</strong></span>
+              <span style="width:1px; height:1rem; background:var(--c-border);"></span>
+              <span>PRICE: <strong style="color:var(--c-gold);">${place.price}</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLACE DETAIL — Editorial two-column -->
+        <section id="place-detail" style="background:var(--c-midnight); padding:var(--sp-4xl) var(--sp-xl);">
+          <div style="max-width:1200px; margin:0 auto; display:grid; grid-template-columns:1fr 400px; gap:var(--sp-4xl); align-items:start;">
+
+            <!-- LEFT: Text content -->
+            <div class="reveal" style="padding-right:var(--sp-2xl);">
+              <h2 style="font-family:var(--font-display); font-size:1rem; letter-spacing:0.2em; color:var(--c-gold); text-transform:uppercase; margin-bottom:var(--sp-xl);">
+                About the Place
+              </h2>
+              <p style="font-family:var(--font-body); font-size:clamp(1.2rem, 2.5vw, 1.6rem); line-height:1.8; color:var(--c-light); font-weight:300;">
+                ${place.description}
+              </p>
+              
+              <div style="margin-top:var(--sp-4xl); display:flex; gap:var(--sp-lg);">
+                <button
+                  onclick="window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent('${place.name} พัทลุง'), '_blank')"
+                  style="padding:1rem 2.5rem; background:var(--c-gold); color:var(--c-midnight); border:none; font-family:var(--font-display); font-size:0.9rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:background 0.3s;"
+                  onmouseover="this.style.background='var(--c-gold-light)';"
+                  onmouseout="this.style.background='var(--c-gold)';"
+                >
+                  View on Map
+                </button>
+                <button
+                  onclick="Router.navigate('category','${districtId}','${categoryId}')"
+                  style="padding:1rem 2.5rem; background:transparent; color:var(--c-light); border:1px solid var(--c-border); font-family:var(--font-display); font-size:0.9rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.3s;"
+                  onmouseover="this.style.borderColor='var(--c-gold)'; this.style.color='var(--c-gold)';"
+                  onmouseout="this.style.borderColor='var(--c-border)'; this.style.color='var(--c-light)';"
+                >
+                  Go Back
+                </button>
+              </div>
+            </div>
+
+            <!-- RIGHT: Info list -->
+            <aside class="reveal reveal--delay-2" style="border-top:2px solid var(--c-gold); padding-top:var(--sp-2xl);">
+              <h3 style="font-family:var(--font-display); font-size:1.2rem; letter-spacing:0.1em; color:var(--c-light); margin-bottom:var(--sp-2xl); text-transform:uppercase;">
+                Essential Information
+              </h3>
+              
+              <div style="display:flex; flex-direction:column; gap:var(--sp-xl);">
+                <div>
+                  <div style="font-family:var(--font-display); font-size:0.75rem; letter-spacing:0.2em; color:var(--t-muted); text-transform:uppercase; margin-bottom:0.5rem;">Location</div>
+                  <div style="font-family:var(--font-thai); font-size:1.1rem; color:var(--c-light);">อ.${district.name} จ.พัทลุง</div>
+                </div>
+                
+                <div>
+                  <div style="font-family:var(--font-display); font-size:0.75rem; letter-spacing:0.2em; color:var(--t-muted); text-transform:uppercase; margin-bottom:0.5rem;">Opening Hours</div>
+                  <div style="font-family:var(--font-thai); font-size:1.1rem; color:var(--c-light);">${place.hours}</div>
+                </div>
+                
+                <div>
+                  <div style="font-family:var(--font-display); font-size:0.75rem; letter-spacing:0.2em; color:var(--t-muted); text-transform:uppercase; margin-bottom:0.5rem;">Contact</div>
+                  <a href="tel:${phoneNum}" style="display:block; font-family:var(--font-body); font-size:1.1rem; color:var(--c-gold); text-decoration:none; margin-bottom:0.25rem;">${phoneNum}</a>
+                  <a href="https://${mockFb}" target="_blank" style="display:block; font-family:var(--font-body); font-size:0.9rem; color:var(--t-muted); text-decoration:none; word-break:break-all;">${mockFb}</a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        ${_footerHTML()}
+      </div>
+    `;
+  },
+};
+
+/* ─── Shared HTML fragments ──────────────────────────────────────── */
+function _navHTML(view, district = null, category = null, place = null) {
+  let breadcrumb = '';
+
+  if (view === 'district' && district) {
+    breadcrumb = `
+      <nav class="nav__breadcrumb" aria-label="breadcrumb">
+        <button class="nav__home-btn" onclick="Router.navigate('home')">
+          › หน้าแรก
+        </button>
+        <span class="nav__breadcrumb-sep">›</span>
+        <span class="nav__breadcrumb-item nav__breadcrumb-item--active">
+          ${district.name}
+        </span>
+      </nav>
+    `;
+  } else if (view === 'category' && district && category) {
+    breadcrumb = `
+      <nav class="nav__breadcrumb" aria-label="breadcrumb">
+        <button class="nav__home-btn" onclick="Router.navigate('home')">
+          › หน้าแรก
+        </button>
+        <span class="nav__breadcrumb-sep">›</span>
+        <span
+          class="nav__breadcrumb-item"
+          style="cursor:pointer"
+          onclick="Router.navigate('district','${district.id}')"
+        >${district.name}</span>
+        <span class="nav__breadcrumb-sep">›</span>
+        <span class="nav__breadcrumb-item nav__breadcrumb-item--active">
+          ${category.name}
+        </span>
+      </nav>
+    `;
+  } else if (view === 'place' && district && category && place) {
+    breadcrumb = `
+      <nav class="nav__breadcrumb" aria-label="breadcrumb">
+        <button class="nav__home-btn" onclick="Router.navigate('home')">
+          › หน้าแรก
+        </button>
+        <span class="nav__breadcrumb-sep">›</span>
+        <span
+          class="nav__breadcrumb-item"
+          style="cursor:pointer"
+          onclick="Router.navigate('district','${district.id}')"
+        >${district.name}</span>
+        <span class="nav__breadcrumb-sep">›</span>
+        <span
+          class="nav__breadcrumb-item"
+          style="cursor:pointer"
+          onclick="Router.navigate('category','${district.id}','${category.id}')"
+        >${category.name}</span>
+        <span class="nav__breadcrumb-sep">›</span>
+        <span class="nav__breadcrumb-item nav__breadcrumb-item--active">
+          ${place.name}
+        </span>
+      </nav>
+    `;
+  }
+
+  return `
+    <nav class="nav" id="mainNav" role="navigation" aria-label="main">
+      <div class="nav__inner">
+        <a
+          class="nav__logo"
+          href="#home"
+          onclick="Router.navigate('home'); return false;"
+          aria-label="กลับหน้าแรก"
+        >
+          <span class="nav__logo-th">พัทลุง</span>
+          <span class="nav__logo-en">Phatthalung Tourism</span>
+        </a>
+        ${breadcrumb}
+      </div>
+    </nav>
+  `;
+}
+
+function _footerHTML() {
+  return `
+    <footer class="footer">
+      <div class="footer__logo shimmer-text">พัทลุง</div>
+      <p class="footer__tagline">
+        เมืองลุงสาวงาม ถ้ำงามทะเลน้อย
+      </p>
+      <div class="divider-gold" style="max-width:200px;margin:1rem auto">
+        <div class="divider-gold__diamond"></div>
+      </div>
+      <p class="footer__copy">
+        © 2025 Phatthalung Tourism · มโนราห์ · หนังตะลุง · ทะเลน้อย
+      </p>
+    </footer>
+  `;
+}
+
+function _renderStars(rating) {
+  const full = Math.floor(rating);
+  const half = rating % 1 >= 0.5 ? 1 : 0;
+  const empty = 5 - full - half;
+  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+}
+
+/* ─── Navigation scroll effect ───────────────────────────────────── */
+const Nav = {
+  _nav: null,
+  _onScroll: null,
+
+  init() {
+    this._nav = document.getElementById('mainNav');
+    if (!this._nav) return;
+
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+
+    this._onScroll = () => {
+      if (window.scrollY > 60) {
+        this._nav.classList.add('scrolled');
+      } else {
+        this._nav.classList.remove('scrolled');
+      }
+    };
+
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll(); // Run once
+  },
+};
+
+/* ─── Carousel Controller ─────────────────────────────────────────── */
+const Carousel = {
+  current: 0,
+  total: 0,
+  timer: null,
+  INTERVAL: 5500,
+
+  init() {
+    this.slides = document.querySelectorAll('.hero__slide');
+    this.dots = document.querySelectorAll('.hero__dot');
+    this.total = this.slides.length;
+    if (!this.total) return;
+
+    // Bind nav buttons
+    const prev = document.getElementById('heroPrev');
+    const next = document.getElementById('heroNext');
+    if (prev) prev.onclick = () => this.prev();
+    if (next) next.onclick = () => this.next();
+
+    // Bind dots
+    this.dots.forEach((dot, i) => {
+      dot.onclick = () => this.goTo(i);
+    });
+
+    // Swipe support
+    this._initSwipe();
+
+    // Auto-play
+    this._startTimer();
+  },
+
+  goTo(index) {
+    // Deactivate current
+    this.slides[this.current]?.classList.remove('active');
+    this.dots[this.current]?.classList.remove('active');
+
+    this.current = (index + this.total) % this.total;
+
+    // Activate new
+    this.slides[this.current]?.classList.add('active');
+    this.dots[this.current]?.classList.add('active');
+  },
+
+  next() {
+    this._resetTimer();
+    this.goTo(this.current + 1);
+  },
+
+  prev() {
+    this._resetTimer();
+    this.goTo(this.current - 1);
+  },
+
+  _startTimer() {
+    this.timer = setInterval(() => this.next(), this.INTERVAL);
+  },
+
+  _resetTimer() {
+    clearInterval(this.timer);
+    this._startTimer();
+  },
+
+  destroy() {
+    clearInterval(this.timer);
+    this.timer = null;
+  },
+
+  _initSwipe() {
+    const hero = document.getElementById('hero');
+    if (!hero) return;
+    let startX = 0;
+    hero.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+    hero.addEventListener('touchend', (e) => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) this.next();
+        else this.prev();
+      }
+    }, { passive: true });
+  },
+};
+
+/* ─── Scroll Reveal ───────────────────────────────────────────────── */
+const ScrollReveal = {
+  observer: null,
+
+  init() {
+    if (this.observer) this.observer.disconnect();
+
+    const options = {
+      threshold: 0.12,
+      rootMargin: '0px 0px -60px 0px',
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          this.observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    document.querySelectorAll('.reveal').forEach((el) => {
+      this.observer.observe(el);
+    });
+  },
+};
+
+/* ─── Event Delegation ────────────────────────────────────────────── */
+document.addEventListener('click', (e) => {
+  // District card click
+  const districtCard = e.target.closest('[data-district]');
+  const categoryCard = e.target.closest('[data-category]');
+
+  if (categoryCard && districtCard) {
+    // Both present = category card with district context
+    const districtId = districtCard.dataset.district;
+    const categoryId = categoryCard.dataset.category;
+    if (districtId && categoryId) {
+      Router.navigate('category', districtId, categoryId);
+      return;
+    }
+  }
+
+  if (districtCard && !categoryCard) {
+    const districtId = districtCard.dataset.district;
+    if (districtId) {
+      Router.navigate('district', districtId);
+    }
+  }
+});
+
+// Keyboard accessibility for cards
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const districtCard = e.target.closest('[data-district]');
+    const categoryCard = e.target.closest('[data-category]');
+
+    if (categoryCard && districtCard) {
+      e.preventDefault();
+      const districtId = districtCard.dataset.district;
+      const categoryId = categoryCard.dataset.category;
+      if (districtId && categoryId) {
+        Router.navigate('category', districtId, categoryId);
+      }
+    } else if (districtCard) {
+      e.preventDefault();
+      Router.navigate('district', districtCard.dataset.district);
+    }
+  }
+});
+
+/* ─── Bootstrap ───────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  App.init();
+});
+</script>
+</body>
+</html>
+
