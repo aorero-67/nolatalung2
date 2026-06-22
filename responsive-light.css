@@ -1,0 +1,515 @@
+/* Responsive Light Refresh */
+:root {
+  --c-midnight: #ffffff;
+  --c-charcoal: #ffffff;
+  --c-surface: #ffffff;
+  --c-surface-2: #f7f9fc;
+  --c-border: #e3e8ef;
+  --c-gold: #b8872d;
+  --c-gold-light: #d6a248;
+  --c-jade: #2f8f67;
+  --c-water: #246bb5;
+  --t-primary: #172033;
+  --t-secondary: #526070;
+  --t-muted: #7b8794;
+  --shadow-card: 0 12px 34px rgba(29, 43, 65, 0.08);
+  --shadow-hover: 0 20px 48px rgba(29, 43, 65, 0.14);
+}
+
+html,
+body {
+  background: #fff !important;
+  color: var(--t-primary) !important;
+}
+
+body {
+  font-family: 'Sarabun', system-ui, sans-serif !important;
+}
+
+.noise-overlay { opacity: 0.015 !important; }
+
+.nav {
+  background: rgba(255,255,255,0.92) !important;
+  border-bottom: 1px solid rgba(23,32,51,0.08) !important;
+  box-shadow: 0 10px 30px rgba(29,43,65,0.07) !important;
+}
+
+.nav__logo-th,
+.section__eyebrow,
+.text-gold {
+  color: var(--c-gold) !important;
+}
+
+.nav__logo-en,
+.nav__breadcrumb,
+.section__desc {
+  color: var(--t-secondary) !important;
+}
+
+.page,
+.section,
+.categories,
+.places,
+.district-history,
+.recommended-section,
+.page--map-home {
+  background: #fff !important;
+}
+
+.pattern-bg::before {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(184,135,45,0.08), transparent 34%),
+    radial-gradient(circle at 85% 35%, rgba(36,107,181,0.08), transparent 32%) !important;
+}
+
+.webgl-map-section {
+  background:
+    radial-gradient(circle at 18% 12%, rgba(184,135,45,0.14), transparent 28%),
+    radial-gradient(circle at 82% 22%, rgba(36,107,181,0.12), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f7fbff 48%, #ffffff 100%) !important;
+}
+
+.webgl-map-title,
+.section__title {
+  color: var(--t-primary) !important;
+  text-shadow: none !important;
+}
+
+.webgl-map-subtitle {
+  color: var(--t-secondary) !important;
+}
+
+.webgl-loading {
+  background: rgba(255,255,255,0.96) !important;
+  color: var(--t-secondary) !important;
+}
+
+.district-hover-card,
+.webgl-instruction,
+.webgl-compass {
+  background: rgba(255,255,255,0.9) !important;
+  border-color: rgba(184,135,45,0.28) !important;
+  color: var(--c-gold) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.district-hover-card__name {
+  color: var(--t-primary) !important;
+}
+
+.map3d-svg-fallback {
+  background: radial-gradient(circle at center, rgba(184,135,45,0.12), transparent 58%) !important;
+}
+
+.district-card,
+.category-card,
+.place-card,
+.route-result,
+.route-summary,
+.route-stop,
+.route-day,
+.route-budget-item,
+.smart-panel,
+.travel-dashboard__body,
+.dash-card,
+.map-district-panel,
+.map-district-mini,
+.planner-theme,
+.planner-day-btn,
+.planner-opt {
+  background: #fff !important;
+  border-color: var(--c-border) !important;
+  color: var(--t-primary) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.category-card:hover,
+.place-card:hover,
+.route-stop:hover,
+.planner-theme:hover,
+.planner-theme.is-active,
+.planner-day-btn:hover,
+.planner-day-btn.is-active,
+.planner-opt:hover,
+.planner-opt.is-active {
+  border-color: rgba(184,135,45,0.45) !important;
+  box-shadow: var(--shadow-hover) !important;
+}
+
+.category-card__name,
+.place-card__name,
+.route-summary__title,
+.route-stop__name,
+.smart-panel__title,
+.travel-dashboard__title,
+.dash-stat span {
+  color: var(--t-primary) !important;
+}
+
+.category-card__desc,
+.place-card__desc,
+.route-stop__district,
+.route-stop__type,
+.smart-panel__subtitle,
+.travel-dashboard__summary {
+  color: var(--t-secondary) !important;
+}
+
+.category-card__name-en,
+.place-card__price,
+.route-stop__time,
+.route-tag,
+.planner-block__label {
+  color: var(--c-gold) !important;
+}
+
+.btn-primary,
+.ai-generate-btn,
+.planner-generate,
+.smart-route-dashboard,
+.smart-route-map {
+  background: linear-gradient(135deg, #b8872d, #d6a248) !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+
+.btn-ghost,
+.smart-route-save,
+.smart-panel__close {
+  background: #fff !important;
+  color: var(--t-primary) !important;
+  border: 1px solid var(--c-border) !important;
+}
+
+.category-hero__overlay,
+.district-hero__overlay {
+  background: linear-gradient(180deg, rgba(20,28,42,0.10), rgba(20,28,42,0.48) 70%, rgba(255,255,255,0.96)) !important;
+}
+
+.category-hero__title,
+.category-hero__district,
+.category-hero__path,
+.district-hero__name,
+.district-hero__name-th,
+.district-hero__tagline {
+  color: #fff !important;
+}
+
+.footer {
+  background: #f7f9fc !important;
+  color: var(--t-secondary) !important;
+  border-top: 1px solid var(--c-border) !important;
+}
+
+.smart-fab {
+  background: #fff !important;
+  color: var(--t-primary) !important;
+  border: 1px solid var(--c-border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+.smart-fab:hover {
+  background: #fff8ec !important;
+  border-color: rgba(184,135,45,0.4) !important;
+}
+
+@media (max-width: 1024px) {
+  .webgl-map-section {
+    min-height: 92vh !important;
+  }
+
+  .categories__grid,
+  .places__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .smart-panel {
+    width: min(92vw, 520px) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-h: 62px;
+  }
+
+  .nav {
+    padding: 0 1rem !important;
+  }
+
+  .nav__logo-th {
+    font-size: 1rem !important;
+  }
+
+  .webgl-map-section {
+    min-height: 100svh !important;
+    padding-top: 4.7rem !important;
+  }
+
+  .webgl-map-header {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: auto !important;
+    padding: 0 1rem 0.75rem !important;
+    text-align: left !important;
+  }
+
+  .webgl-map-title {
+    font-size: clamp(2rem, 10vw, 3rem) !important;
+  }
+
+  .webgl-map-container {
+    min-height: 58svh !important;
+    height: 62svh !important;
+  }
+
+  .map3d-svg-fallback svg {
+    width: min(96vw, 430px) !important;
+    height: min(64svh, 560px) !important;
+  }
+
+  .categories__grid,
+  .places__grid,
+  .districts__grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .category-card {
+    min-height: 152px !important;
+    padding: 1rem !important;
+  }
+
+  .place-card__img-wrap {
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  .section {
+    padding: 3rem 1rem !important;
+  }
+
+  .section__header {
+    margin-bottom: 1.8rem !important;
+    text-align: left !important;
+  }
+
+  .section__title {
+    font-size: clamp(2rem, 10vw, 3.2rem) !important;
+  }
+
+  .smart-fab-wrap {
+    right: 0.75rem !important;
+    bottom: 0.75rem !important;
+  }
+
+  .smart-fab {
+    min-width: 46px !important;
+    height: 46px !important;
+    padding: 0 0.8rem !important;
+  }
+
+  .smart-fab__label {
+    display: none !important;
+  }
+
+  .smart-panel {
+    inset: auto 0 0 0 !important;
+    width: 100vw !important;
+    height: min(86svh, 760px) !important;
+    border-radius: 20px 20px 0 0 !important;
+    border-left: 0 !important;
+    border-top: 1px solid var(--c-border) !important;
+  }
+
+  .route-stop,
+  .route-summary,
+  .route-budget-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .route-stop__img {
+    width: 100% !important;
+    height: 160px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .webgl-map-container {
+    min-height: 54svh !important;
+    height: 58svh !important;
+  }
+
+  .district-hover-card,
+  .webgl-instruction {
+    display: none !important;
+  }
+
+  .place-card__body,
+  .category-card {
+    padding: 0.9rem !important;
+  }
+
+  .route-day {
+    padding-left: 1rem !important;
+  }
+}
+
+
+/* Patch: keep smart panels inside mobile viewport and remove FAB overlap. */
+@media (max-width: 768px) {
+  .smart-panel.is-open {
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  body:has(.smart-panel.is-open) .smart-fab-group,
+  body:has(.travel-dashboard.is-open) .smart-fab-group {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateY(12px) !important;
+  }
+}
+
+
+/* Patch: remove small square/capsule blocks behind text icons. */
+.smart-fab__icon {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--t-primary) !important;
+  font-weight: 800 !important;
+  font-size: 0.92rem !important;
+  line-height: 1 !important;
+}
+
+.smart-fab {
+  min-width: 52px !important;
+  justify-content: center !important;
+}
+
+.map3d-label.glass-pill {
+  background: rgba(255,255,255,0.92) !important;
+  color: #172033 !important;
+  border: 1px solid rgba(184,135,45,0.28) !important;
+  box-shadow: 0 8px 20px rgba(23,32,51,0.12) !important;
+  text-shadow: none !important;
+}
+
+.planner-day-btn span {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+
+/* Patch: remove rectangular text backplates on district/category/place cards. */
+.district-card__info,
+.district-card__number,
+.district-card__name,
+.district-card__name-en,
+.district-card__tagline,
+.category-card__name,
+.category-card__name-en,
+.category-card__desc,
+.place-card__name,
+.place-card__desc,
+.place-card__price,
+.place-card__hours,
+.place-card__rating,
+.place-card__rating-stars,
+.place-card__tag,
+.category-hero__title,
+.category-hero__subtitle,
+.category-hero__count,
+.district-hero__name,
+.district-hero__name-th,
+.district-hero__subtitle,
+.district-hero__tagline,
+.place-hero__title,
+.place-hero__title-en,
+.place-hero__meta,
+.map-district-mini__name,
+.map-district-mini__rating,
+.dash-highlight__name,
+.dash-highlight__meta,
+.dash-stop__name,
+.dash-stop__meta {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.district-card__name::before,
+.district-card__name::after,
+.district-card__name-en::before,
+.district-card__name-en::after,
+.district-card__tagline::before,
+.district-card__tagline::after,
+.category-card__name::before,
+.category-card__name::after,
+.category-card__desc::before,
+.category-card__desc::after,
+.place-card__name::before,
+.place-card__name::after,
+.place-card__desc::before,
+.place-card__desc::after {
+  display: none !important;
+  content: none !important;
+  background: transparent !important;
+}
+
+.district-card__info > *,
+.place-card__body > *,
+.category-card > * {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+.district-card__tagline,
+.category-card__desc,
+.place-card__desc {
+  display: block !important;
+}
+
+
+/* Patch: fully hide the 3D map district drawer when it is closed. */
+.map-district-panel:not(.is-open) {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateX(140%) translateY(-50%) !important;
+}
+
+.map-district-panel.is-open {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+@media (max-width: 768px) {
+  .map-district-panel:not(.is-open) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(125%) !important;
+  }
+
+  .map-district-panel.is-open {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    transform: translateY(0) !important;
+  }
+}
