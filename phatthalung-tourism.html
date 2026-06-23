@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<script>window.onerror = function(msg, url, lineNo, columnNo, error) { alert("Error: " + msg + "\nLine: " + lineNo); return false; };</script>
     <meta name="darkreader-lock">
     <meta name="color-scheme" content="light only">
   <meta charset="UTF-8" />
@@ -11,13 +10,13 @@
   <title>พัทลุง — Tourism Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600,700;1,300;1,400&family=Prompt:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=66" />
-  <link rel="stylesheet" href="smart-tourism.css?v=66" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="map3d-polygon.js?v=66"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=22" />
+  <link rel="stylesheet" href="smart-tourism.css?v=22" />
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="map3d-polygon.js?v=22"></script>
   <script src="data-enhancements.js"></script>
-  <script src="smart-tourism.js?v=66"></script>
+  <script src="smart-tourism.js?v=22"></script>
 <style>
   .hero__slide-title, .hero__slide-desc, .district-card__name, .district-card__number { color: #ffffff !important; }
   .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent) !important; mix-blend-mode: normal !important; }
@@ -35,7 +34,6 @@
     background-color: #f8fafc !important;
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 </head>
 <body>
 <div class="noise-overlay"></div>
@@ -3836,33 +3834,6 @@ const PHATTHALUNG_DATA = {
         },
         {
           id: 2,
-          name: "แกรนด์แคนยอน พัทลุง",
-          rating: 4.7,
-          price: "ฟรี",
-          tag: "จุดถ่ายรูป & ธรรมชาติ",
-          description: "พื้นที่เหมืองเก่าที่กลายเป็นแอ่งน้ำสีเขียวมรกต ล้อมรอบด้วยหน้าผาดินแดง เป็นจุดถ่ายรูปยอดฮิต",
-          image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&q=80",
-          hours: "08:00 - 18:00",
-          tags: [
-            "nature",
-            "photography"
-          ],
-          budgetLevel: "low",
-          suitableFor: [
-            "solo",
-            "couple",
-            "family"
-          ],
-          duration: 1.5,
-          nearbyRestaurants: [],
-          nearbyHotels: [],
-          coordinates: {
-            lat: 7.6432,
-            lng: 100.0894
-          }
-        },
-        {
-          id: 3,
           name: "โอโซน รีสอร์ท",
           rating: 4.6,
           price: "฿฿฿",
@@ -5075,6 +5046,9 @@ const PHATTHALUNG_DATA = {
           }
         },
         {
+          id: 2,
+          name: "แกรนด์แคนยอน พัทลุง",
+          rating: 4.7,
           price: "ฟรี",
           tag: "จุดถ่ายรูป & ธรรมชาติ",
           description: "แกรนด์แคนยอนพัทลุง จุดถ่ายรูปสวยที่เกิดจากบ่อดินเก่า กลายเป็นแอ่งน้ำสีเขียวมรกต เหมาะสำหรับถ่ายภาพแนวธรรมชาติและวิวมุมสูง",
@@ -5877,95 +5851,6 @@ const Router = {
 };
 
 /* ─── App ─────────────────────────────────────────────────────────── */
-
-window.IntroPosters = {
-  init() {
-    const section = document.getElementById('introPosters');
-    if (!section || typeof anime === 'undefined') return;
-
-    const containers = section.querySelectorAll('.intro-poster-container');
-    if (!containers.length) return;
-
-    const stateMap = new Map();
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const img = entry.target.querySelector('.intro-poster-img');
-        const btn = entry.target.querySelector('.intro-poster-btn');
-        if (!img) return;
-
-        const isVisible = entry.isIntersecting;
-        const currentState = stateMap.get(entry.target);
-
-        if (isVisible && currentState !== 'visible') {
-          stateMap.set(entry.target, 'visible');
-          anime.remove(img);
-          if (btn) anime.remove(btn);
-
-          // Animate IN
-          anime.timeline({
-            easing: "easeOutExpo"
-          })
-          .add({
-            targets: img,
-            scale: [1.1, 1],
-            opacity: [0, 1],
-            filter: ['blur(15px)', 'blur(0px)'],
-            duration: 2000
-          })
-          .add({
-            targets: btn,
-            translateY: [40, 0],
-            opacity: [0, 0.9],
-            duration: 1000
-          }, "-=1500");
-
-        } else if (!isVisible && currentState === 'visible') {
-          stateMap.set(entry.target, 'hidden');
-          anime.remove(img);
-          if (btn) anime.remove(btn);
-
-          // Animate OUT
-          anime({
-            targets: img,
-            scale: 1.1,
-            opacity: 0,
-            filter: 'blur(15px)',
-            duration: 800,
-            easing: "easeOutQuad"
-          });
-          if (btn) {
-             anime({
-               targets: btn,
-               translateY: 40,
-               opacity: 0,
-               duration: 600,
-               easing: "easeOutQuad"
-             });
-          }
-        }
-      });
-    }, { threshold: 0.1 });
-
-    containers.forEach(el => {
-      const img = el.querySelector('.intro-poster-img');
-      const btn = el.querySelector('.intro-poster-btn');
-      if (img) { 
-        img.style.opacity = '0'; 
-        img.style.transform = 'scale(1.1)';
-        img.style.filter = 'blur(15px)';
-        // Revert to contain so the poster is fully visible
-        img.style.objectFit = 'contain';
-      }
-      if (btn) { 
-        btn.style.opacity = '0'; 
-        btn.style.transform = 'translateY(40px)'; 
-      }
-      observer.observe(el);
-    });
-  }
-};
-
 const App = {
   /** Mount point */
   root: null,
@@ -6026,7 +5911,6 @@ const App = {
 
     // View-specific init
     if (view === 'home' || !view) {
-      if (window.IntroPosters) IntroPosters.init();
       Carousel.init();
       MagneticCards.init();
       if (window.Map3D) window.Map3D.init();
@@ -6054,8 +5938,7 @@ const Views = {
         <div class="hero__slide-overlay"></div>
         <div class="hero__slide-content editorial-hero-content">
           <div class="editorial-hero-tag">${s.district}</div>
-          <h1 class="editorial-hero-title">${s.titleEn}</h1>
-          <h2 class="editorial-hero-subtitle">${s.title}</h2>
+          <h2 class="editorial-hero-title">${s.title}</h2>
           <p class="editorial-hero-desc">${s.description}</p>
         </div>
       </div>
@@ -6100,38 +5983,14 @@ const Views = {
       <div class="page">
         ${_navHTML('home')}
 
-        
-                <!-- INTRO POSTERS -->
-        <section class="intro-posters" id="introPosters" style="width: 100%; display: flex; flex-direction: column; background: #fff;">
-          <div class="intro-poster-container" style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden;">
-            <img class="intro-poster-img" src="intro2.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="Welcome to Phatthalung" />
-            <div class="intro-poster-btn" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; cursor: pointer;" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
-              <div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 8px 24px; border-radius: 20px; animation: bounce 2s infinite;">&#9660;</div>
-            </div>
-          </div>
-          <div class="intro-poster-container" style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden;">
-            <img class="intro-poster-img" src="intro0.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="NoraTalung Poster" />
-            <div class="intro-poster-btn" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; cursor: pointer;" onclick="document.getElementById('introTransition').scrollIntoView({behavior: 'smooth'})">
-              <div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 8px 24px; border-radius: 20px; animation: bounce 2s infinite;">&#9660;</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- TRANSITION DIVIDER -->
-        <section id="introTransition" class="intro-transition reveal" style="background: var(--c-midnight); padding: 8rem 2rem 6rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-          <h2 style="font-family: var(--font-thai); font-size: clamp(2.5rem, 6vw, 4rem); color: var(--c-gold); margin-bottom: 1rem; font-weight: 700;">เริ่มต้นการเดินทาง</h2>
-          <p style="font-family: var(--font-body); color: var(--t-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 4rem; line-height: 1.6;">ค้นพบความสวยงามของพัทลุง เมืองแห่งวิถีชีวิตและวัฒนธรรมที่รอให้คุณมาสัมผัสด้วยตัวเอง</p>
-          <div style="width: 2px; height: 100px; background: linear-gradient(to bottom, var(--c-gold), transparent); margin: 0 auto;"></div>
-        </section>
-
         <!-- HERO CAROUSEL -->
         <section class="hero" id="hero" aria-label="สไลด์แสดงสถานที่ท่องเที่ยว">
           <div class="hero__slides" id="heroSlides">
             ${slides}
           </div>
 
-          
-          
+          <button class="hero__nav hero__nav--prev" id="heroPrev" aria-label="สไลด์ก่อนหน้า">‹</button>
+          <button class="hero__nav hero__nav--next" id="heroNext" aria-label="สไลด์ถัดไป">›</button>
 
           <div class="hero__dots" id="heroDots" role="tablist">
             ${dots}
@@ -6249,63 +6108,14 @@ const Views = {
         </section>
 
         <!-- HISTORY -->
-        <section class="district-history" style="position: relative;">
-          <div class="district-history__inner reveal" style="position: relative; z-index: 2;">
+        <section class="district-history">
+          <div class="district-history__inner reveal">
             <span class="section__eyebrow">ประวัติและที่มา</span>
             <div class="divider-gold" style="margin:1rem 0 1.5rem">
               <div class="divider-gold__diamond"></div>
             </div>
             <p class="district-history__text">${district.history}</p>
           </div>
-          <!-- Character Image -->
-          <style>
-            .nora-history-char {
-              position: absolute;
-              bottom: 0;
-              height: 100%;
-              max-height: 100%;
-              object-fit: contain;
-              z-index: 1;
-              pointer-events: none;
-            }
-            .nora-history-char.mueang {
-              right: 5%;
-            }
-            .nora-history-char.bang-kaeo {
-              left: 5%;
-            }
-            .nora-history-char.pa-bon {
-              right: 5%;
-            }
-            .nora-history-char.tamot {
-              left: 5%;
-            }
-            .nora-history-char.kong-ra {
-              right: 5%;
-            }
-            .nora-history-char.srinagarindra {
-              left: 5%;
-            }
-            .nora-history-char.khao-chaison {
-              right: 5%;
-            }
-            .nora-history-char.si-banphot {
-              left: 5%;
-            }
-            @media (max-width: 900px) {
-              .nora-history-char {
-                display: none;
-              }
-            }
-          </style>
-          ${district.id === 'mueang' ? '<img src="nora-character.png" alt="Nora Character" class="nora-history-char mueang">' : ''}
-          ${district.id === 'bang-kaeo' ? '<img src="nora-character-bang-kaeo.png" alt="Nora Character Bang Kaeo" class="nora-history-char bang-kaeo">' : ''}
-          ${district.id === 'pa-bon' ? '<img src="nora-character-pa-bon.png" alt="Nora Character Pa Bon" class="nora-history-char pa-bon">' : ''}
-          ${district.id === 'tamot' ? '<img src="nora-character-tamot.png" alt="Nora Character Tamot" class="nora-history-char tamot">' : ''}
-          ${district.id === 'kong-ra' ? '<img src="nora-character-kong-ra.png" alt="Nora Character Kong Ra" class="nora-history-char kong-ra">' : ''}
-          ${district.id === 'srinagarindra' ? '<img src="nora-character-srinagarindra.png" alt="Nora Character Srinagarindra" class="nora-history-char srinagarindra">' : ''}
-          ${district.id === 'khao-chaison' ? '<img src="nora-character-khao-chaison.png" alt="Nora Character Khao Chaison" class="nora-history-char khao-chaison">' : ''}
-          ${district.id === 'si-banphot' ? '<img src="nora-character-si-banphot.png" alt="Nora Character Si Banphot" class="nora-history-char si-banphot">' : ''}
         </section>
 
         <!-- CATEGORIES -->
@@ -6619,18 +6429,11 @@ const Nav = {
 
     if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
 
-    this._nav.style.transition = 'transform 0.4s ease, background-color 0.4s ease';
-
-    const introSection = document.getElementById('introPosters');
-    const introHeight = introSection ? introSection.offsetHeight : 0;
-
     this._onScroll = () => {
-      if (introHeight > 0 && window.scrollY < introHeight) {
-        this._nav.style.transform = 'translateY(-100%)';
-        this._nav.classList.remove('scrolled');
-      } else {
-        this._nav.style.transform = 'translateY(0)';
+      if (window.scrollY > 60) {
         this._nav.classList.add('scrolled');
+      } else {
+        this._nav.classList.remove('scrolled');
       }
     };
 
@@ -6839,28 +6642,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.SmartTourism) SmartTourism.init();
 });
 </script>
-  <!-- Mouse tracking for hover card -->
-  <script>
-    document.addEventListener('mousemove', function(e) {
-      const card = document.getElementById('districtHoverCard');
-      if (card && card.classList.contains('visible')) {
-        card.style.left = e.clientX + 'px';
-        card.style.top = e.clientY + 'px';
-      }
-    });
-  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 
