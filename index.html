@@ -11,13 +11,13 @@
   <title>พัทลุง — Tourism Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=36" />
-  <link rel="stylesheet" href="smart-tourism.css?v=36" />
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600,700;1,300;1,400&family=Prompt:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=57" />
+  <link rel="stylesheet" href="smart-tourism.css?v=57" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="map3d-polygon.js?v=36"></script>
+  <script src="map3d-polygon.js?v=57"></script>
   <script src="data-enhancements.js"></script>
-  <script src="smart-tourism.js?v=36"></script>
+  <script src="smart-tourism.js?v=57"></script>
 <style>
   .hero__slide-title, .hero__slide-desc, .district-card__name, .district-card__number { color: #ffffff !important; }
   .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent) !important; mix-blend-mode: normal !important; }
@@ -35,6 +35,7 @@
     background-color: #f8fafc !important;
   }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
 </head>
 <body>
 <div class="noise-overlay"></div>
@@ -5880,32 +5881,45 @@ const Router = {
 window.IntroPosters = {
   init() {
     const section = document.getElementById('introPosters');
-    if (!section) return;
-    
-    let introIdx = 0;
-    const posters = section.querySelectorAll('.intro-poster');
-    const btnNext = document.getElementById('introNextBtn');
-    const btnPrev = document.getElementById('introPrevBtn');
-    
-    function showPoster(idx) {
-      posters.forEach((p, i) => {
-        p.style.opacity = (i === idx) ? '1' : '0';
-        p.style.zIndex = (i === idx) ? '2' : '1';
+    if (!section || typeof anime === 'undefined') return;
+
+    const containers = section.querySelectorAll('.intro-poster-container');
+    if (!containers.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target.querySelector('.intro-poster-img');
+          const btn = entry.target.querySelector('.intro-poster-btn');
+
+          anime.timeline({
+            easing: "spring(1, 80, 10, 0)"
+          })
+          .add({
+            targets: img,
+            scale: [1.1, 1],
+            opacity: [0, 1],
+            duration: 1500
+          })
+          .add({
+            targets: btn,
+            translateY: [30, 0],
+            opacity: [0, 0.8],
+            duration: 1000
+          }, "-=1200");
+
+          observer.unobserve(entry.target);
+        }
       });
-    }
-    
-    if(btnNext) {
-      btnNext.onclick = () => {
-        introIdx = (introIdx + 1) % posters.length;
-        showPoster(introIdx);
-      };
-    }
-    if(btnPrev) {
-      btnPrev.onclick = () => {
-        introIdx = (introIdx - 1 + posters.length) % posters.length;
-        showPoster(introIdx);
-      };
-    }
+    }, { threshold: 0.3 });
+
+    containers.forEach(el => {
+      const img = el.querySelector('.intro-poster-img');
+      const btn = el.querySelector('.intro-poster-btn');
+      if (img) { img.style.opacity = '0'; img.style.transform = 'scale(1.1)'; }
+      if (btn) { btn.style.opacity = '0'; btn.style.transform = 'translateY(30px)'; }
+      observer.observe(el);
+    });
   }
 };
 
@@ -6045,15 +6059,15 @@ const Views = {
         
                 <!-- INTRO POSTERS -->
         <section class="intro-posters" id="introPosters" style="width: 100%; display: flex; flex-direction: column; background: #fff;">
-          <div style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff;">
-            <img src="intro2.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="Welcome to Phatthalung" />
-            <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; opacity: 0.8; cursor: pointer;" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
+          <div class="intro-poster-container" style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden;">
+            <img class="intro-poster-img" src="intro2.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="Welcome to Phatthalung" />
+            <div class="intro-poster-btn" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; cursor: pointer;" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
               <div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 8px 24px; border-radius: 20px; animation: bounce 2s infinite;">&#9660;</div>
             </div>
           </div>
-          <div style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff;">
-            <img src="intro0.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="NoraTalung Poster" />
-            <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; opacity: 0.8; cursor: pointer;" onclick="document.getElementById('hero').scrollIntoView({behavior: 'smooth'})">
+          <div class="intro-poster-container" style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden;">
+            <img class="intro-poster-img" src="intro0.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="NoraTalung Poster" />
+            <div class="intro-poster-btn" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; cursor: pointer;" onclick="document.getElementById('hero').scrollIntoView({behavior: 'smooth'})">
               <div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 8px 24px; border-radius: 20px; animation: bounce 2s infinite;">&#9660;</div>
             </div>
           </div>
@@ -6184,14 +6198,63 @@ const Views = {
         </section>
 
         <!-- HISTORY -->
-        <section class="district-history">
-          <div class="district-history__inner reveal">
+        <section class="district-history" style="position: relative;">
+          <div class="district-history__inner reveal" style="position: relative; z-index: 2;">
             <span class="section__eyebrow">ประวัติและที่มา</span>
             <div class="divider-gold" style="margin:1rem 0 1.5rem">
               <div class="divider-gold__diamond"></div>
             </div>
             <p class="district-history__text">${district.history}</p>
           </div>
+          <!-- Character Image -->
+          <style>
+            .nora-history-char {
+              position: absolute;
+              bottom: 0;
+              height: 100%;
+              max-height: 100%;
+              object-fit: contain;
+              z-index: 1;
+              pointer-events: none;
+            }
+            .nora-history-char.mueang {
+              right: 5%;
+            }
+            .nora-history-char.bang-kaeo {
+              left: 5%;
+            }
+            .nora-history-char.pa-bon {
+              right: 5%;
+            }
+            .nora-history-char.tamot {
+              left: 5%;
+            }
+            .nora-history-char.kong-ra {
+              right: 5%;
+            }
+            .nora-history-char.srinagarindra {
+              left: 5%;
+            }
+            .nora-history-char.khao-chaison {
+              right: 5%;
+            }
+            .nora-history-char.si-banphot {
+              left: 5%;
+            }
+            @media (max-width: 900px) {
+              .nora-history-char {
+                display: none;
+              }
+            }
+          </style>
+          ${district.id === 'mueang' ? '<img src="nora-character.png" alt="Nora Character" class="nora-history-char mueang">' : ''}
+          ${district.id === 'bang-kaeo' ? '<img src="nora-character-bang-kaeo.png" alt="Nora Character Bang Kaeo" class="nora-history-char bang-kaeo">' : ''}
+          ${district.id === 'pa-bon' ? '<img src="nora-character-pa-bon.png" alt="Nora Character Pa Bon" class="nora-history-char pa-bon">' : ''}
+          ${district.id === 'tamot' ? '<img src="nora-character-tamot.png" alt="Nora Character Tamot" class="nora-history-char tamot">' : ''}
+          ${district.id === 'kong-ra' ? '<img src="nora-character-kong-ra.png" alt="Nora Character Kong Ra" class="nora-history-char kong-ra">' : ''}
+          ${district.id === 'srinagarindra' ? '<img src="nora-character-srinagarindra.png" alt="Nora Character Srinagarindra" class="nora-history-char srinagarindra">' : ''}
+          ${district.id === 'khao-chaison' ? '<img src="nora-character-khao-chaison.png" alt="Nora Character Khao Chaison" class="nora-history-char khao-chaison">' : ''}
+          ${district.id === 'si-banphot' ? '<img src="nora-character-si-banphot.png" alt="Nora Character Si Banphot" class="nora-history-char si-banphot">' : ''}
         </section>
 
         <!-- CATEGORIES -->
@@ -6737,5 +6800,7 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
 </body>
 </html>
+
+
 
 

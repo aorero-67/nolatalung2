@@ -142,23 +142,23 @@
   function parseBudget(text) {
     const m = text.match(/(\d[\d,]*)\s*(?:baht)?/i);
     if (m) return parseInt(m[1].replace(/,/g, ''), 10);
-    if (/à¸‡à¸šà¸™à¹‰à¸­à¸¢|à¸›à¸£à¸°à¸«à¸¢à¸±à¸”|cheap|budget/i.test(text)) return 800;
-    if (/à¸«à¸£à¸¹|premium|luxury/i.test(text)) return 5000;
+    if (/ประหยัด|ถูก|cheap|budget/i.test(text)) return 800;
+    if (/แพง|หรู|premium|luxury/i.test(text)) return 5000;
     return null;
   }
 
   function parsePrefs(text) {
     const q = text.toLowerCase();
     return {
-      nature: /à¸˜à¸£à¸£à¸¡à¸Šà¸²à¸•à¸´|nature|à¸—à¸°à¹€à¸¥|à¸›à¹ˆà¸²|green|eco|lake|bird/i.test(q),
-      couple: /à¹à¸Ÿà¸™|girlfriend|couple|romantic|à¸„à¸¹à¹ˆ|à¹€à¸”à¸—/i.test(q),
-      solo: /à¸„à¸™à¹€à¸”à¸µà¸¢à¸§|solo|alone/i.test(q),
-      cafe: /à¸„à¸²à¹€à¸Ÿà¹ˆ|cafe|coffee|à¸Šà¸²/i.test(q),
-      photo: /à¸–à¹ˆà¸²à¸¢à¸£à¸¹à¸›|photo|view|sunset|sunrise/i.test(q),
-      family: /à¸„à¸£à¸­à¸šà¸„à¸£à¸±à¸§|family|à¹€à¸”à¹‡à¸|kid/i.test(q),
-      adventure: /à¸œà¸ˆà¸|adventure|à¸¥à¹ˆà¸­à¸‡|trek|kayak|active/i.test(q),
-      food: /à¸­à¸²à¸«à¸²à¸£|food|eat|restaurant|local|à¸•à¸¥à¸²à¸”|market/i.test(q),
-      culture: /à¸§à¸±à¸’à¸™à¸˜à¸£à¸£à¸¡|culture|history|heritage|à¸žà¸´à¸žà¸´à¸˜|museum/i.test(q),
+      nature: /ธรรมชาติ|ป่า|เขา|nature|eco|lake|bird/i.test(q),
+      couple: /แฟน|คนรัก|girlfriend|couple|romantic/i.test(q),
+      solo: /คนเดียว|เดี่ยว|solo|alone/i.test(q),
+      cafe: /คาเฟ่|cafe|coffee|กาแฟ/i.test(q),
+      photo: /ถ่ายรูป|photo|view|sunset|sunrise/i.test(q),
+      family: /ครอบครัว|family|เด็ก|kid/i.test(q),
+      adventure: /ผจญภัย|adventure|เดินป่า|trek|kayak|active/i.test(q),
+      food: /อาหาร|food|eat|restaurant|local|ตลาด|market/i.test(q),
+      culture: /วัฒนธรรม|culture|history|heritage|พิพิธภัณฑ์|museum/i.test(q),
       budget: parseBudget(q),
       raw: text,
     };
@@ -183,8 +183,8 @@
 
     // Fallback string matching for extra context
     const blob = `${tags.join(' ')} ${(place.description || '').toLowerCase()} ${(place.name || '').toLowerCase()}`;
-    if (prefs.nature && /à¸—à¸°à¹€à¸¥|à¸›à¹ˆà¸²|à¹€à¸‚à¸²|lake|waterfall/i.test(blob)) score += 10;
-    if (prefs.photo && /view|sunset|landmark|à¸–à¹ˆà¸²à¸¢/i.test(blob)) score += 10;
+    if (prefs.nature && /ธรรมชาติ|ป่า|ทะเล|lake|waterfall/i.test(blob)) score += 10;
+    if (prefs.photo && /view|sunset|landmark|ถ่ายรูป/i.test(blob)) score += 10;
 
     // Budget check using new budgetLevel
     if (prefs.budget) {
@@ -726,10 +726,10 @@
     const bd = route.budgetDetail || {};
     const stopsCount = route.days.reduce((n, d) => n + d.stops.length, 0);
     const atmosTags = [];
-    if (route.prefs.nature) atmosTags.push('à¸˜à¸£à¸£à¸¡à¸Šà¸²à¸•à¸´');
-    if (route.prefs.couple) atmosTags.push('à¹‚à¸£à¹à¸¡à¸™à¸•à¸´à¸');
-    if (route.prefs.family) atmosTags.push('à¸„à¸£à¸­à¸šà¸„à¸£à¸±à¸§');
-    if (route.prefs.photo) atmosTags.push('à¸–à¹ˆà¸²à¸¢à¸£à¸¹à¸›');
+    if (route.prefs.nature) atmosTags.push('ธรรมชาติ');
+    if (route.prefs.couple) atmosTags.push('โรแมนติก');
+    if (route.prefs.family) atmosTags.push('ครอบครัว');
+    if (route.prefs.photo) atmosTags.push('ถ่ายรูป');
     if (route.prefs.adventure) atmosTags.push('Adventure');
     if (route.prefs.food) atmosTags.push('Food');
     if (route.prefs.culture) atmosTags.push('Culture');
@@ -803,14 +803,14 @@
         ${
           highlights.length
             ? `<section class="dash-panel dash-panel--highlights">
-            <h3 class="dash-panel__title">à¹„à¸®à¹„à¸¥à¸—à¹Œà¹à¸™à¸°à¸™à¸³</h3>
+            <h3 class="dash-panel__title">ไฮไลท์แนะนำ</h3>
             <div class="dash-highlights">${highlightsHtml}</div>
           </section>`
             : ''
         }
         <div class="travel-dashboard__grid">
           <section class="dash-panel">
-            <h3 class="dash-panel__title">à¸‡à¸šà¸›à¸£à¸°à¸¡à¸²à¸“</h3>
+            <h3 class="dash-panel__title">งบประมาณ</h3>
             <div class="dash-budget-bars">
               <div class="dash-bar"><label>Food</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, (bd.food / route.budget) * 100)}%"></div></div><span>${(bd.food || 0).toLocaleString()}</span></div>
               <div class="dash-bar"><label>Activities</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, (bd.attractions / route.budget) * 100)}%"></div></div><span>${(bd.attractions || 0).toLocaleString()}</span></div>
@@ -820,7 +820,7 @@
             ${route.accommodation ? `<p class="dash-hotel">Recommended stay: <strong>${route.accommodation.name}</strong> - ${route.accommodation.districtName}</p>` : ''}
           </section>
           <section class="dash-panel dash-panel--wide">
-            <h3 class="dash-panel__title">à¸•à¸²à¸£à¸²à¸‡à¹€à¸”à¸´à¸™à¸—à¸²à¸‡</h3>
+            <h3 class="dash-panel__title">แผนการเดินทาง</h3>
             ${daysHtml}
           </section>
         </div>
@@ -985,125 +985,119 @@
       this.chatState = 0;
       this.chatParams = {};
       this.messagesContainer.innerHTML = '';
-      if (this.inputEl) this.inputEl.value = '';
-      this.addBotMessage("à¸ªà¸§à¸±à¸ªà¸”à¸µà¸„à¸£à¸±à¸š! à¸œà¸¡à¸„à¸·à¸­ AI à¸›à¸£à¸°à¸ˆà¸³à¸ˆà¸±à¸‡à¸«à¸§à¸±à¸”à¸žà¸±à¸—à¸¥à¸¸à¸‡ ðŸ˜Š<br>à¹ƒà¸«à¹‰à¸œà¸¡à¸Šà¹ˆà¸§à¸¢à¸§à¸²à¸‡à¹à¸œà¸™à¸—à¸£à¸´à¸›à¹à¸šà¸š Exclusive à¹ƒà¸«à¹‰à¹„à¸«à¸¡à¸„à¸£à¸±à¸š?<br>à¹€à¸£à¸´à¹ˆà¸¡à¸ˆà¸²à¸... à¸„à¸¸à¸“à¸¡à¸µà¹€à¸§à¸¥à¸²à¹€à¸—à¸µà¹ˆà¸¢à¸§à¸à¸µà¹ˆà¸§à¸±à¸™à¸„à¸£à¸±à¸š?", [
-        { label: "à¸„à¸£à¸¶à¹ˆà¸‡à¸§à¸±à¸™ (Half-Day)", value: "0.5" },
-        { label: "1 à¸§à¸±à¸™ (One-Day)", value: "1" },
-        { label: "2 à¸§à¸±à¸™ 1 à¸„à¸·à¸™", value: "2" },
-        { label: "3 à¸§à¸±à¸™ 2 à¸„à¸·à¸™", value: "3" }
+      this.addBotMessage("สวัสดีครับ! ยินดีต้อนรับสู่ระบบแนะนำการท่องเที่ยวอัจฉริยะ (AI Travel Planner)<br>ให้ผมช่วยจัดทริปแบบ Exclusive สำหรับคุณไหมครับ?<br>ก่อนอื่น... คุณมีเวลาเที่ยวที่พัทลุงกี่วันครับ?", [
+        { label: "ครึ่งวัน (Half-Day)", value: "0.5" },
+        { label: "1 วัน (One-Day)", value: "1" },
+        { label: "2 วัน 1 คืน", value: "2" },
+        { label: "3 วัน 2 คืน", value: "3" }
       ]);
     },
 
-    setThinking(isThinking) {
-      this.thinking = isThinking;
-      if (this.thinkingEl) {
-        this.thinkingEl.style.display = isThinking ? 'flex' : 'none';
-        if (isThinking) {
-            this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-        }
-      }
-    },
-
-    addBotMessage(htmlContent, quickReplies = []) {
-      this.setThinking(true);
+    addBotMessage(text, options) {
+      const msg = document.createElement('div');
+      msg.className = 'ai-chat__msg ai-chat__msg--bot';
+      msg.innerHTML = `<div class="ai-chat__bubble">${text}</div>`;
       
-      const delay = Math.min(600 + htmlContent.length * 10, 1500);
-
-      setTimeout(() => {
-        this.setThinking(false);
-        const msg = document.createElement('div');
-        msg.className = 'ai-msg ai-msg--bot';
-        msg.innerHTML = `<div class="ai-msg__bubble">${htmlContent}</div>`;
-        
-        if (quickReplies.length > 0) {
-          const chips = document.createElement('div');
-          chips.className = 'ai-chips';
-          quickReplies.forEach(qr => {
-            const btn = document.createElement('button');
-            btn.className = 'ai-chip';
-            btn.innerHTML = qr.label;
-            btn.onclick = () => {
-              if (this.thinking) return;
-              const allBtns = chips.querySelectorAll('.ai-chip');
-              allBtns.forEach(b => {
-                  b.disabled = true;
-                  b.style.opacity = '0.4';
-                  b.style.cursor = 'default';
-              });
-              btn.style.opacity = '1';
-              btn.style.background = 'var(--c-gold)';
-              btn.style.color = 'var(--c-midnight)';
-              btn.style.borderColor = 'var(--c-gold)';
-              this.handleUserInput(qr);
-            };
-            chips.appendChild(btn);
-          });
-          msg.appendChild(chips);
-        }
-
-        this.messagesContainer.appendChild(msg);
-        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-      }, delay);
+      if (options && options.length > 0) {
+        const optsDiv = document.createElement('div');
+        optsDiv.className = 'ai-chat__options';
+        options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'ai-chat__option-btn';
+          btn.innerHTML = opt.label;
+          btn.onclick = () => {
+            optsDiv.style.pointerEvents = 'none';
+            optsDiv.style.opacity = '0.5';
+            this.handleUserOption(opt.value, opt.label);
+          };
+          optsDiv.appendChild(btn);
+        });
+        msg.appendChild(optsDiv);
+      }
+      this.messagesContainer.appendChild(msg);
+      this.scrollToBottom();
     },
 
     addUserMessage(text) {
       const msg = document.createElement('div');
-      msg.className = 'ai-msg ai-msg--user';
-      msg.innerHTML = `<div class="ai-msg__bubble">${escapeHtml(text)}</div>`;
+      msg.className = 'ai-chat__msg ai-chat__msg--user';
+      msg.innerHTML = `<div class="ai-chat__bubble">${text}</div>`;
       this.messagesContainer.appendChild(msg);
-      this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-      if (this.inputEl) this.inputEl.value = text;
+      this.scrollToBottom();
     },
 
-    handleUserInput(qr) {
-      this.addUserMessage(qr.label);
-      this.chatState++;
-      
-      switch (this.chatState) {
-        case 1:
-          this.chatParams.days = parseFloat(qr.value) || 1;
-          this.addBotMessage("à¸£à¸±à¸šà¸—à¸£à¸²à¸šà¸„à¸£à¸±à¸š ðŸ“<br>à¹à¸¥à¹‰à¸§à¸—à¸£à¸´à¸›à¸™à¸µà¹‰à¸­à¸¢à¸²à¸à¹„à¸”à¹‰à¸šà¸£à¸£à¸¢à¸²à¸à¸²à¸¨à¹à¸šà¸šà¹„à¸«à¸™à¹€à¸›à¹‡à¸™à¸žà¸´à¹€à¸¨à¸©à¸„à¸£à¸±à¸š?", [
-            { label: "ðŸžï¸ à¹€à¸™à¹‰à¸™à¸˜à¸£à¸£à¸¡à¸Šà¸²à¸•à¸´", value: "nature" },
-            { label: "â˜• à¸„à¸²à¹€à¸Ÿà¹ˆ & à¸Šà¸´à¸¥à¸¥à¹Œ", value: "cafe" },
-            { label: "ðŸ“¸ à¸ªà¸²à¸¢à¸–à¹ˆà¸²à¸¢à¸£à¸¹à¸›", value: "photo" },
-            { label: "ðŸ™ à¹„à¸«à¸§à¹‰à¸žà¸£à¸° & à¸§à¸±à¸’à¸™à¸˜à¸£à¸£à¸¡", value: "culture" },
-            { label: "ðŸ§— à¸ªà¸²à¸¢à¸¥à¸¸à¸¢ & à¸œà¸ˆà¸à¸ à¸±à¸¢", value: "adventure" }
-          ]);
-          break;
-        case 2:
-          this.chatParams.atmosphere = qr.value;
-          this.addBotMessage("à¹‚à¸­à¹€à¸„à¸„à¸£à¸±à¸š!<br>à¹à¸¥à¹‰à¸§à¸›à¸£à¸°à¹€à¸ à¸—à¸à¸²à¸£à¹€à¸”à¸´à¸™à¸—à¸²à¸‡à¸‚à¸­à¸‡à¸„à¸¸à¸“à¸„à¸·à¸­à¹à¸šà¸šà¹„à¸«à¸™à¸„à¸£à¸±à¸š?", [
-            { label: "ðŸ’– à¸žà¸²à¹à¸Ÿà¸™à¹€à¸—à¸µà¹ˆà¸¢à¸§", value: "couple" },
-            { label: "ðŸ‘¨â€ðŸ‘©â€ðŸ‘§â€ðŸ‘¦ à¸—à¸£à¸´à¸›à¸„à¸£à¸­à¸šà¸„à¸£à¸±à¸§", value: "family" },
-            { label: "ðŸ˜Ž à¹€à¸—à¸µà¹ˆà¸¢à¸§à¸à¸±à¸šà¹€à¸žà¸·à¹ˆà¸­à¸™", value: "friends" },
-            { label: "ðŸŽ’ à¸¥à¸¸à¸¢à¹€à¸”à¸µà¹ˆà¸¢à¸§", value: "solo" },
-            { label: "ðŸ’¼ à¸¨à¸¶à¸à¸©à¸²à¸”à¸¹à¸‡à¸²à¸™", value: "work" }
-          ]);
-          break;
-        case 3:
-          this.chatParams.travelType = qr.value;
-          this.addBotMessage("à¹€à¸à¸·à¸­à¸šà¹€à¸ªà¸£à¹‡à¸ˆà¹à¸¥à¹‰à¸§à¸„à¸£à¸±à¸š ðŸŽ¯<br>à¸‡à¸šà¸›à¸£à¸°à¸¡à¸²à¸“à¸—à¸µà¹ˆà¸„à¸²à¸”à¸«à¸§à¸±à¸‡à¸­à¸¢à¸¹à¹ˆà¹ƒà¸™à¸£à¸°à¸”à¸±à¸šà¹„à¸«à¸™à¸„à¸£à¸±à¸š?", [
-            { label: "ðŸ’¸ à¸›à¸£à¸°à¸«à¸¢à¸±à¸”à¸‡à¸š (Low)", value: "low" },
-            { label: "ðŸ’° à¸„à¸¸à¹‰à¸¡à¸„à¹ˆà¸² (Medium)", value: "medium" },
-            { label: "ðŸ’Ž à¸ˆà¸±à¸”à¹€à¸•à¹‡à¸¡ (High)", value: "high" }
-          ]);
-          break;
-        case 4:
-          this.chatParams.budgetRange = qr.value;
-          
-          this.addBotMessage("à¹€à¸¢à¸µà¹ˆà¸¢à¸¡à¹€à¸¥à¸¢à¸„à¸£à¸±à¸š! à¸à¸³à¸¥à¸±à¸‡à¸›à¸£à¸°à¸¡à¸§à¸¥à¸œà¸¥à¹à¸œà¸™à¸à¸²à¸£à¹€à¸”à¸´à¸™à¸—à¸²à¸‡à¸—à¸µà¹ˆà¹€à¸«à¸¡à¸²à¸°à¸ªà¸¡à¸—à¸µà¹ˆà¸ªà¸¸à¸”à¸ªà¸³à¸«à¸£à¸±à¸šà¸„à¸¸à¸“...", []);
-          this.setThinking(true);
-          
-          setTimeout(() => {
-              this.setThinking(false);
-              this.generateAndShowDashboard();
-          }, 2500);
-          break;
+    setThinking(isThinking) {
+      if (!this.thinkingEl) return;
+      if (isThinking) {
+        this.thinkingEl.classList.add('is-active');
+        this.scrollToBottom();
+      } else {
+        this.thinkingEl.classList.remove('is-active');
       }
     },
 
+    scrollToBottom() {
+      setTimeout(() => {
+        if (this.messagesContainer) {
+          this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+        }
+      }, 50);
+    },
+
+    handleUserOption(value, label) {
+      this.addUserMessage(label);
+      this.setThinking(true);
+      
+      setTimeout(() => {
+        this.setThinking(false);
+        
+        switch (this.chatState) {
+          case 0:
+            this.chatParams.days = parseFloat(value);
+            this.chatState = 1;
+            this.addBotMessage("โอเคครับ รับทราบ! 🗓️<br>เพื่อให้ทริปนี้ตรงใจคุณที่สุด คุณชอบการท่องเที่ยวสไตล์ไหนครับ?", [
+              { label: "🌿 ธรรมชาติ & พื้นที่สีเขียว", value: "nature" },
+              { label: "☕ คาเฟ่ & ชิลเอาท์", value: "cafe" },
+              { label: "📸 ถ่ายรูป & จุดชมวิว", value: "photo" },
+              { label: "🏛️ ศิลปะวัฒนธรรม & ประวัติศาสตร์", value: "culture" },
+              { label: "🛶 ผจญภัย & กิจกรรม", value: "adventure" }
+            ]);
+            break;
+          case 1:
+            this.chatParams[value] = true;
+            this.chatState = 2;
+            this.addBotMessage("เยี่ยมเลยครับ!<br>เพื่อให้แนะนำสถานที่ได้ถูกใจที่สุด... ปกติเวลาเที่ยวคุณมักจะไปกับใครครับ?", [
+              { label: "👫 แฟน / คนรัก", value: "couple" },
+              { label: "👨‍👩‍👧 ครอบครัว / เด็ก", value: "family" },
+              { label: "👯 แก๊งเพื่อน", value: "friends" },
+              { label: "🎒 ลุยเดี่ยว", value: "solo" },
+              { label: "💼 คุยงาน / ธุรกิจ", value: "work" }
+            ]);
+            break;
+          case 2:
+            this.chatParams[value] = true;
+            this.chatState = 3;
+            this.addBotMessage("เข้าใจแล้วครับ 👍<br>สุดท้ายนี้... คุณตั้งงบประมาณไว้ประมาณเท่าไหร่สำหรับทริปนี้ครับ?", [
+              { label: "💰 ประหยัด (Low)", value: "low" },
+              { label: "💵 ปานกลาง (Medium)", value: "medium" },
+              { label: "💎 จัดเต็ม (High)", value: "high" }
+            ]);
+            break;
+          case 3:
+            this.chatParams.budgetLevel = value;
+            this.addBotMessage("ขอบคุณสำหรับข้อมูลครับ! ตอนนี้ผมกำลังประมวลผลข้อมูล... ⏳", []);
+            this.setThinking(true);
+            setTimeout(() => {
+              this.setThinking(false);
+              this.generateAndShowDashboard();
+            }, 1500);
+            break;
+        }
+      }, 600);
+    },
+
     generateAndShowDashboard() {
-        if (this.inputEl) this.inputEl.value = 'à¸ªà¸£à¹‰à¸²à¸‡à¹€à¸ªà¹‰à¸™à¸—à¸²à¸‡à¹€à¸ªà¸£à¹‡à¸ˆà¸ªà¸¡à¸šà¸¹à¸£à¸“à¹Œ!';
+        if (this.inputEl) this.inputEl.value = 'กำลังจัดเส้นทางให้คุณ กรุณารอสักครู่...';
         const route = TravelBrain.generate(this.chatParams, this.chatParams.days);
         if (route) {
             TravelDashboard.open(route);

@@ -550,7 +550,7 @@
           const div = document.createElement('div');
           div.textContent = anchor.userData._labelText;
           div.className = 'map3d-label glass-pill';
-          div.style.cssText = 'position:absolute;pointer-events:none;white-space:nowrap;font-family:Mitr,sans-serif;font-weight:700;font-size:11px;color:#1e293b;letter-spacing:0.03em;transform:translate(-50%,-50%);transition:opacity .25s, box-shadow .25s, color .25s, font-size .25s;';
+          div.style.cssText = 'position:absolute;pointer-events:none;white-space:nowrap;font-family:Mali,cursive;font-weight:700;font-size:14px;color:#1e293b;letter-spacing:0.02em;text-shadow:0 0 4px #ffffff, 0 0 8px #ffffff;transform:translate(-50%,-50%);transition:opacity .25s, box-shadow .25s, color .25s, font-size .25s;';
           this._labelContainer.appendChild(div);
           this._labelDivs.push({ div, anchor });
         });
@@ -593,7 +593,7 @@
         this._connSvg.appendChild(this._connCircle1);
 
         this._connText = document.createElement('div');
-        this._connText.style.cssText = 'position:absolute;pointer-events:none;font-family:Mitr,sans-serif;font-weight:700;font-size:38px;color:#0ea5e9;text-shadow:0 0 10px rgba(14,165,233,0.4);z-index:20;opacity:0;transition:opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);white-space:nowrap;transform:translate(0, -50%);';
+        this._connText.style.cssText = 'position:absolute;pointer-events:none;font-family:Mali,cursive;font-weight:700;font-size:48px;color:#ffffff;text-shadow:0 0 12px rgba(0,0,0,0.8), 0 0 20px rgba(14,165,233,0.9);z-index:20;opacity:0;transition:opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);white-space:nowrap;transform:translate(0, -50%);';
 
         if (this._labelContainer) {
           this._labelContainer.appendChild(this._connSvg);

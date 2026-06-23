@@ -909,12 +909,13 @@ ul, ol {
 }
 
 .district-card__name-en {
-  font-family: var(--font-display);
+  font-family: var(--font-cute);
   font-style: italic;
-  font-size: 0.78rem;
-  color: var(--t-secondary);
+  font-size: 0.85rem;
+  color: #f5d98a;
   margin-top: 3px;
-  font-weight: 400;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
 .district-card__tagline {
@@ -1033,7 +1034,7 @@ ul, ol {
 }
 
 .district-hero__name {
-  font-family: var(--font-display);
+  font-family: var(--font-cute);
   font-size: clamp(3.5rem, 9vw, 7.5rem);
   font-weight: 700;
   color: var(--t-primary);
@@ -1137,7 +1138,7 @@ ul, ol {
 }
 
 .category-card__name-en {
-  font-family: var(--font-display);
+  font-family: var(--font-cute);
   font-style: italic;
   font-size: 0.82rem;
   color: var(--c-gold);
@@ -1696,6 +1697,7 @@ ul, ol {
   flex-direction: column;
   justify-content: flex-end;
   padding: var(--sp-4xl) var(--sp-2xl);
+  isolation: isolate;
 }
 
 .place-hero__bg {
@@ -1736,14 +1738,14 @@ ul, ol {
   font-family: var(--font-thai);
   font-size: clamp(3.5rem, 8vw, 6rem);
   font-weight: 700;
-  color: var(--c-light);
+  color: #ffffff;
   line-height: 1.1;
   margin-bottom: 1.5rem;
 }
 
 .place-hero__title-en {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-cute);
   font-size: clamp(1.5rem, 4vw, 3rem);
   font-style: italic;
   font-weight: 300;
@@ -2089,10 +2091,20 @@ ul, ol {
 }
 }
 
-/* Text readability over images */
-.district-hero__name, .district-hero__name-th, .category-card__name, .category-card__desc, .place-card__name, .place-card__desc {
+/* Text readability over images - only for elements on dark backgrounds */
+.district-hero__name, .district-hero__name-th, .category-card__name, .category-card__desc {
   color: #ffffff !important;
   text-shadow: 0 2px 8px rgba(0,0,0,0.5) !important;
+}
+
+/* Place card / Workshop / Restaurant text - on light card background */
+.place-card__name {
+  color: #1a1a2e !important;
+  text-shadow: none !important;
+}
+.place-card__desc {
+  color: #4a4a6a !important;
+  text-shadow: none !important;
 }
 .district-hero::after {
   content: '';

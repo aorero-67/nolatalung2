@@ -513,3 +513,36 @@ body {
     transform: translateY(0) !important;
   }
 }
+
+/* ── Place Detail page – fix white-on-white in light mode ── */
+.place-detail {
+  background: #f7f9fc !important;
+}
+
+.place-detail__text {
+  color: #2c3e50 !important;
+}
+
+.place-detail__heading {
+  color: var(--c-gold) !important;
+}
+
+.place-detail__aside-title {
+  color: #172033 !important;
+}
+
+/* RATING / PRICE stats row */
+.place-hero__stats {
+  color: #fff !important;
+}
+.place-hero__stats span {
+  color: #fff !important;
+}
+
+/* Info sidebar items */
+.place-info__label {
+  color: var(--t-secondary) !important;
+}
+.place-info__value {
+  color: #172033 !important;
+}
