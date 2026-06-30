@@ -12,12 +12,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600,700;1,300;1,400&family=Prompt:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=82" />
-  <link rel="stylesheet" href="smart-tourism.css?v=82" />
+  <link rel="stylesheet" href="style.css?v=84" />
+  <link rel="stylesheet" href="smart-tourism.css?v=84" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="map3d-polygon.js?v=82"></script>
+  <script src="map3d-polygon.js?v=84"></script>
   <script src="data-enhancements.js"></script>
-  <script src="smart-tourism.js?v=82"></script>
+  <script src="smart-tourism.js?v=84"></script>
 <style>
   .hero__slide-title, .hero__slide-desc, .district-card__name, .district-card__number { color: #ffffff !important; }
   .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent) !important; mix-blend-mode: normal !important; }
@@ -156,7 +156,7 @@ const PHATTHALUNG_DATA = {
       "title": "ทะเลน้อย",
       "titleEn": "Thale Noi",
       "district": "ควนขนุน",
-      "image": "",
+      "image": "thale-noi.jpg",
       "description": "ทะเลสาบน้ำจืดขนาดใหญ่ เหมาะกับการล่องเรือดูนกน้ำ ชมพระอาทิตย์ขึ้น และทุ่งบัวแดง",
       "descriptionEn": "large freshwater lake Suitable for boat trips to watch water birds. Watch the sunrise and red lotus field"
     },
@@ -165,7 +165,7 @@ const PHATTHALUNG_DATA = {
       "title": "ถ้ำคูหาสวรรค์",
       "titleEn": "Khuha Sawan Cave",
       "district": "เมืองพัทลุง",
-      "image": "",
+      "image": "khuha-sawan.jpg",
       "description": "ถ้ำและจุดชมวิวบนเขาในตัวเมืองพัทลุง เหมาะสำหรับสายเที่ยวธรรมชาติ ถ่ายรูป และผู้ที่สนใจประวัติศาสตร์ท้องถิ่น บรรยากาศสงบ ร่มรื่น และเต็มไปด้วยความศักดิ์สิทธิ์",
       "descriptionEn": "Caves and mountain view points in Phatthalung city Suitable for nature lovers, photography enthusiasts, and those interested in local history. The atmosphere is calm, shady, and full of sacredness."
     },
@@ -174,7 +174,7 @@ const PHATTHALUNG_DATA = {
       "title": "อุทยานแห่งชาติ เขาปู่-เขาย่า",
       "titleEn": "Khao Pu - Khao Ya National Park",
       "district": "ศรีบรรพต",
-      "image": "",
+      "image": "khao-pu-khao-ya.jpg",
       "description": "อุทยานแห่งชาติที่เต็มไปด้วยป่าเขา น้ำตก และจุดชมวิวธรรมชาติ เหมาะกับสายเดินป่าและพักผ่อนกลางธรรมชาติ",
       "descriptionEn": "A national park filled with forests, waterfalls, and natural viewpoints. Suitable for those who go hiking and relax in the middle of nature."
     },
@@ -334,21 +334,21 @@ const PHATTHALUNG_DATA = {
       "id": "restaurants",
       "name": "ร้านอาหาร",
       "nameEn": "Restaurants",
-      "image": "",
+      "image": "tai-nod-market.jpg",
       "description": "รสชาติแห่งใต้ อาหารพื้นเมืองที่คุณต้องลอง"
     },
     "attractions": {
       "id": "attractions",
       "name": "สถานที่ท่องเที่ยว",
       "nameEn": "Attractions",
-      "image": "",
+      "image": "khuha-sawan.jpg",
       "description": "สถานที่สวยงามที่ไม่ควรพลาด"
     },
     "accommodations": {
       "id": "accommodations",
       "name": "ที่พัก",
       "nameEn": "Accommodations",
-      "image": "",
+      "image": "thale-noi.jpg",
       "description": "พักผ่อนอย่างสบายในพัทลุง"
     }
   },
@@ -643,7 +643,7 @@ const PHATTHALUNG_DATA = {
           "price": "ฟรี",
           "tag": "ภูเขา & จุดชมวิว",
           "description": "สัญลักษณ์สำคัญของจังหวัดพัทลุง มีลักษณะเด่นเป็นช่องทะลุกลางภูเขา นักท่องเที่ยวสามารถเดินขึ้นจุดชมวิวเพื่อชมเมืองพัทลุง",
-          "image": "",
+          "image": "khao-ok-thalu.jpg",
           "hours": "06:00 - 18:00",
           "tags": [
             "nature",
@@ -706,7 +706,7 @@ const PHATTHALUNG_DATA = {
           "price": "ฟรี",
           "tag": "ถ้ำ",
           "description": "ถ้ำหินปูนเก่าแก่ที่มีหินงอกหินย้อยสวยงาม ภายในมีบรรยากาศสงบและเป็นแหล่งศึกษาธรรมชาติที่สำคัญของจังหวัด",
-          "image": "",
+          "image": "khuha-sawan.jpg",
           "hours": "08:00 - 17:00",
           "tags": [
             "nature",
@@ -736,7 +736,7 @@ const PHATTHALUNG_DATA = {
           "price": "ฟรี",
           "tag": "วัด",
           "description": "วัดสำคัญของเมืองพัทลุง ตั้งอยู่ใกล้ถ้ำคูหาสวรรค์ ภายในมีพระพุทธรูปและโบราณสถานที่น่าสนใจ เหมาะสำหรับสายบุญและผู้สนใจประวัติศาสตร์ท้องถิ่น",
-          "image": "",
+          "image": "khuha-sawan.jpg",
           "hours": "08:00 - 18:00",
           "tags": [
             "photography",
@@ -4976,7 +4976,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿฿",
           "tag": "อาหารใต้",
           "description": "ร้านอาหารใต้รสชาติจัดจ้าน เมนูแนะนำ แกงส้มปลากะพง คั่วกลิ้ง และใบเหลียงผัดไข่ (80 - 250 บาท)",
-          "image": "",
+          "image": "khao-pu-khao-ya.jpg",
           "hours": "10:00 - 21:00",
           "tags": [
             "nature",
@@ -5073,7 +5073,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿",
           "tag": "อุทยานแห่งชาติ",
           "description": "สถานที่ท่องเที่ยวสำคัญที่สุดของอำเภอศรีบรรพต มีป่าดิบชื้น น้ำตก จุดชมวิว และเส้นทางศึกษาธรรมชาติที่อุดมสมบูรณ์ เหมาะสำหรับเดินป่า กางเต็นท์ และศึกษาธรรมชาติ",
-          "image": "",
+          "image": "khao-pu-khao-ya.jpg",
           "hours": "08:00 - 17:00",
           "tags": [
             "nature",
@@ -5469,7 +5469,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿",
           "tag": "คาเฟ่วิวทะเลน้อย",
           "description": "คาเฟ่วิวทะเลน้อย เหมาะสำหรับแวะพักหลังล่องเรือชมบัวแดง ช่วงเช้าและเย็นวิวสวยเป็นพิเศษ (60 - 150 บาท)",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "07:00 - 18:00",
           "tags": [
             "nature",
@@ -5559,7 +5559,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿฿฿",
           "tag": "อาหารใต้ & ซีฟู้ด",
           "description": "ร้านอาหารวิวทะเลน้อย บรรยากาศดี เหมาะสำหรับมื้อเย็น มีเมนูอาหารใต้และซีฟู้ด (200 - 400 บาท)",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "11:00 - 22:00",
           "tags": [
             "nature",
@@ -5591,7 +5591,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿฿฿",
           "tag": "อาหารพื้นบ้าน & ปลาน้ำจืด",
           "description": "ร้านอาหารริมทะเลน้อย เน้นอาหารพื้นบ้านและปลาน้ำจืดสดใหม่ (200 - 400 บาท)",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "10:00 - 21:00",
           "tags": [
             "nature",
@@ -5656,7 +5656,7 @@ const PHATTHALUNG_DATA = {
           "price": "ฟรี",
           "tag": "พื้นที่ชุ่มน้ำ & นกน้ำ",
           "description": "สถานที่ท่องเที่ยวชื่อดังของพัทลุง เป็นพื้นที่ชุ่มน้ำขนาดใหญ่และเป็นแหล่งอาศัยของนกน้ำจำนวนมาก เหมาะสำหรับชมพระอาทิตย์ขึ้น ชมบัวแดง และถ่ายภาพธรรมชาติสวย ๆ ตลอดทั้งปี",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "06:00 - 18:00",
           "tags": [
             "nature",
@@ -5810,7 +5810,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿฿฿฿",
           "tag": "บูทีครีสอร์ทวิวทะเลน้อย",
           "description": "รีสอร์ทชื่อดังริมทะเลน้อย วิวสวยมาก มีสะพานไม้ยื่นลงน้ำ เหมาะสำหรับชมพระอาทิตย์ขึ้น ถ่ายภาพ และพักผ่อนแบบธรรมชาติ ได้รับความนิยมสูงจากนักท่องเที่ยวที่มาเที่ยวทะเลน้อย (2500 - 5000 บาท)",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "Check-in 14:00",
           "tags": [
             "nature",
@@ -5839,7 +5839,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿฿฿",
           "tag": "บูทีครีสอร์ทริมน้ำ",
           "description": "ที่พักสไตล์บูทีคริมน้ำ บรรยากาศสงบ สามารถชมวิวทะเลสาบและวิถีชีวิตชุมชนรอบทะเลน้อยได้อย่างใกล้ชิด (1500 - 3500 บาท)",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "Check-in 14:00",
           "tags": [
             "nature",
@@ -5867,7 +5867,7 @@ const PHATTHALUNG_DATA = {
           "price": "฿฿฿",
           "tag": "บ้านพักริมน้ำ",
           "description": "บ้านพักริมน้ำสไตล์ชุมชน เหมาะสำหรับคนที่ต้องการสัมผัสวิถีชีวิตท้องถิ่นและล่องเรือชมทะเลน้อยในช่วงเช้า (1200 - 2500 บาท)",
-          "image": "",
+          "image": "thale-noi.jpg",
           "hours": "Check-in 14:00",
           "tags": [
             "nature",
@@ -7711,6 +7711,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
+
 
 
 
