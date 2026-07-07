@@ -183,7 +183,7 @@ body {
 
 .category-hero__overlay,
 .district-hero__overlay {
-  background: linear-gradient(180deg, rgba(20,28,42,0.10), rgba(20,28,42,0.48) 70%, rgba(255,255,255,0.96)) !important;
+  background: linear-gradient(180deg, rgba(20,28,42,0.0), rgba(20,28,42,0.1) 70%, rgba(255,255,255,0.96)) !important;
 }
 
 .category-hero__title,
@@ -193,6 +193,7 @@ body {
 .district-hero__name-th,
 .district-hero__tagline {
   color: #fff !important;
+  text-shadow: 0px 2px 10px rgba(0,0,0,0.6);
 }
 
 .footer {
@@ -447,6 +448,7 @@ body {
   box-shadow: none !important;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  text-shadow: 0px 2px 10px rgba(0,0,0,0.6);
 }
 
 .district-card__name::before,

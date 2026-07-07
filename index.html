@@ -12,15 +12,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600,700;1,300;1,400&family=Prompt:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=85" />
-  <link rel="stylesheet" href="smart-tourism.css?v=85" />
+  <link rel="stylesheet" href="style.css?v=89" />
+  <link rel="stylesheet" href="smart-tourism.css?v=89" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="map3d-polygon.js?v=85"></script>
+  <script src="map3d-polygon.js?v=89"></script>
   <script src="data-enhancements.js"></script>
-  <script src="smart-tourism.js?v=85"></script>
+  <script src="smart-tourism.js?v=89"></script>
 <style>
   .hero__slide-title, .hero__slide-desc, .district-card__name, .district-card__number { color: #ffffff !important; }
-  .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.8), transparent) !important; mix-blend-mode: normal !important; }
+  .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.2), transparent) !important; mix-blend-mode: normal !important; }
 
   :root { color-scheme: light only !important; }
   html { color-scheme: light only !important; }
@@ -6765,6 +6765,7 @@ const App = {
 
   render() {
     const { view, districtId, categoryId, placeId } = Router.state;
+    if (window.updateMusicForDistrict) window.updateMusicForDistrict(districtId);
 
     // Clean up any existing carousel
     Carousel.destroy();
@@ -6986,9 +6987,9 @@ const Views = {
           style="padding: var(--sp-4xl) var(--sp-xl); justify-content: center; min-height: 250px;"
         >
           <img src="${cat.image}" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.3) saturate(0.8); z-index:0; transition: filter 0.4s var(--ease-smooth);" onmouseover="this.style.filter='brightness(0.5) saturate(1)'" onmouseout="this.style.filter='brightness(0.3) saturate(0.8)'" / onerror="handleImgError(this)">
-          <h3 class="category-card__name" style="position:relative; z-index:1; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">${cat.name}</h3>
+          <h3 class="category-card__name" style="position:relative; z-index:1; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${cat.name}</h3>
           <p class="category-card__name-en" style="position:relative; z-index:1; font-size: 1rem; color: var(--c-gold-light);">${cat.nameEn}</p>
-          <p class="category-card__desc" style="position:relative; z-index:1; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${cat.description}</p>
+          <p class="category-card__desc" style="position:relative; z-index:1; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">${cat.description}</p>
         </article>
       `;
     }).join('');
@@ -7664,6 +7665,30 @@ document.addEventListener('DOMContentLoaded', () => {
 (function() {
   const btn = document.getElementById('musicToggleBtn');
   const audio = document.getElementById('bgMusic');
+
+  const districtAudioMap = {
+    "mueang": encodeURI("กลอนโนราห์เมืองพัทลุงกลอนโนราเมืองพัทลุง.mp3"),
+    "khuan-khanun": encodeURI("กลอนโนราควนขนุน.mp3"),
+    "bang-kaeo": encodeURI("กลอนโนราบางแก้ว.mp3"),
+    "pa-phayom": encodeURI("กลอนโนราป่าพะยอม.mp3"),
+    "si-banphot": encodeURI("กลอนโนราศรีบรรพต.mp3"),
+    "tamot": encodeURI("กลอนโนราหตะโหมด.mp3"),
+    "khao-chaison": encodeURI("กลอนโนราเขาชัยสน.mp3")
+  };
+  let currentAudioFile = districtAudioMap["mueang"];
+  window.updateMusicForDistrict = function(districtId) {
+    const newFile = districtAudioMap[districtId];
+    if (newFile && newFile !== currentAudioFile) {
+      currentAudioFile = newFile;
+      const audio = document.getElementById('bgMusic');
+      const isPaused = audio.paused;
+      audio.src = newFile;
+      if (!isPaused) {
+        audio.play().catch(()=>{});
+      }
+    }
+  };
+
   audio.volume = 0.5;
 
   function setPlaying() {
@@ -7711,6 +7736,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
+
+
+
 
 
 
