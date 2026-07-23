@@ -12,14 +12,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600,700;1,300;1,400&family=Prompt:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=89" />
-  <link rel="stylesheet" href="smart-tourism.css?v=89" />
+  <link rel="stylesheet" href="style.css?v=98" />
+  <link rel="stylesheet" href="smart-tourism.css?v=98" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="map3d-polygon.js?v=89"></script>
+  <script src="map3d-polygon.js?v=98"></script>
   <script src="data-enhancements.js"></script>
-  <script src="smart-tourism.js?v=89"></script>
+  <script src="smart-tourism.js?v=98"></script>
 <style>
-  .hero__slide-title, .hero__slide-desc, .district-card__name, .district-card__number { color: #ffffff !important; }
+  .hero__slide-title, .hero__slide-subtitle, .hero__slide-desc, .editorial-hero-title, .editorial-hero-subtitle, .editorial-hero-desc { color: #ffffff !important; text-shadow: 0px 2px 10px rgba(0,0,0,0.9), 0px 4px 20px rgba(0,0,0,0.7) !important; }
   .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.2), transparent) !important; mix-blend-mode: normal !important; }
 
   :root { color-scheme: light only !important; }
@@ -67,25 +67,25 @@
 <style id="music-btn-style">
 #musicToggleBtn {
   position: fixed;
-  top: 72px;
-  left: 16px;
+  top: 105px;
+  left: 20px;
   z-index: 9999;
-  width: 52px;
-  height: 52px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.5);
   cursor: pointer;
-  background: linear-gradient(135deg, #b5830a, #e8a922);
-  box-shadow: 0 4px 18px rgba(181,131,10,0.45);
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   outline: none;
 }
 #musicToggleBtn:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 24px rgba(181,131,10,0.6);
+  box-shadow: 0 8px 26px rgba(14, 165, 233, 0.65);
 }
 #musicToggleBtn svg {
   width: 24px;
@@ -147,7 +147,7 @@ const PHATTHALUNG_DATA = {
       "title": "เขาอกทะลุ",
       "titleEn": "Khao Ok Thalu",
       "district": "เมืองพัทลุง",
-      "image": "intro2.jpg",
+      "image": "khao-ok-thalu.jpg",
       "description": "เป็นสัญลักษณ์ประจำจังหวัดพัทลุงที่โดดเด่นที่สุด เหมาะสำหรับชมพระอาทิตย์ขึ้นและพระอาทิตย์ตก จุดชมวิวเมืองพัทลุงแบบ 360 องศา",
       "descriptionEn": "It is the most prominent symbol of Phatthalung Province. Perfect for watching the sunrise and sunset. 360 degree view point of Phatthalung city"
     },
@@ -183,7 +183,7 @@ const PHATTHALUNG_DATA = {
       "title": "ภูเขาเจียก",
       "titleEn": "Phu Khao Chiak",
       "district": "เมืองพัทลุง",
-      "image": "",
+      "image": "khao-jeak.jpg",
       "description": "จุดชมวิวเมืองพัทลุงจากมุมสูง เหมาะสำหรับชมพระอาทิตย์ขึ้นและถ่ายรูปวิวเมือง",
       "descriptionEn": "View point of Phatthalung city from a high angle. Suitable for watching the sunrise and taking pictures of the city."
     },
@@ -192,7 +192,7 @@ const PHATTHALUNG_DATA = {
       "title": "หลาดใต้โหนด",
       "titleEn": "Tai Nod Market",
       "district": "ควนขนุน",
-      "image": "",
+      "image": "tai-nod-market.jpg",
       "description": "ตลาดสีเขียวชื่อดังของพัทลุง รวมอาหารพื้นบ้าน งานหัตถกรรม และบรรยากาศชุมชนท้องถิ่น",
       "descriptionEn": "ตลาดสีเขียวชื่อดังของพัทลุง Including local food, handicrafts and the atmosphere of the local community."
     },
@@ -201,7 +201,7 @@ const PHATTHALUNG_DATA = {
       "title": "ควนนกเต้น",
       "titleEn": "Khuan Nok Ten",
       "district": "กงหรา",
-      "image": "",
+      "image": "khuan-nok-ten.jpg",
       "description": "เป็นจุดชมวิวชื่อดังของพัทลุง มองเห็นแนวเทือกเขาบรรทัด และในช่วงเช้าที่มีทะเลหมอกลอยปกคลุมภูเขารอบๆ",
       "descriptionEn": "It is a famous viewpoint of Phatthalung. You can see the Banthat mountain range. And in the morning there is a sea of ​​mist floating over the surrounding mountains."
     }
@@ -7655,7 +7655,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   </script>
 
-<audio id="bgMusic" src="%E0%B8%81%E0%B8%A5%E0%B8%AD%E0%B8%99%E0%B9%82%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%97%E0%B8%A5%E0%B8%B8%E0%B8%87%E0%B8%81%E0%B8%A5%E0%B8%AD%E0%B8%99%E0%B9%82%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%97%E0%B8%A5%E0%B8%B8%E0%B8%87.mp3" loop preload="auto"></audio>
+<audio id="bgMusic" src="%E0%B8%94%E0%B8%99%E0%B8%95%E0%B8%A3%E0%B8%A1%E0%B9%82%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B8%AB%20(%E0%B8%A1%E0%B8%99%E0%B8%95%E0%B8%82%E0%B8%A5%E0%B8%87%E0%B9%81%E0%B8%AB%E0%B8%87%E0%B8%84%E0%B8%A3).mp3" loop preload="auto"></audio>
+<audio id="verseMusic" preload="auto"></audio>
 <button id="musicToggleBtn" class="paused" title="เปิด/ปิดเพลง">
   <div class="music-waves">
     <span></span><span></span><span></span><span></span><span></span>
@@ -7664,10 +7665,16 @@ document.addEventListener('DOMContentLoaded', () => {
 <script>
 (function() {
   const btn = document.getElementById('musicToggleBtn');
-  const audio = document.getElementById('bgMusic');
+  const bgAudio = document.getElementById('bgMusic');
+  const verseAudio = document.getElementById('verseMusic');
+
+  bgAudio.volume = 0.40;
+  verseAudio.volume = 0.90;
+
+  const defaultHomeVerse = "%E0%B8%81%E0%B8%A5%E0%B8%AD%E0%B8%99%E0%B9%82%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B8%AB%E0%B9%8C%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%97%E0%B8%A5%E0%B8%B8%E0%B8%87%E0%B8%81%E0%B8%A5%E0%B8%AD%E0%B8%99%E0%B9%82%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B9%80%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%B1%E0%B8%97%E0%B8%A5%E0%B8%B8%E0%B8%87.mp3";
 
   const districtAudioMap = {
-    "mueang": encodeURI("กลอนโนราห์เมืองพัทลุงกลอนโนราเมืองพัทลุง.mp3"),
+    "mueang": defaultHomeVerse,
     "khuan-khanun": encodeURI("กลอนโนราควนขนุน.mp3"),
     "bang-kaeo": encodeURI("กลอนโนราบางแก้ว.mp3"),
     "pa-phayom": encodeURI("กลอนโนราป่าพะยอม.mp3"),
@@ -7675,21 +7682,26 @@ document.addEventListener('DOMContentLoaded', () => {
     "tamot": encodeURI("กลอนโนราหตะโหมด.mp3"),
     "khao-chaison": encodeURI("กลอนโนราเขาชัยสน.mp3")
   };
-  let currentAudioFile = districtAudioMap["mueang"];
+
+  let currentVerseFile = null;
+
   window.updateMusicForDistrict = function(districtId) {
-    const newFile = districtAudioMap[districtId];
-    if (newFile && newFile !== currentAudioFile) {
-      currentAudioFile = newFile;
-      const audio = document.getElementById('bgMusic');
-      const isPaused = audio.paused;
-      audio.src = newFile;
-      if (!isPaused) {
-        audio.play().catch(()=>{});
+    const verseFile = districtId ? (districtAudioMap[districtId] || defaultHomeVerse) : defaultHomeVerse;
+    if (verseFile !== currentVerseFile) {
+      currentVerseFile = verseFile;
+      if (verseFile) {
+        verseAudio.src = verseFile;
+        verseAudio.currentTime = 0;
+        if (!bgAudio.paused) {
+          verseAudio.play().catch(()=>{});
+        }
+      } else {
+        verseAudio.pause();
+        verseAudio.currentTime = 0;
+        verseAudio.removeAttribute('src');
       }
     }
   };
-
-  audio.volume = 0.5;
 
   function setPlaying() {
     btn.classList.remove('paused');
@@ -7700,17 +7712,18 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.title = 'เปิดเพลง';
   }
 
-  // Try autoplay immediately
-  const playPromise = audio.play();
+  // Try autoplay background music immediately
+  const playPromise = bgAudio.play();
   if (playPromise !== undefined) {
     playPromise.then(() => {
       setPlaying();
+      if (currentVerseFile && verseAudio.src) verseAudio.play().catch(()=>{});
     }).catch(() => {
-      // Blocked by browser - wait for first user interaction
       setPaused();
       const unlock = () => {
-        audio.play().then(() => {
+        bgAudio.play().then(() => {
           setPlaying();
+          if (currentVerseFile && verseAudio.src) verseAudio.play().catch(()=>{});
           document.removeEventListener('click', unlock);
           document.removeEventListener('touchstart', unlock);
           document.removeEventListener('keydown', unlock);
@@ -7724,10 +7737,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btn.addEventListener('click', function(e) {
     e.stopPropagation();
-    if (audio.paused) {
-      audio.play().then(() => setPlaying()).catch(() => {});
+    if (bgAudio.paused) {
+      bgAudio.play().then(() => {
+        setPlaying();
+        if (currentVerseFile && verseAudio.src) verseAudio.play().catch(()=>{});
+      }).catch(() => {});
     } else {
-      audio.pause();
+      bgAudio.pause();
+      verseAudio.pause();
       setPaused();
     }
   });
@@ -7736,6 +7753,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
