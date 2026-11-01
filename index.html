@@ -1,121 +1,23 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<script>window.onerror = function(msg, url, lineNo, columnNo, error) { alert("Error: " + msg + "\nLine: " + lineNo); return false; };</script>
     <meta name="darkreader-lock">
     <meta name="color-scheme" content="light only">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="ท่องเที่ยวพัทลุง — เมืองลุงสาวงาม ถ้ำงามทะเลน้อย มโนราห์ หนังตะลุง" />
-  <meta name="theme-color" content="#0d0e12" />
+  <meta name="theme-color" content="#f8fafc" />
   <title>พัทลุง — Tourism Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Mali:ital,wght@0,300;0,400;0,500;0,600,700;1,300;1,400&family=Prompt:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=98" />
-  <link rel="stylesheet" href="smart-tourism.css?v=98" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="map3d-polygon.js?v=98"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=101" />
+  <link rel="stylesheet" href="smart-tourism.css?v=101" />
+  <!-- Pixel-art district map (replaces the former Three.js 3D map) -->
+  <script src="pixel-map.js?v=101"></script>
   <script src="data-enhancements.js"></script>
-  <script src="smart-tourism.js?v=98"></script>
-<style>
-  .hero__slide-title, .hero__slide-subtitle, .hero__slide-desc, .editorial-hero-title, .editorial-hero-subtitle, .editorial-hero-desc { color: #ffffff !important; text-shadow: 0px 2px 10px rgba(0,0,0,0.9), 0px 4px 20px rgba(0,0,0,0.7) !important; }
-  .hero__slide-overlay { background: linear-gradient(to top, rgba(0,0,0,0.2), transparent) !important; mix-blend-mode: normal !important; }
-
-  :root { color-scheme: light only !important; }
-  html { color-scheme: light only !important; }
-  html, body, #app, .section, .travel-dashboard__body, .map-hero-fullscreen {
-    background-color: #f8fafc !important;
-    background-image: none !important;
-  }
-  .smart-panel, .ai-chat-window, .dash-header, .dash-panel {
-    background-color: #ffffff !important;
-  }
-  .hero__slide {
-    background-color: #f8fafc !important;
-  }
-</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-
-<style id="lang-btn-style">
-.lang-toggle-btn {
-  margin-left: auto;
-  padding: 6px 16px;
-  border: 1.5px solid var(--c-gold);
-  border-radius: 20px;
-  background: transparent;
-  color: var(--c-gold);
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: background 0.25s, color 0.25s;
-  flex-shrink: 0;
-}
-.lang-toggle-btn:hover {
-  background: var(--c-gold);
-  color: #000;
-}
-.nav__inner {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-</style>
-
-<style id="music-btn-style">
-#musicToggleBtn {
-  position: fixed;
-  top: 105px;
-  left: 20px;
-  z-index: 9999;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  cursor: pointer;
-  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
-  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  outline: none;
-}
-#musicToggleBtn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 26px rgba(14, 165, 233, 0.65);
-}
-#musicToggleBtn svg {
-  width: 24px;
-  height: 24px;
-  fill: #fff;
-}
-#musicToggleBtn .music-waves {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 20px;
-}
-#musicToggleBtn .music-waves span {
-  display: block;
-  width: 4px;
-  background: #fff;
-  border-radius: 2px;
-  animation: wave 0.8s ease-in-out infinite alternate;
-}
-#musicToggleBtn .music-waves span:nth-child(1) { height: 8px; animation-delay: 0s; }
-#musicToggleBtn .music-waves span:nth-child(2) { height: 16px; animation-delay: 0.15s; }
-#musicToggleBtn .music-waves span:nth-child(3) { height: 12px; animation-delay: 0.3s; }
-#musicToggleBtn .music-waves span:nth-child(4) { height: 20px; animation-delay: 0.45s; }
-#musicToggleBtn .music-waves span:nth-child(5) { height: 10px; animation-delay: 0.6s; }
-#musicToggleBtn.paused .music-waves span { animation: none; height: 6px; }
-@keyframes wave {
-  from { transform: scaleY(0.4); }
-  to   { transform: scaleY(1); }
-}
-</style>
+  <script src="smart-tourism.js?v=101"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha384-fXdIufVbE9aU7STmdk/DWK0imNOozId9fTwzM/gi0NfPjphEIC3gq0M760UnsKVy" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="noise-overlay"></div>
@@ -6589,6 +6491,9 @@ window.IntroPosters = {
         const btn = entry.target.querySelector('.intro-poster-btn');
         if (!img) return;
 
+        // Full-bleed hero poster: keep it painted immediately (LCP), no blur intro.
+        if (img.dataset.fit === 'cover') return;
+
         const isVisible = entry.isIntersecting;
         const currentState = stateMap.get(entry.target);
 
@@ -6645,16 +6550,17 @@ window.IntroPosters = {
     containers.forEach(el => {
       const img = el.querySelector('.intro-poster-img');
       const btn = el.querySelector('.intro-poster-btn');
-      if (img) { 
-        img.style.opacity = '0'; 
+      const isCover = img && img.dataset.fit === 'cover';
+      if (img && !isCover) {
+        img.style.opacity = '0';
         img.style.transform = 'scale(1.1)';
         img.style.filter = 'blur(15px)';
         // Revert to contain so the poster is fully visible
         img.style.objectFit = 'contain';
       }
-      if (btn) { 
-        btn.style.opacity = '0'; 
-        btn.style.transform = 'translateY(40px)'; 
+      if (btn && !isCover) {
+        btn.style.opacity = '0';
+        btn.style.transform = 'translateY(40px)';
       }
       observer.observe(el);
     });
@@ -6669,12 +6575,15 @@ const Lang = {
   dict: {
     th: {
       nav_home:'หน้าแรก', nav_logo_sub:'จากเมืองรองสู่เมืองต้องลอง', lang_btn:'EN',
+      intro_cta_plan:'เริ่มวางแผน', intro_cta_explore:'สำรวจอำเภอ',
+      hero_prev:'สไลด์ก่อนหน้า', hero_next:'สไลด์ถัดไป',
+      hero_slide_label:'ภาพแนะนำจังหวัดพัทลุง', map_click_hint:'คลิกเพื่อสำรวจ →',
       transition_title:'เริ่มต้นการเดินทาง',
       transition_desc:'ค้นพบความสวยงามของพัทลุง เมืองแห่งวิถีชีวิตและวัฒนธรรมที่รอให้คุณมาสัมผัสด้วยตัวเอง',
       map_eyebrow:'สำรวจ 11 อำเภอ', map_t1:'แผนที่', map_t2:'พัทลุง',
-      map_desc:'ลากเพื่อหมุนมุมมอง · คลิกอำเภอเพื่อเปิดแผงสำรวจ',
-      map_drag:'ลากเพื่อหมุน · คลิกอำเภอเพื่อสำรวจ',
-      map_hint:'คลิกเพื่อสำรวจ →', map_loading:'กำลังโหลดแผนที่…',
+      map_desc:'แผนที่ pixel ทั้งจังหวัด — แตะหมุดอำเภอเพื่อดูจุดเด่นและสถานที่สำคัญ', map_group_label:'เลือกอำเภอ',
+      map_drag:'แตะจุดบนแผนที่เพื่อดูจุดเด่นของแต่ละอำเภอ',
+      map_hint:'คลิกเพื่อสำรวจ →', map_loading:'กำลังวาดแผนที่…',
       grid_eyebrow:'11 อำเภอ', grid_t1:'สำรวจ', grid_t2:'พัทลุง',
       grid_desc:'เลือกอำเภอเพื่อค้นหาสถานที่ท่องเที่ยว ที่พัก ร้านอาหาร และกิจกรรมในพื้นที่',
       dist_tag:'อำเภอพัทลุง', hist_eyebrow:'ประวัติและที่มา',
@@ -6688,12 +6597,15 @@ const Lang = {
     },
     en: {
       nav_home:'Home', nav_logo_sub:'From Hidden Gem to Must-Visit', lang_btn:'TH',
+      intro_cta_plan:'Plan my trip', intro_cta_explore:'Explore districts',
+      hero_prev:'Previous slide', hero_next:'Next slide',
+      hero_slide_label:'Phatthalung highlights', map_click_hint:'Click to explore →',
       transition_title:'Start Your Journey',
       transition_desc:'Discover the beauty of Phatthalung — a city of culture, tradition, and breathtaking landscapes waiting to be explored.',
       map_eyebrow:'Explore 11 Districts', map_t1:'Map of', map_t2:'Phatthalung',
-      map_desc:'Drag to rotate · Click a district to explore',
-      map_drag:'Drag to rotate · Click a district to explore',
-      map_hint:'Click to explore →', map_loading:'Loading map…',
+      map_desc:'A pixel map of the whole province — tap a district pin for its highlights', map_group_label:'Choose a district',
+      map_drag:'Tap a pin on the map to explore each district',
+      map_hint:'Click to explore →', map_loading:'Drawing the map…',
       grid_eyebrow:'11 Districts', grid_t1:'Explore', grid_t2:'Phatthalung',
       grid_desc:'Choose a district to find attractions, accommodations, restaurants and local activities.',
       dist_tag:'Phatthalung District', hist_eyebrow:'History & Origin',
@@ -6713,6 +6625,7 @@ const Lang = {
     try{ localStorage.setItem('nola_lang',this.current); }catch(e){}
     document.documentElement.lang = this.current;
     App.render();
+    if (window.SmartTourism && SmartTourism.onLocaleChange) SmartTourism.onLocaleChange();
   }
 };
 function t(k){ return Lang.t(k); }
@@ -6749,6 +6662,9 @@ const App = {
       console.error('[App] #app container not found');
       return;
     }
+
+    // Make the document language reflect the stored preference on first load
+    document.documentElement.lang = Lang.current;
 
     // Handle back/forward
     window.addEventListener('popstate', (e) => {
@@ -6802,9 +6718,10 @@ const App = {
       if (window.IntroPosters) IntroPosters.init();
       Carousel.init();
       MagneticCards.init();
-      if (window.Map3D) window.Map3D.init();
+      // Pixel district map: inline SVG, no external bundle to wait for
+      if (window.PixelMap) window.PixelMap.init();
     } else {
-      if (window.Map3D) window.Map3D.destroy();
+      if (window.PixelMap) window.PixelMap.destroy();
     }
   },
 };
@@ -6816,20 +6733,21 @@ const Views = {
    * Hero carousel + District grid
    */
   home() {
+    const isEn = Lang.is('en');
     const slides = PHATTHALUNG_DATA.heroSlides.map((s, i) => `
       <div class="hero__slide ${i === 0 ? 'active' : ''}" data-slide="${i}">
         <img
           class="hero__slide-img"
           src="${s.image}"
-          alt="${s.titleEn}"
+          alt="${isEn ? s.titleEn : s.title}"
           loading="${i === 0 ? 'eager' : 'lazy'}"
         / onerror="handleImgError(this)">
         <div class="hero__slide-overlay"></div>
         <div class="hero__slide-content editorial-hero-content">
           <div class="editorial-hero-tag">${s.district}</div>
-          <h1 class="editorial-hero-title">${s.titleEn}</h1>
-          <h2 class="editorial-hero-subtitle">${s.title}</h2>
-          <p class="editorial-hero-desc">${s.description}</p>
+          <h1 class="editorial-hero-title">${isEn ? s.titleEn : s.title}</h1>
+          <h2 class="editorial-hero-subtitle">${isEn ? s.title : s.titleEn}</h2>
+          <p class="editorial-hero-desc">${isEn ? s.descriptionEn : s.description}</p>
         </div>
       </div>
     `).join('');
@@ -6874,27 +6792,33 @@ const Views = {
         ${_navHTML('home')}
 
         
-                <!-- INTRO POSTERS -->
-        <section class="intro-posters" id="introPosters" style="width: 100%; display: flex; flex-direction: column; background: #fff;">
-          <div class="intro-poster-container" style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden;">
-            <img class="intro-poster-img" src="intro2.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="Welcome to Phatthalung"  onerror="handleImgError(this)"/>
-            <div class="intro-poster-btn" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; cursor: pointer;" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
-              <div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 8px 24px; border-radius: 20px; animation: bounce 2s infinite;">&#9660;</div>
-            </div>
-          </div>
-          <div class="intro-poster-container" style="width: 100%; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; background: #fff; overflow: hidden;">
-            <img class="intro-poster-img" src="intro0.jpg" style="width: 100%; height: 100%; object-fit: contain; object-position: center;" alt="NoraTalung Poster"  onerror="handleImgError(this)"/>
-            <div class="intro-poster-btn" style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 10; color: #333; text-align: center; font-family: var(--font-body); font-size: 1rem; cursor: pointer;" onclick="document.getElementById('introTransition').scrollIntoView({behavior: 'smooth'})">
-              <div style="background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 8px 24px; border-radius: 20px; animation: bounce 2s infinite;">&#9660;</div>
+                <!-- INTRO / FIRST IMPRESSION -->
+        <section class="intro-posters" id="introPosters">
+          <div class="intro-poster-container intro-poster--hero">
+            <img class="intro-poster-img" data-fit="cover" src="intro2.jpg" alt="NoraTalung — Phatthalung" loading="eager" fetchpriority="high" onerror="handleImgError(this)">
+            <div class="intro-hero__shade" aria-hidden="true"></div>
+            <div class="intro-hero__body">
+              <div class="intro-hero__ctas">
+                <button type="button" class="btn-primary" data-intro-action="plan">${t('intro_cta_plan')}</button>
+                <button type="button" class="btn-ghost" data-intro-action="explore">${t('intro_cta_explore')}</button>
+              </div>
+              <div class="intro-poster-btn" aria-hidden="true">
+                <span class="intro-scroll-cue">&#9660;</span>
+              </div>
             </div>
           </div>
         </section>
 
-        <!-- TRANSITION DIVIDER -->
-        <section id="introTransition" class="intro-transition reveal" style="background: var(--c-midnight); padding: 8rem 2rem 6rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-          <h2 style="font-family: var(--font-thai); font-size: clamp(2.5rem, 6vw, 4rem); color: var(--c-gold); margin-bottom: 1rem; font-weight: 700;">${t('transition_title')}</h2>
-          <p style="font-family: var(--font-body); color: var(--t-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto 4rem; line-height: 1.6;">${t('transition_desc')}</p>
-          <div style="width: 2px; height: 100px; background: linear-gradient(to bottom, var(--c-gold), transparent); margin: 0 auto;"></div>
+        <!-- STORY / TRANSITION -->
+        <section id="introTransition" class="intro-transition intro-story reveal">
+          <div class="intro-story__media">
+            <img class="intro-poster-img" data-fit="cover" src="intro0.jpg" alt="NoraTalung key visual" loading="lazy" onerror="handleImgError(this)">
+          </div>
+          <div class="intro-story__copy">
+            <h2>${t('transition_title')}</h2>
+            <p>${t('transition_desc')}</p>
+            <div class="intro-transition__divider"></div>
+          </div>
         </section>
 
         <!-- HERO CAROUSEL -->
@@ -6903,11 +6827,14 @@ const Views = {
             ${slides}
           </div>
 
-          
-          
+          <button type="button" class="hero__nav hero__nav--prev" id="heroPrev" aria-label="${t('hero_prev')}">‹</button>
+          <button type="button" class="hero__nav hero__nav--next" id="heroNext" aria-label="${t('hero_next')}">›</button>
 
-          <div class="hero__dots" id="heroDots" role="tablist">
-            ${dots}
+          <div class="hero__meta">
+            <div class="hero__dots" id="heroDots" role="tablist">
+              ${dots}
+            </div>
+            <div class="hero__counter" id="heroCounter" aria-live="polite">1 / ${PHATTHALUNG_DATA.heroSlides.length}</div>
           </div>
 
           <div class="hero__scroll-hint" aria-hidden="true">
@@ -6916,23 +6843,17 @@ const Views = {
           </div>
         </section>
 
-        <!-- 3D MAP -->
-        <section class="map-hero-fullscreen" id="districts">
-          <canvas id="map3dCanvas" style="display: block; width: 100%; height: 100%; outline: none;"></canvas>
-          <div id="webglLoading" class="webgl-loading">${t('map_loading')}</div>
-          <div class="map-hero-fullscreen__header">
-            <span class="section__eyebrow">${t('map_eyebrow')}</span>
-            <h2 class="section__title">${t('map_t1')}<span>${t('map_t2')}</span></h2>
-            <div class="divider-gold"><div class="divider-gold__diamond"></div></div>
-            <p class="section__desc">${t('map_desc')}</p>
-          </div>
-          <div class="district-hover-card glass-strong" id="districtHoverCard">
-            <div class="district-hover-card__name" id="districtHoverName"></div>
-            <div class="district-hover-card__hint">${t('map_click_hint')}</div>
-          </div>
-          <div class="webgl-instruction glass">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
-            ${t('map_drag')}
+        <!-- PIXEL DISTRICT MAP -->
+        <section class="map-pixel-section" id="districts" aria-labelledby="pixelMapTitle">
+          <div class="map-pixel-section__inner">
+            <div class="map-pixel-header">
+              <span class="section__eyebrow">${t('map_eyebrow')}</span>
+              <h2 class="section__title" id="pixelMapTitle">${t('map_t1')}<span>${t('map_t2')}</span></h2>
+              <div class="divider-gold"><div class="divider-gold__diamond"></div></div>
+              <p class="section__desc">${t('map_desc')}</p>
+            </div>
+            <div class="pixel-map is-visible" id="pixelMap" role="group" aria-label="${t('map_group_label')}"></div>
+            <p class="map-pixel-hint">${t('map_drag')}</p>
           </div>
         </section>
 
@@ -6967,7 +6888,7 @@ const Views = {
 
     if (!district) {
       return `<div class="page">${_navHTML('district')}
-        <div style="padding:8rem 2rem;text-align:center;color:var(--t-muted);">
+        <div class="empty-state">
           ${Lang.is('en') ? 'District not found' : 'ไม่พบข้อมูลอำเภอนี้'}
         </div>
       </div>`;
@@ -6984,12 +6905,11 @@ const Views = {
           aria-label="${Lang.is('en') ? 'View ' : 'ดู'}${Lang.is('en') && cat.nameEn ? cat.nameEn : cat.name}"
           data-district="${districtId}"
           data-category="${cat.id}"
-          style="padding: var(--sp-4xl) var(--sp-xl); justify-content: center; min-height: 250px;"
         >
-          <img src="${cat.image}" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(0.3) saturate(0.8); z-index:0; transition: filter 0.4s var(--ease-smooth);" onmouseover="this.style.filter='brightness(0.5) saturate(1)'" onmouseout="this.style.filter='brightness(0.3) saturate(0.8)'" / onerror="handleImgError(this)">
-          <h3 class="category-card__name" style="position:relative; z-index:1; font-size: 1.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">${cat.name}</h3>
-          <p class="category-card__name-en" style="position:relative; z-index:1; font-size: 1rem; color: var(--c-gold-light);">${cat.nameEn}</p>
-          <p class="category-card__desc" style="position:relative; z-index:1; text-shadow: 0 1px 2px rgba(0,0,0,0.2);">${cat.description}</p>
+          <img src="${cat.image}" alt="" loading="lazy" class="category-card__bg" onerror="handleImgError(this)">
+          <h3 class="category-card__name">${Lang.is('en') && cat.nameEn ? cat.nameEn : cat.name}</h3>
+          <p class="category-card__name-en">${Lang.is('en') ? cat.name : (cat.nameEn || '')}</p>
+          <p class="category-card__desc">${Lang.is('en') && cat.descriptionEn ? cat.descriptionEn : cat.description}</p>
         </article>
       `;
     }).join('');
@@ -7104,14 +7024,14 @@ img.img-error {
   inset: 0;
 }
 </style>
-          ${district.id === 'mueang' ? '<img src="nora-character.png" alt="Nora Character" class="nora-history-char mueang" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'bang-kaeo' ? '<img src="nora-character-bang-kaeo.png" alt="Nora Character" class="nora-history-char bang-kaeo" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'pa-bon' ? '<img src="nora-character-pa-bon.png" alt="Nora Character" class="nora-history-char pa-bon" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'tamot' ? '<img src="nora-character-tamot.png" alt="Nora Character" class="nora-history-char tamot" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'kong-ra' ? '<img src="nora-character-kong-ra.png" alt="Nora Character" class="nora-history-char kong-ra" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'srinagarindra' ? '<img src="nora-character-srinagarindra.png" alt="Nora Character" class="nora-history-char srinagarindra" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'khao-chaison' ? '<img src="nora-character-khao-chaison.png" alt="Nora Character" class="nora-history-char khao-chaison" onerror="handleImgError(this)">' : ''}
-          ${district.id === 'si-banphot' ? '<img src="nora-character-si-banphot.png" alt="Nora Character" class="nora-history-char si-banphot" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'mueang' ? '<img src="nora-character.png" alt="Nora Character" class="nora-history-char mueang" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'bang-kaeo' ? '<img src="nora-character-bang-kaeo.png" alt="Nora Character" class="nora-history-char bang-kaeo" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'pa-bon' ? '<img src="nora-character-pa-bon.png" alt="Nora Character" class="nora-history-char pa-bon" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'tamot' ? '<img src="nora-character-tamot.png" alt="Nora Character" class="nora-history-char tamot" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'kong-ra' ? '<img src="nora-character-kong-ra.png" alt="Nora Character" class="nora-history-char kong-ra" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'srinagarindra' ? '<img src="nora-character-srinagarindra.png" alt="Nora Character" class="nora-history-char srinagarindra" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'khao-chaison' ? '<img src="nora-character-khao-chaison.png" alt="Nora Character" class="nora-history-char khao-chaison" loading="lazy" onerror="handleImgError(this)">' : ''}
+          ${district.id === 'si-banphot' ? '<img src="nora-character-si-banphot.png" alt="Nora Character" class="nora-history-char si-banphot" loading="lazy" onerror="handleImgError(this)">' : ''}
         </section>
 
         <!-- CATEGORIES -->
@@ -7146,28 +7066,42 @@ img.img-error {
 
     if (!district || !cat) {
       return `<div class="page">${_navHTML('category')}
-        <div style="padding:8rem 2rem;text-align:center;color:var(--t-muted);">
+        <div class="empty-state">
           ${Lang.is('en') ? 'No data found' : 'ไม่พบข้อมูล'}
         </div>
       </div>`;
     }
 
-    const places = PHATTHALUNG_DATA.getPlaces(districtId, categoryId);
+    const rawPlaces = PHATTHALUNG_DATA.getPlaces(districtId, categoryId);
+    const places = rawPlaces.filter((p) => {
+      if (p && p.id != null && p.name) return true;
+      console.warn('[data] skipped incomplete place record', districtId, categoryId, p);
+      return false;
+    });
 
     const placeCards = places.length > 0
       ? places.map((place, i) => {
-          const tall = i % 3 === 0;
+          const label = Lang.is('en') && place.nameEn ? place.nameEn : place.name;
+          const thumb = place.image
+            ? `<img class="place-card__img" src="${place.image}" alt="${label}" loading="lazy" onerror="handleImgError(this)">`
+            : `<div class="place-card__img-empty" style="--district-color:${district.color || '#0ea5e9'}" aria-hidden="true">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 9l9-6 9 6v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21V12h6v9"/></svg>
+                 <span>${cat.name}</span>
+               </div>`;
           return `
             <article class="place-card reveal reveal--delay-${(i % 3) + 1}"
+                     role="button"
+                     tabindex="0"
+                     aria-label="${label}"
                      onclick="Router.navigate('place', '${districtId}', '${categoryId}', ${place.id})"
-                     title="คลิกเพื่อดูรายละเอียด ${Lang.is('en') && place.nameEn ? place.nameEn : place.name}">
-              <div class="place-card__img-wrap" style="aspect-ratio: ${tall ? '3/4' : '4/3'};">
-                <img class="place-card__img" src="${place.image}" alt="${Lang.is('en') && place.nameEn ? place.nameEn : place.name}" loading="lazy" / onerror="handleImgError(this)">
+                     title="${Lang.is('en') ? 'Open details: ' : 'คลิกเพื่อดูรายละเอียด '}${label}">
+              <div class="place-card__img-wrap">
+                ${thumb}
                 <span class="place-card__tag">${Lang.is('en') && district.nameEn ? district.nameEn : district.name}</span>
               </div>
               <div class="place-card__body">
                 <div class="place-card__top">
-                  <h3 class="place-card__name">${Lang.is('en') && place.nameEn ? place.nameEn : place.name}</h3>
+                  <h3 class="place-card__name">${label}</h3>
                   <span class="place-card__price">${place.price}</span>
                 </div>
                 <p class="place-card__desc">${place.description ? place.description.slice(0, 90) + '…' : ''}</p>
@@ -7232,15 +7166,23 @@ img.img-error {
 
     if (!district || !cat || !place) {
       return `<div class="page">${_navHTML('home')}
-        <div style="padding:8rem 2rem;text-align:center;color:var(--t-muted);">
+        <div class="empty-state">
           ${Lang.is('en') ? 'No data found' : 'ไม่พบข้อมูล'}สถานที่
         </div>
       </div>`;
     }
 
     const stars = _renderStars(place.rating);
-    const phoneNum = "08" + Math.floor(Math.random() * 9000000 + 1000000);
-    const mockFb = `facebook.com/${place.nameEn ? place.nameEn.replace(/\s+/g, '') : 'Phatthalung'}`;
+
+    // Contact details are optional and must come from real data only.
+    const contactPhone = place.contactPhone ? String(place.contactPhone).trim() : '';
+    const contactUrl = place.contactUrl ? String(place.contactUrl).trim() : '';
+    const contactHTML = (contactPhone || contactUrl) ? `
+              <div class="place-info-item">
+                <div class="place-info-item__label">${t('place_cnt')}</div>
+                ${contactPhone ? `<a href="tel:${contactPhone.replace(/[^0-9+]/g, '')}" class="place-info-item__link">${contactPhone}</a>` : ''}
+                ${contactUrl ? `<a href="${contactUrl}" target="_blank" rel="noopener" class="place-info-item__link place-info-item__link--muted">${contactUrl.replace(/^https?:\/\//, '')}</a>` : ''}
+              </div>` : '';
 
     return `
       <div class="page">
@@ -7248,7 +7190,9 @@ img.img-error {
 
         <header class="place-hero">
           <div class="place-hero__bg">
-            <img src="${place.image}" alt="${Lang.is('en') && place.nameEn ? place.nameEn : place.name}" loading="eager" / onerror="handleImgError(this)">
+            ${place.image
+              ? `<img src="${place.image}" alt="${Lang.is('en') && place.nameEn ? place.nameEn : place.name}" loading="eager" onerror="handleImgError(this)">`
+              : `<div class="place-hero__placeholder" style="--district-color:${district.color || '#0ea5e9'}" aria-hidden="true"></div>`}
             <div class="place-hero__overlay"></div>
           </div>
           <div class="place-hero__inner">
@@ -7258,9 +7202,9 @@ img.img-error {
               ${place.nameEn ? `<span class="place-hero__title-en">${place.nameEn}</span>` : ''}
             </h1>
             <div class="place-hero__stats">
-              <span>RATING: <strong style="color:var(--c-gold)">${place.rating}/5.0</strong></span>
-              <span style="width:1px;height:1rem;background:var(--c-border)"></span>
-              <span>PRICE: <strong style="color:var(--c-gold)">${place.price}</strong></span>
+              <span>RATING: <strong style="color:#ffffff">${place.rating}/5.0</strong></span>
+              <span style="width:1px;height:1rem;background:rgba(255,255,255,.35)"></span>
+              <span>PRICE: <strong style="color:#ffffff">${place.price}</strong></span>
             </div>
           </div>
         </header>
@@ -7292,11 +7236,7 @@ img.img-error {
                 <div class="place-info-item__label">${t('place_hrs')}</div>
                 <div class="place-info-item__value">${place.hours}</div>
               </div>
-              <div class="place-info-item">
-                <div class="place-info-item__label">${t('place_cnt')}</div>
-                <a href="tel:${phoneNum}" class="place-info-item__link">${phoneNum}</a>
-                <a href="https://${mockFb}" target="_blank" rel="noopener" class="place-info-item__link place-info-item__link--muted">${mockFb}</a>
-              </div>
+              ${contactHTML}
             </aside>
           </div>
         </section>
@@ -7380,7 +7320,16 @@ function _navHTML(view, district = null, category = null, place = null) {
           <span class="nav__logo-en">${t('nav_logo_sub')}</span>
         </a>
         ${breadcrumb}
-        <button class="lang-toggle-btn" onclick="Lang.toggle()" title="Switch Language">${t('lang_btn')}</button>
+        ${view !== 'home' ? `
+        <button
+          class="nav__home-mobile"
+          onclick="Router.navigate('home')"
+          aria-label="${t('nav_home')}"
+          title="${t('nav_home')}"
+        >
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+        </button>` : ''}
+        <button class="lang-toggle-btn" onclick="Lang.toggle()" title="Switch Language" aria-label="Switch Language">${t('lang_btn')}</button>
       </div>
     </nav>
   `;
@@ -7456,6 +7405,8 @@ const Carousel = {
     this.dots = document.querySelectorAll('.hero__dot');
     this.total = this.slides.length;
     if (!this.total) return;
+    this.current = 0;
+    this._updateCounter();
 
     // Bind nav buttons
     const prev = document.getElementById('heroPrev');
@@ -7475,6 +7426,11 @@ const Carousel = {
     this._startTimer();
   },
 
+  _updateCounter() {
+    const el = document.getElementById('heroCounter');
+    if (el) el.textContent = `${this.current + 1} / ${this.total}`;
+  },
+
   goTo(index) {
     // Deactivate current
     this.slides[this.current]?.classList.remove('active');
@@ -7485,6 +7441,7 @@ const Carousel = {
     // Activate new
     this.slides[this.current]?.classList.add('active');
     this.dots[this.current]?.classList.add('active');
+    this._updateCounter();
   },
 
   next() {
@@ -7594,6 +7551,20 @@ const ScrollReveal = {
 
 /* ─── Event Delegation ────────────────────────────────────────────── */
 document.addEventListener('click', (e) => {
+  // Intro CTAs (plan / explore)
+  const introCta = e.target.closest('[data-intro-action]');
+  if (introCta) {
+    e.preventDefault();
+    const action = introCta.dataset.introAction;
+    if (action === 'plan') {
+      if (window.SmartTourism) window.SmartTourism.TripPlanner.open();
+    } else if (action === 'explore') {
+      const target = document.getElementById('districts') || document.getElementById('districtGrid');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    return;
+  }
+
   // District card click
   const districtCard = e.target.closest('[data-district]');
   const categoryCard = e.target.closest('[data-category]');
@@ -7621,8 +7592,12 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' || e.key === ' ') {
     const districtCard = e.target.closest('[data-district]');
     const categoryCard = e.target.closest('[data-category]');
+    const placeCard = e.target.closest('.place-card');
 
-    if (categoryCard && districtCard) {
+    if (placeCard) {
+      e.preventDefault();
+      placeCard.click();
+    } else if (categoryCard && districtCard) {
       e.preventDefault();
       const districtId = districtCard.dataset.district;
       const categoryId = categoryCard.dataset.category;
@@ -7644,21 +7619,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.SmartTourism) SmartTourism.init();
 });
 </script>
-  <!-- Mouse tracking for hover card -->
-  <script>
-    document.addEventListener('mousemove', function(e) {
-      const card = document.getElementById('districtHoverCard');
-      if (card && card.classList.contains('visible')) {
-        card.style.left = e.clientX + 'px';
-        card.style.top = e.clientY + 'px';
-      }
-    });
-  </script>
 
 <audio id="bgMusic" src="%E0%B8%94%E0%B8%99%E0%B8%95%E0%B8%A3%E0%B8%A1%E0%B9%82%E0%B8%99%E0%B8%A3%E0%B8%B2%E0%B8%AB%20(%E0%B8%A1%E0%B8%99%E0%B8%95%E0%B8%82%E0%B8%A5%E0%B8%87%E0%B9%81%E0%B8%AB%E0%B8%87%E0%B8%84%E0%B8%A3).mp3" loop preload="auto"></audio>
 <audio id="verseMusic" preload="auto"></audio>
-<button id="musicToggleBtn" class="paused" title="เปิด/ปิดเพลง">
-  <div class="music-waves">
+<button id="musicToggleBtn" class="paused" aria-label="เปิด/ปิดเสียงเพลง" aria-pressed="false" title="เปิด/ปิดเพลง">
+  <div class="music-waves" aria-hidden="true">
     <span></span><span></span><span></span><span></span><span></span>
   </div>
 </button>
@@ -7705,10 +7670,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function setPlaying() {
     btn.classList.remove('paused');
+    btn.setAttribute('aria-pressed', 'true');
     btn.title = 'ปิดเพลง';
   }
   function setPaused() {
     btn.classList.add('paused');
+    btn.setAttribute('aria-pressed', 'false');
     btn.title = 'เปิดเพลง';
   }
 

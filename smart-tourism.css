@@ -2,11 +2,24 @@
  * Smart Tourism — AI Assistant, Route Planner, Map District Panel
  * ═══════════════════════════════════════════════════════════════════ */
 
+/* ─── Bottom-right action stack ──────────────────────────────────────
+ * One stack owns the corner: FAB sits above the fixed music button.
+ * Keep these values in sync with #musicToggleBtn in style.css.
+ * --action-edge  : distance from viewport edge (matches music button)
+ * --music-size   : music button diameter
+ * --action-gap   : vertical breathing room between the two controls
+ * ------------------------------------------------------------------ */
+:root {
+  --action-edge: 24px;
+  --music-size: 54px;
+  --action-gap: 16px;
+}
+
 /* ─── FAB Launcher ───────────────────────────────────────────────── */
 .smart-fab-group {
   position: fixed;
-  bottom: 1.75rem;
-  right: 1.75rem;
+  bottom: calc(var(--action-edge) + var(--music-size) + var(--action-gap));
+  right: var(--action-edge);
   z-index: 120;
   display: flex;
   flex-direction: column;
@@ -112,7 +125,7 @@
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 700;
-  color: var(--c-cream);
+  color: var(--t-primary);
   line-height: 1.2;
 }
 
@@ -149,135 +162,6 @@
   padding: var(--sp-lg) var(--sp-xl);
 }
 
-/* ─── AI Chat ────────────────────────────────────────────────────── */
-.ai-chat {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-md);
-  min-height: 100%;
-}
-
-.ai-chat__messages {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-md);
-  padding-bottom: var(--sp-md);
-}
-
-.ai-msg {
-  max-width: 92%;
-  animation: slideUp 0.45s var(--ease-smooth);
-}
-
-.ai-msg--user {
-  align-self: flex-end;
-}
-
-.ai-msg--bot {
-  align-self: flex-start;
-}
-
-.ai-msg__bubble {
-  padding: 0.85rem 1.1rem;
-  border-radius: var(--r-lg);
-  font-family: var(--font-thai);
-  font-size: 0.95rem;
-  line-height: 1.65;
-}
-
-.ai-msg--user .ai-msg__bubble {
-  background: linear-gradient(135deg, rgba(14, 165, 233, 0.25), rgba(14, 165, 233, 0.12));
-  border: 1px solid rgba(14, 165, 233, 0.35);
-  color: var(--c-cream);
-  border-bottom-right-radius: 4px;
-}
-
-.ai-msg--bot .ai-msg__bubble {
-  background: var(--c-surface-2);
-  border: 1px solid var(--c-border);
-  color: var(--t-secondary);
-  border-bottom-left-radius: 4px;
-}
-
-.ai-msg__label {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--c-gold);
-  margin-bottom: 0.35rem;
-  font-family: var(--font-body);
-}
-
-.ai-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  padding: var(--sp-sm) 0;
-}
-
-.ai-chip {
-  padding: 0.45rem 0.85rem;
-  border-radius: var(--r-full);
-  border: 1px solid rgba(14, 165, 233, 0.3);
-  background: rgba(14, 165, 233, 0.06);
-  color: var(--c-gold-pale);
-  font-family: var(--font-thai);
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition: all 0.25s var(--ease-smooth);
-}
-
-.ai-chip:hover {
-  background: var(--c-gold);
-  color: var(--c-midnight);
-  border-color: var(--c-gold);
-}
-
-.ai-chat__input-row {
-  display: flex;
-  gap: 0.5rem;
-  padding-top: var(--sp-md);
-  border-top: 1px solid rgba(14, 165, 233, 0.08);
-  flex-shrink: 0;
-}
-
-.ai-chat__input {
-  flex: 1;
-  padding: 0.85rem 1rem;
-  border-radius: var(--r-md);
-  border: 1px solid var(--c-border);
-  background: var(--c-surface);
-  color: var(--t-primary);
-  font-family: var(--font-thai);
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.25s;
-}
-
-.ai-chat__input:focus {
-  border-color: rgba(14, 165, 233, 0.5);
-}
-
-.ai-chat__send {
-  padding: 0 1.1rem;
-  border-radius: var(--r-md);
-  border: none;
-  background: var(--c-gold);
-  color: var(--c-midnight);
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.25s;
-}
-
-.ai-chat__send:hover {
-  background: var(--c-gold-light);
-}
-
-.ai-chat__send:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
 
 /* AI thinking loader */
 .ai-thinking {
@@ -406,7 +290,7 @@
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--c-cream);
+  color: var(--t-primary);
   letter-spacing: 0.05em;
 }
 
@@ -454,7 +338,7 @@
   font-family: var(--font-thai);
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--c-cream);
+  color: var(--t-primary);
   margin: 0.15rem 0;
 }
 
@@ -510,7 +394,7 @@
 .planner-day-btn:hover {
   border-color: var(--c-gold);
   background: rgba(14, 165, 233, 0.1);
-  color: var(--c-cream);
+  color: var(--t-primary);
 }
 
 .planner-theme-grid {
@@ -573,7 +457,7 @@
   font-family: var(--font-thai);
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--c-cream);
+  color: var(--t-primary);
   line-height: 1.15;
 }
 
@@ -634,7 +518,7 @@
   font-family: var(--font-thai);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--c-cream);
+  color: var(--t-primary);
 }
 
 .map-district-mini__rating {
@@ -661,8 +545,8 @@
 }
 
   .smart-fab-group {
-    bottom: 1rem;
-    right: 1rem;
+    bottom: calc(var(--action-edge) + var(--music-size) + var(--action-gap));
+    right: var(--action-edge);
   }
 
   .smart-fab__label {
@@ -697,11 +581,19 @@
 @media (prefers-reduced-motion: reduce) {
   .smart-panel,
   .map-district-panel,
-  .ai-msg,
   .route-stop,
   .travel-dashboard {
     animation: none !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Small phones: music button shrinks to 48px @ 16px edge (style.css:2427) */
+@media (max-width: 480px) {
+  :root {
+    --action-edge: 16px;
+    --music-size: 48px;
+    --action-gap: 12px;
   }
 }
 
@@ -854,7 +746,7 @@
 .travel-dashboard__title {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 4vw, 2.4rem);
-  color: var(--c-cream);
+  color: var(--t-primary);
   line-height: 1.2;
 }
 
@@ -901,7 +793,7 @@
   font-family: var(--font-display);
   font-size: 1.85rem;
   font-weight: 700;
-  color: var(--c-cream);
+  color: var(--t-primary);
   text-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
 }
 
@@ -1045,7 +937,7 @@
   font-family: var(--font-thai);
   font-size: 0.88rem;
   font-weight: 600;
-  color: var(--c-cream);
+  color: var(--t-primary);
 }
 
 .dash-stop__meta {
@@ -1067,75 +959,6 @@
   }
 }
 
-/* ─── Smart OS Homepage Section ──────────────────────────────────── */
-.smart-os-section {
-  position: relative;
-  padding: var(--sp-3xl) 0;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(240, 240, 240, 0.95) 100%);
-}
-
-.smart-os-section__glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 60% 50% at 20% 40%, rgba(14, 165, 233, 0.12), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 80% 60%, rgba(82, 116, 255, 0.08), transparent 50%);
-  pointer-events: none;
-}
-
-.smart-os__grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: var(--sp-xl);
-  align-items: start;
-  position: relative;
-  z-index: 1;
-}
-
-.smart-os__features {
-  list-style: none;
-  margin: var(--sp-md) 0 var(--sp-lg);
-  padding: 0;
-  display: grid;
-  gap: 0.55rem;
-}
-
-.smart-os__features li {
-  font-family: var(--font-thai);
-  font-size: 0.92rem;
-  color: var(--t-secondary);
-  padding-left: 1.25rem;
-  position: relative;
-}
-
-.smart-os__features li::before {
-  content: '◆';
-  position: absolute;
-  left: 0;
-  color: var(--c-gold);
-  font-size: 0.55rem;
-  top: 0.35rem;
-}
-
-.smart-os__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-}
-
-.smart-os__wizard {
-  padding: var(--sp-lg);
-  border-radius: var(--r-lg);
-}
-
-.smart-os__wizard-title {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  color: var(--c-gold);
-  margin-bottom: var(--sp-md);
-}
 
 .planner-block {
   margin-bottom: 0.85rem;
@@ -1163,20 +986,6 @@
   padding: 0.45rem 0.5rem;
   border: 1px solid var(--c-border);
   background: #ffffff;
-}
-
-/* ─── AI Wizard (in panel) ───────────────────────────────────────── */
-.ai-wizard {
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.ai-wizard__intro {
-  font-family: var(--font-thai);
-  font-size: 0.82rem;
-  color: var(--t-secondary);
-  margin: 0 0 0.65rem;
 }
 
 /* ─── Map district panel extras ──────────────────────────────────── */
@@ -1290,7 +1099,7 @@
   font-family: var(--font-thai);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--c-cream);
+  color: var(--t-primary);
 }
 
 .dash-highlight__meta {
@@ -1299,10 +1108,6 @@
 }
 
 @media (max-width: 900px) {
-  .smart-os__grid {
-    grid-template-columns: 1fr;
-  }
-
   .planner-block--row {
     grid-template-columns: 1fr;
   }
@@ -1402,4 +1207,171 @@ body.map-is-focused .map-hero-fullscreen__header {
   opacity: 0 !important;
   pointer-events: none;
   transform: translateX(-40px);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+ * Enhanced Trip Planner UI — High Contrast & Structured Cards
+ * ═══════════════════════════════════════════════════════════════════ */
+#tripPlannerPanel.smart-panel {
+  background: #FFFFFF !important;
+  border-left: 1px solid #E2E8F0 !important;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.12) !important;
+}
+
+#tripPlannerPanel .smart-panel__header {
+  background: #F8FAFC !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  padding: 1.25rem 1.5rem !important;
+}
+
+#tripPlannerPanel .smart-panel__title {
+  color: #0F172A !important;
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+}
+
+#tripPlannerPanel .smart-panel__subtitle {
+  color: #0284C7 !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+}
+
+#tripPlannerPanel .smart-panel__body {
+  background: #F1F5F9 !important;
+  padding: 1.25rem 1.5rem !important;
+}
+
+#tripPlannerPanel .planner-block {
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 14px !important;
+  padding: 1.1rem !important;
+  margin-bottom: 0.9rem !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+}
+
+#tripPlannerPanel .planner-block__label {
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin: 0 0 0.65rem !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.4rem !important;
+}
+
+#tripPlannerPanel .planner-days {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0 !important;
+}
+
+#tripPlannerPanel .planner-day-btn {
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #475569 !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 0.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+#tripPlannerPanel .planner-day-btn span {
+  color: #0F172A !important;
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+}
+
+#tripPlannerPanel .planner-day-btn.is-active {
+  background: #E0F2FE !important;
+  border-color: #0284C7 !important;
+  color: #0369A1 !important;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25) !important;
+}
+
+#tripPlannerPanel .planner-day-btn.is-active span {
+  color: #0284C7 !important;
+}
+
+#tripPlannerPanel .planner-theme-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0 !important;
+}
+
+#tripPlannerPanel .planner-theme {
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #334155 !important;
+  border-radius: 9px !important;
+  font-weight: 600 !important;
+  padding: 0.6rem 0.75rem !important;
+  font-size: 0.82rem !important;
+  transition: all 0.2s ease !important;
+}
+
+#tripPlannerPanel .planner-theme:hover {
+  border-color: #94A3B8 !important;
+  background: #F1F5F9 !important;
+}
+
+#tripPlannerPanel .planner-theme.is-active {
+  background: #E0F2FE !important;
+  border-color: #0284C7 !important;
+  color: #0369A1 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25) !important;
+}
+
+#tripPlannerPanel .planner-opts {
+  display: flex !important;
+  gap: 0.4rem !important;
+}
+
+#tripPlannerPanel .planner-opt {
+  background: #F8FAFC !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #334155 !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 0.78rem !important;
+  padding: 0.55rem 0.45rem !important;
+  transition: all 0.2s ease !important;
+}
+
+#tripPlannerPanel .planner-opt:hover {
+  border-color: #94A3B8 !important;
+  background: #F1F5F9 !important;
+}
+
+#tripPlannerPanel .planner-opt.is-active {
+  background: #E0F2FE !important;
+  border-color: #0284C7 !important;
+  color: #0369A1 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25) !important;
+}
+
+#tripPlannerPanel .planner-generate {
+  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%) !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  padding: 0.9rem 1.5rem !important;
+  border-radius: 12px !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35) !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+}
+
+#tripPlannerPanel .planner-generate:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 22px rgba(2, 132, 199, 0.45) !important;
 }

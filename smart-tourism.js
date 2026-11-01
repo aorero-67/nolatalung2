@@ -6,6 +6,245 @@
 
   const DATA = () => window.PHATTHALUNG_DATA;
 
+  /* ─── i18n (mirrors Lang in index.html, but self-contained) ───────── */
+  const STR = {
+    th: {
+      plannerTitle: 'วางแผนเที่ยว',
+      plannerSubtitle: 'ออกแบบทริปพัทลุงในไม่กี่คลิก',
+      fabLabel: 'วางแผนเที่ยว',
+      generate: 'สร้างแผนเที่ยว',
+      close: 'ปิด',
+      startDate: 'วันเริ่มเดินทาง',
+      tripLength: 'จำนวนวัน',
+      travelMood: 'อารมณ์ทริป',
+      budget: 'งบประมาณ',
+      travelType: 'ประเภททริป',
+      day1: '1 วัน', day2: '2 วัน', day3: '3 วัน',
+      budgetLow: 'ประหยัด', budgetMid: 'มาตรฐาน', budgetHigh: 'พรีเมียม',
+      solo: 'คนเดียว', couple: 'คู่รัก', family: 'ครอบครัว',
+      theme_nature: 'ธรรมชาติ', theme_romantic: 'โรแมนติก', theme_food: 'อาหารท้องถิ่น',
+      theme_culture: 'วัฒนธรรม', theme_photography: 'จุดถ่ายรูป', theme_family: 'ครอบครัว',
+      theme_adventure: 'ผจญภัย',
+      perPersonEstimate: 'บาท / คน (ประมาณการ)',
+      budgetFood: 'อาหาร', budgetActivities: 'กิจกรรม', budgetStay: 'ที่พัก', budgetTransport: 'เดินทาง',
+      estimatedRange: 'ช่วงงบประมาณ {min} - {max} บาท',
+      alternatives: 'ตัวเลือกอื่น:',
+      rating: 'คะแนน',
+      catFood: 'อาหาร', catStay: 'ที่พัก', catWorkshop: 'เวิร์กช็อป', catPlace: 'สถานที่',
+      openDashboard: 'เปิดแดชบอร์ดทริป',
+      showOnMap: 'ดูบนแผนที่',
+      saveRoute: 'บันทึกเส้นทาง',
+      routeSaved: 'บันทึกเส้นทางแล้ว',
+      routeSaveFailed: 'บันทึกเส้นทางไม่สำเร็จ',
+      startFromAccommodation: 'ออกจากที่พัก - เดินทางประมาณ 20 นาที',
+      nextStopNear: 'จุดถัดไปใกล้นี้ ~5 นาที',
+      nextStopFar: 'จุดถัดไป ~20 นาที',
+      days: 'วัน', stops: 'จุดแวะ', districts: 'อำเภอ', perPerson: 'บาท/คน',
+      highlights: 'ไฮไลท์แนะนำ',
+      budgetTitle: 'งบประมาณ',
+      planTitle: 'แผนการเดินทาง',
+      recommendedStay: 'ที่พักแนะนำ:',
+      syncMap: 'ซิงก์กับแผนที่ 3D',
+      closeDashboard: 'ปิดแดชบอร์ด',
+      rangeLabel: 'ช่วงงบประมาณ {min} - {max} บาท · เฉลี่ย ~{daily} บาท/วัน',
+      exploreSmartMap: 'สำรวจ - แผนที่อัจฉริยะ',
+      recommended: 'แนะนำ',
+      hiddenGems: 'หลบมุมน่าไป',
+      addingMore: 'กำลังเพิ่มข้อมูลเร็ว ๆ นี้',
+      exploreDistrict: 'สำรวจอำเภอ',
+      planArea: 'วางแผนย่านนี้',
+      closePanel: 'ปิด',
+      atmo_nature: 'ธรรมชาติและทะเลน้อย',
+      atmo_romantic: 'โรแมนติกและคู่รัก',
+      atmo_photography: 'จุดถ่ายรูปและวิว',
+      atmo_family: 'ครอบครัวและเดินทางง่าย',
+      atmo_adventure: 'ผจญภัยและกลางแจ้ง',
+      atmo_culture: 'วัฒนธรรมท้องถิ่น',
+      atmo_food: 'อาหารและตลาด',
+      daysShort: 'วัน',
+      title_romantic: 'ทริปโรแมนติกพัทลุง - {d}',
+      title_family: 'ทริปครอบครัวพัทลุง - {d}',
+      title_solo: 'เที่ยวคนเดียวแบบช้า ๆ - {d}',
+      title_cafe: 'เส้นทางคาเฟ่และพักผ่อน - {d}',
+      title_photo: 'เส้นทางจุดถ่ายรูป - {d}',
+      title_adventure: 'ทริปผจญภัย - {d}',
+      title_nature: 'ทริปธรรมชาติ ทะเลน้อยและภูเขา - {d}',
+      title_food: 'ทริปอาหารท้องถิ่น - {d}',
+      title_default: 'เส้นทางแนะนำพัทลุง - {d}',
+      dayTheme_nature: 'จุดชมวิวธรรมชาติ',
+      dayTheme_adventure: 'กิจกรรมกลางแจ้ง',
+      dayTheme_food: 'ทริปอาหารและตลาดท้องถิ่น',
+      dayTheme_romantic: 'เส้นทางโรแมนติกแบบช้า ๆ',
+      dayTheme_family: 'ทริปครอบครัวเดินทางง่าย',
+      dayTheme_photo: 'จุดถ่ายรูปและช่วงแสงสวย',
+      dayTheme_default: 'ไฮไลท์ในพื้นที่',
+      transport1day: 'รถส่วนตัวหรือรถเช่า - ออกเช้าเพื่อจับเวลาให้ดี',
+      transportMulti: 'รถส่วนตัว - พักค้างในเมืองพัทลุงหรือใกล้ทะเลน้อย',
+      summaryPlanned: 'วางแผน {d}',
+      summaryBudget: 'งบประมาณประมาณ ~{total} บาท/คน',
+      summaryNature: 'เน้นธรรมชาติและจุดชมวิว',
+      summaryFood: 'รวมอาหารท้องถิ่น',
+      summaryRomantic: 'มีจุดแวะโรแมนติก',
+      summaryDaily: 'เฉลี่ย ~{daily} บาท/วัน',
+      untitled: 'สถานที่ไม่มีชื่อ',
+      badge_mueang: 'เมืองเก่า - วัฒนธรรมและอาหารท้องถิ่น',
+      badge_khuan_khanun: 'ทะเลน้อย - ธรรมชาติและครอบครัว',
+      badge_khao_chaison: 'จุดชมพระอาทิตย์ตก - เส้นทางโรแมนติก',
+      badge_kong_ra: 'ภูเขา - ผจญภัยและจุดถ่ายรูป',
+      badge_pak_phayun: 'ทะเลสาบสบาย ๆ - เหมาะกับครอบครัว',
+      badge_bang_kaeo: 'ป่าและน้ำตก - เส้นทางผจญภัย',
+      badge_tamot: 'วัฒนธรรมท้องถิ่น - เที่ยวชุมชน',
+      badge_pa_bon: 'ธรรมชาติเงียบสงบ - เที่ยวช้า ๆ',
+      badge_srinagarindra: 'อ่างเก็บน้ำและกิจกรรมกลางแจ้ง',
+      badge_si_banphot: 'วิวภูเขา - วัฒนธรรมท้องถิ่น',
+      badge_pa_phayom: 'อาหารท้องถิ่น - ตลาดชุมชน',
+      dayLabel: 'วันที่',
+    },
+    en: {
+      plannerTitle: 'Trip Planner',
+      plannerSubtitle: 'Plan your Phatthalung trip',
+      fabLabel: 'Trip Planner',
+      generate: 'Build my route',
+      close: 'Close',
+      startDate: 'Start date',
+      tripLength: 'Trip length',
+      travelMood: 'Travel mood',
+      budget: 'Budget',
+      travelType: 'Travel type',
+      day1: '1 day', day2: '2 days', day3: '3 days',
+      budgetLow: 'Budget', budgetMid: 'Standard', budgetHigh: 'Premium',
+      solo: 'Solo', couple: 'Couple', family: 'Family',
+      theme_nature: 'Nature', theme_romantic: 'Romantic', theme_food: 'Local Food',
+      theme_culture: 'Culture', theme_photography: 'Photo Spots', theme_family: 'Family',
+      theme_adventure: 'Adventure',
+      perPersonEstimate: 'baht / person (estimate)',
+      budgetFood: 'Food', budgetActivities: 'Activities', budgetStay: 'Stay', budgetTransport: 'Transport',
+      estimatedRange: 'Estimated range {min} - {max} baht',
+      alternatives: 'Alternatives:',
+      rating: 'Rating',
+      catFood: 'Food', catStay: 'Stay', catWorkshop: 'Workshop', catPlace: 'Place',
+      openDashboard: 'Open Travel Dashboard',
+      showOnMap: 'Show on Map',
+      saveRoute: 'Save Route',
+      routeSaved: 'Route saved',
+      routeSaveFailed: 'Could not save route',
+      startFromAccommodation: 'Leave the hotel - about 20 min drive',
+      nextStopNear: 'Next stop ~5 min away',
+      nextStopFar: 'Next stop ~20 min',
+      days: 'days', stops: 'stops', districts: 'districts', perPerson: 'baht/person',
+      highlights: 'Trip highlights',
+      budgetTitle: 'Budget',
+      planTitle: 'Day-by-day plan',
+      recommendedStay: 'Recommended stay:',
+      syncMap: 'Sync with 3D Map',
+      closeDashboard: 'Close Dashboard',
+      rangeLabel: 'Estimated range {min} - {max} baht · about {daily} baht/day',
+      exploreSmartMap: 'EXPLORE - SMART MAP',
+      recommended: 'Recommended',
+      hiddenGems: 'Hidden gems',
+      addingMore: 'Adding more data soon',
+      exploreDistrict: 'Explore District',
+      planArea: 'Plan This Area',
+      closePanel: 'Close',
+      atmo_nature: 'Nature and Thale Noi',
+      atmo_romantic: 'Romantic and couples',
+      atmo_photography: 'Photo spots and views',
+      atmo_family: 'Family and easy travel',
+      atmo_adventure: 'Adventure and outdoors',
+      atmo_culture: 'Local culture',
+      atmo_food: 'Food and markets',
+      daysShort: 'days',
+      title_romantic: 'Romantic Phatthalung Trip - {d}',
+      title_family: 'Family Phatthalung Trip - {d}',
+      title_solo: 'Solo Slow Travel - {d}',
+      title_cafe: 'Cafe and Chill Route - {d}',
+      title_photo: 'Photo Spot Route - {d}',
+      title_adventure: 'Adventure Trip - {d}',
+      title_nature: 'Nature Trip - Thale Noi and Mountains - {d}',
+      title_food: 'Local Food Trip - {d}',
+      title_default: 'Recommended Phatthalung Route - {d}',
+      dayTheme_nature: 'Nature viewpoints',
+      dayTheme_adventure: 'Outdoor adventure',
+      dayTheme_food: 'Food trip and local markets',
+      dayTheme_romantic: 'Romantic slow route',
+      dayTheme_family: 'Easy family trip',
+      dayTheme_photo: 'Photo spots and golden hour',
+      dayTheme_default: 'Area highlights',
+      transport1day: 'Private car or rental car - start early for best timing',
+      transportMulti: 'Private car - stay overnight in Mueang Phatthalung or near Thale Noi',
+      summaryPlanned: 'Planned for {d}',
+      summaryBudget: 'Estimated budget ~{total} baht/person',
+      summaryNature: 'nature and viewpoints',
+      summaryFood: 'local food included',
+      summaryRomantic: 'romantic stops',
+      summaryDaily: '~{daily} baht/day',
+      untitled: 'Untitled place',
+      badge_mueang: 'Old town - culture and local food',
+      badge_khuan_khanun: 'Thale Noi - nature and family travel',
+      badge_khao_chaison: 'Sunset viewpoints - romantic route',
+      badge_kong_ra: 'Mountains - adventure and photo spots',
+      badge_pak_phayun: 'Relaxed lake nature - family friendly',
+      badge_bang_kaeo: 'Forest and waterfall - adventure route',
+      badge_tamot: 'Local culture - community travel',
+      badge_pa_bon: 'Quiet nature - slow travel',
+      badge_srinagarindra: 'Reservoir and outdoor activities',
+      badge_si_banphot: 'Mountain views - local culture',
+      badge_pa_phayom: 'Local food - community markets',
+      dayLabel: 'Day',
+    },
+  };
+
+  function lang() {
+    if (typeof Lang !== 'undefined' && Lang.current) return Lang.current;
+    return document.documentElement.lang === 'en' ? 'en' : 'th';
+  }
+
+  function tr(key, vars) {
+    const dict = STR[lang()] || STR.th;
+    let out = dict[key] != null ? dict[key] : (STR.th[key] != null ? STR.th[key] : key);
+    if (vars) {
+      Object.keys(vars).forEach((k) => {
+        out = out.replace(new RegExp('\\{' + k + '\\}', 'g'), vars[k]);
+      });
+    }
+    return out;
+  }
+
+  function daysText(n) {
+    const num = Number(n) || 1;
+    return lang() === 'th' ? `${num} วัน` : `${num} ${num > 1 ? 'days' : 'day'}`;
+  }
+
+  function pname(place) {
+    if (!place) return '';
+    return lang() === 'en' && place.nameEn ? place.nameEn : (place.name || '');
+  }
+
+  function pdesc(place) {
+    if (!place) return '';
+    return lang() === 'en' && place.descriptionEn ? place.descriptionEn : (place.description || '');
+  }
+
+  function dname(district) {
+    if (!district) return '';
+    return lang() === 'en' && district.nameEn ? district.nameEn : (district.name || '');
+  }
+
+  function pcat(place) {
+    if (!place) return tr('catPlace');
+    if (place.categoryId === 'restaurants') return tr('catFood');
+    if (place.categoryId === 'accommodations') return tr('catStay');
+    if (place.categoryId === 'workshops') return tr('catWorkshop');
+    return tr('catPlace');
+  }
+
+  function catName(catId) {
+    const data = DATA();
+    const cat = data && data.categories && data.categories[catId];
+    if (!cat) return catId;
+    return lang() === 'en' && cat.nameEn ? cat.nameEn : cat.name;
+  }
+
   /* â”€â”€â”€ Data helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function normalizeData() {
     const data = DATA();
@@ -14,7 +253,7 @@
       Object.keys(data.places[districtId]).forEach(catId => {
         data.places[districtId][catId].forEach(p => {
           if (!p.id) p.id = Math.random().toString(36).substring(7);
-          if (!p.name) p.name = "Untitled place";
+          if (!p.name) p.name = tr('untitled');
           if (!p.duration) p.duration = 1.5;
           if (!p.price) p.price = p.budgetLevel === 'free' ? 'Free' : '?';
           if (!p.budgetLevel) {
@@ -40,6 +279,7 @@
           ...p,
           districtId: d.id,
           districtName: d.name,
+          districtNameEn: d.nameEn || d.name,
           categoryId,
         });
       });
@@ -69,42 +309,22 @@
     'pa-phayom': ['culture', 'food'],
   };
 
-  const DISTRICT_BADGES = {
-    mueang: 'Old town - culture and local food',
-    'khuan-khanun': 'Thale Noi - nature and family travel',
-    'khao-chaison': 'Sunset viewpoints - romantic route',
-    'kong-ra': 'Mountains - adventure and photo spots',
-    'pak-phayun': 'Relaxed lake nature - family friendly',
-    'bang-kaeo': 'Forest and waterfall - adventure route',
-    tamot: 'Local culture - community travel',
-    'pa-bon': 'Quiet nature - slow travel',
-    'srinagarindra': 'Reservoir and outdoor activities',
-    'si-banphot': 'Mountain views - local culture',
-    'pa-phayom': 'Local food - community markets',
-  };
-
   const PLANNER_THEMES = [
-    { id: 'nature', label: 'Nature' },
-    { id: 'romantic', label: 'Romantic' },
-    { id: 'food', label: 'Local Food' },
-    { id: 'culture', label: 'Culture' },
-    { id: 'photography', label: 'Photo Spots' },
-    { id: 'family', label: 'Family' },
-    { id: 'adventure', label: 'Adventure' },
+    { id: 'nature', key: 'theme_nature' },
+    { id: 'romantic', key: 'theme_romantic' },
+    { id: 'food', key: 'theme_food' },
+    { id: 'culture', key: 'theme_culture' },
+    { id: 'photography', key: 'theme_photography' },
+    { id: 'family', key: 'theme_family' },
+    { id: 'adventure', key: 'theme_adventure' },
   ];
 
-  const ATMOSPHERE_LABELS = {
-    nature: 'Nature and Thale Noi',
-    romantic: 'Romantic and couples',
-    photography: 'Photo spots and views',
-    family: 'Family and easy travel',
-    adventure: 'Adventure and outdoors',
-    culture: 'Local culture',
-    food: 'Food and markets',
-  };
-
   function districtAtmosphereTags(districtId) {
-    return (DISTRICT_ATMOSPHERE[districtId] || ['culture']).map((k) => ATMOSPHERE_LABELS[k] || k);
+    return (DISTRICT_ATMOSPHERE[districtId] || ['culture']).map((k) => tr('atmo_' + k));
+  }
+
+  function districtBadge(districtId) {
+    return tr('badge_' + districtId.replace(/-/g, '_'));
   }
 
   function prefsFromWizard(opts) {
@@ -243,13 +463,13 @@
 
   function dayTheme(stops, prefs) {
     const tags = stops.flatMap((s) => s.place.tags || []);
-    if (tags.includes('nature') || prefs.nature) return 'Nature viewpoints';
-    if (prefs.adventure) return 'Outdoor adventure';
-    if (prefs.food) return 'Food trip and local markets';
-    if (prefs.couple) return 'Romantic slow route';
-    if (prefs.family) return 'Easy family trip';
-    if (prefs.photo) return 'Photo spots and golden hour';
-    return 'Area highlights';
+    if (tags.includes('nature') || prefs.nature) return tr('dayTheme_nature');
+    if (prefs.adventure) return tr('dayTheme_adventure');
+    if (prefs.food) return tr('dayTheme_food');
+    if (prefs.couple) return tr('dayTheme_romantic');
+    if (prefs.family) return tr('dayTheme_family');
+    if (prefs.photo) return tr('dayTheme_photo');
+    return tr('dayTheme_default');
   }
 
   const TIME_SLOTS = ['08:30', '10:30', '12:30', '14:30', '16:30', '18:00'];
@@ -280,7 +500,7 @@
       dayStops.push({
         place: currentPlace,
         time: formatTime(currentHours),
-        transport: 'Start from accommodation - travel ~20 min',
+        transport: tr('startFromAccommodation'),
       });
       currentHours += (currentPlace.duration || 1.5) + 0.5;
 
@@ -299,7 +519,7 @@
         dayStops.push({
           place: currentPlace,
           time: formatTime(currentHours),
-          transport: dist < 0.02 ? 'Next stop ~5 min nearby' : 'Next stop ~20 min',
+          transport: dist < 0.02 ? tr('nextStopNear') : tr('nextStopFar'),
         });
         currentHours += (currentPlace.duration || 1.5) + 0.5;
         
@@ -379,15 +599,16 @@
   }
 
   // â”€â”€â”€ Date helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  const THAI_DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  const THAI_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const EN_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const EN_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const TH_DAYS = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
+  const TH_MONTHS = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
 
-  function formatThaiDate(date) {
-    const d = THAI_DAYS[date.getDay()];
-    const dd = date.getDate();
-    const mm = THAI_MONTHS[date.getMonth()];
-    const yy = date.getFullYear() + 543;
-    return `${d} ${dd} ${mm} ${yy}`;
+  function formatDate(date) {
+    if (lang() === 'th') {
+      return `${TH_DAYS[date.getDay()]} ${date.getDate()} ${TH_MONTHS[date.getMonth()]} ${date.getFullYear() + 543}`;
+    }
+    return `${EN_DAYS[date.getDay()]} ${date.getDate()} ${EN_MONTHS[date.getMonth()]} ${date.getFullYear()}`;
   }
 
   function todayInputValue() {
@@ -406,41 +627,41 @@
     const todayVal = todayInputValue();
     return `
       <div class="planner-block${cls}">
-        <p class="planner-block__label">Start date</p>
-        <input type="date" class="planner-start-date" value="${todayVal}" min="${todayVal}" style="width:100%;padding:0.55rem 0.75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.07);color:var(--t-primary,#fff);font-family:var(--font-thai,sans-serif);font-size:0.95rem;cursor:pointer;box-sizing:border-box;" />
+        <p class="planner-block__label">${tr('startDate')}</p>
+        <input type="date" class="planner-start-date" value="${todayVal}" min="${todayVal}" style="width:100%;padding:0.65rem 0.85rem;border-radius:10px;border:1.5px solid #CBD5E1;background:#FFFFFF;color:#0F172A;font-family:var(--font-thai,sans-serif);font-size:0.95rem;font-weight:600;cursor:pointer;box-sizing:border-box;box-shadow:0 1px 3px rgba(0,0,0,0.05);outline:none;" />
       </div>
       <div class="planner-block${cls}">
-        <p class="planner-block__label">Trip length</p>
+        <p class="planner-block__label">${tr('tripLength')}</p>
         <div class="planner-days">
-          <button type="button" class="planner-day-btn is-active" data-days="1"><span>1</span>day</button>
-          <button type="button" class="planner-day-btn" data-days="2"><span>2</span>days</button>
-          <button type="button" class="planner-day-btn" data-days="3"><span>3</span>days</button>
+          <button type="button" class="planner-day-btn is-active" data-days="1"><span>1</span>${lang() === 'th' ? 'วัน' : 'day'}</button>
+          <button type="button" class="planner-day-btn" data-days="2"><span>2</span>${lang() === 'th' ? 'วัน' : 'days'}</button>
+          <button type="button" class="planner-day-btn" data-days="3"><span>3</span>${lang() === 'th' ? 'วัน' : 'days'}</button>
         </div>
       </div>
       <div class="planner-block${cls}">
-        <p class="planner-block__label">Travel mood</p>
+        <p class="planner-block__label">${tr('travelMood')}</p>
         <div class="planner-theme-grid">
           ${PLANNER_THEMES.map(
             (t, i) =>
-              `<button type="button" class="planner-theme${i === 0 ? ' is-active' : ''}" data-theme="${t.id}">${t.label}</button>`
+              `<button type="button" class="planner-theme${i === 0 ? ' is-active' : ''}" data-theme="${t.id}">${tr(t.key)}</button>`
           ).join('')}
         </div>
       </div>
       <div class="planner-block planner-block--row${cls}">
         <div>
-          <p class="planner-block__label">Budget</p>
+          <p class="planner-block__label">${tr('budget')}</p>
           <div class="planner-opts">
-            <button type="button" class="planner-opt" data-budget="low">Budget</button>
-            <button type="button" class="planner-opt is-active" data-budget="medium">Standard</button>
-            <button type="button" class="planner-opt" data-budget="high">Premium</button>
+            <button type="button" class="planner-opt" data-budget="low">${tr('budgetLow')}</button>
+            <button type="button" class="planner-opt is-active" data-budget="medium">${tr('budgetMid')}</button>
+            <button type="button" class="planner-opt" data-budget="high">${tr('budgetHigh')}</button>
           </div>
         </div>
         <div>
-          <p class="planner-block__label">Travel type</p>
+          <p class="planner-block__label">${tr('travelType')}</p>
           <div class="planner-opts">
-            <button type="button" class="planner-opt is-active" data-travel="solo">Solo</button>
-            <button type="button" class="planner-opt" data-travel="couple">Couple</button>
-            <button type="button" class="planner-opt" data-travel="family">Family</button>
+            <button type="button" class="planner-opt is-active" data-travel="solo">${tr('solo')}</button>
+            <button type="button" class="planner-opt" data-travel="couple">${tr('couple')}</button>
+            <button type="button" class="planner-opt" data-travel="family">${tr('family')}</button>
           </div>
         </div>
       </div>`;
@@ -449,7 +670,7 @@
   function runWizardGenerate(root, options = {}) {
     const { targetEl, districtFilter, delay = 900, onComplete } = options;
     const state = readWizardState(root);
-    const loading = `<div class="ai-thinking"><span>Building your route</span><div class="ai-thinking__dots"><span></span><span></span><span></span></div></div>`;
+    const loading = `<div class="ai-thinking"><span>${lang() === 'th' ? 'กำลังสร้างเส้นทาง' : 'Building your route'}</span><div class="ai-thinking__dots"><span></span><span></span><span></span></div></div>`;
     if (targetEl) targetEl.innerHTML = loading;
 
     setTimeout(() => {
@@ -500,20 +721,20 @@
   }
 
   function routeTitle(prefs, days) {
-    if (prefs.couple) return `Romantic Phatthalung Trip - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.family) return `Family Phatthalung Trip - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.solo) return `Solo Slow Travel - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.cafe) return `Cafe and Chill Route - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.photo) return `Photo Spot Route - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.adventure) return `Adventure Trip - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.nature) return `Nature Trip - Thale Noi and Mountains - ${days} day${days > 1 ? 's' : ''}`;
-    if (prefs.food) return `Local Food Trip - ${days} day${days > 1 ? 's' : ''}`;
-    return `Recommended Phatthalung Route - ${days} day${days > 1 ? 's' : ''}`;
+    const d = daysText(days);
+    if (prefs.couple) return tr('title_romantic', { d });
+    if (prefs.family) return tr('title_family', { d });
+    if (prefs.solo) return tr('title_solo', { d });
+    if (prefs.cafe) return tr('title_cafe', { d });
+    if (prefs.photo) return tr('title_photo', { d });
+    if (prefs.adventure) return tr('title_adventure', { d });
+    if (prefs.nature) return tr('title_nature', { d });
+    if (prefs.food) return tr('title_food', { d });
+    return tr('title_default', { d });
   }
 
   function transportHint(days) {
-    if (days === 1) return 'Private car or rental car - start early for best timing';
-    return 'Private car - stay overnight in Mueang Phatthalung or near Thale Noi';
+    return days === 1 ? tr('transport1day') : tr('transportMulti');
   }
 
   const TravelBrain = {
@@ -566,14 +787,35 @@
 
     _summary(prefs, days, budgetDetail) {
       const total = typeof budgetDetail === 'number' ? budgetDetail : budgetDetail.total;
-      const parts = [`Planned for ${days} day${days > 1 ? 's' : ''}`, `Estimated budget ~${total.toLocaleString()} baht/person`];
-      if (prefs.nature) parts.push('nature and viewpoints');
-      if (prefs.food) parts.push('local food included');
-      if (prefs.couple) parts.push('romantic stops');
-      if (budgetDetail.daily) parts.push(`~${budgetDetail.daily.toLocaleString()} baht/day`);
+      const parts = [
+        tr('summaryPlanned', { d: daysText(days) }),
+        tr('summaryBudget', { total: total.toLocaleString() }),
+      ];
+      if (prefs.nature) parts.push(tr('summaryNature'));
+      if (prefs.food) parts.push(tr('summaryFood'));
+      if (prefs.couple) parts.push(tr('summaryRomantic'));
+      if (budgetDetail.daily) parts.push(tr('summaryDaily', { daily: budgetDetail.daily.toLocaleString() }));
       return parts.join(' - ');
     },
   };
+
+  /* ─── Image helpers ────────────────────────────────────────────────
+   * Many places have image:"" — never emit <img src=""> (it re-requests
+   * the document). Render a gradient tile instead.
+   * ---------------------------------------------------------------- */
+  function hasPhoto(place) {
+    return !!(place && place.image && String(place.image).trim());
+  }
+
+  const THUMB_PLACEHOLDER = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#0284c7"/></linearGradient></defs><rect width="48" height="48" fill="url(#g)"/><path d="M12 32l8-9 5 6 4-4 7 7z" fill="#ffffff" opacity="0.85"/><circle cx="16" cy="15" r="3" fill="#ffffff" opacity="0.85"/></svg>'
+  );
+
+  function thumbHTML(place, className = '', opts = {}) {
+    const cls = className ? className + ' ' : '';
+    const src = hasPhoto(place) ? place.image : THUMB_PLACEHOLDER;
+    return `<img class="${cls}thumb-img" src="${src}" alt="" loading="${opts.eager ? 'eager' : 'lazy'}" onerror="this.style.display='none'">`;
+  }
 
   /* â”€â”€â”€ Route HTML renderer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   function renderRouteResult(route, options = {}) {
@@ -602,38 +844,37 @@
       .map((day, di) => {
         const dayDate = new Date(startDate);
         dayDate.setDate(startDate.getDate() + di);
-        const dateLabel = formatThaiDate(dayDate);
+        const dateLabel = formatDate(dayDate);
 
         const stopsHtml = day.stops.map((stop, i) => {
           const alts = getAlternatives(stop, 3);
-          const catIcon = stop.place.categoryId === 'restaurants' ? 'Food' : stop.place.categoryId === 'accommodations' ? 'Stay' : stop.place.categoryId === 'workshops' ? 'Workshop' : 'Place';
-          const catLabel = stop.place.categoryId === 'restaurants' ? 'Food' : stop.place.categoryId === 'accommodations' ? 'Stay' : stop.place.categoryId === 'workshops' ? 'Workshop' : 'Place';
+          const catLabel = pcat(stop.place);
 
           const altsHtml = alts.length ? `
             <div class="route-stop__alts">
-              <div class="route-stop__alts-label">Alternatives:</div>
+              <div class="route-stop__alts-label">${tr('alternatives')}</div>
               <div class="route-stop__alts-list">
                 ${alts.map(a => `
                   <button type="button" class="route-alt-chip" 
                     data-place-id="${a.id}" 
                     data-district-id="${a.districtId}" 
                     data-category-id="${a.categoryId || 'attractions'}"
-                    title="${a.districtName}">
-                    ${a.name}
-                    ${a.rating ? `<span class="route-alt-rating">Rating ${a.rating}</span>` : ''}
+                    title="${dname({ name: a.districtName, nameEn: a.districtNameEn })}">
+                    ${pname(a)}
+                    ${a.rating ? `<span class="route-alt-rating">${tr('rating')} ${a.rating}</span>` : ''}
                   </button>`).join('')}
               </div>
             </div>` : '';
 
           return `
           <div class="route-stop" data-place-id="${stop.place.id}" data-district-id="${stop.place.districtId}" data-category-id="${stop.place.categoryId}" style="animation-delay:${i * 0.08}s">
-            <img class="route-stop__img" src="${stop.place.image || ''}" alt="" loading="lazy" onerror="this.style.display='none'">
+            ${thumbHTML(stop.place, 'route-stop__img')}
             <div class="route-stop__info">
               <div class="route-stop__time">${stop.time}</div>
-              <div class="route-stop__name">${stop.place.name}</div>
-              <div class="route-stop__district">${stop.place.districtName}</div>
+              <div class="route-stop__name">${pname(stop.place)}</div>
+              <div class="route-stop__district">${dname({ name: stop.place.districtName, nameEn: stop.place.districtNameEn })}</div>
               <div class="route-stop__type">${catLabel} - ${stop.transport}</div>
-              ${stop.place.rating ? `<div class="route-stop__rating">Rating ${stop.place.rating}</div>` : ''}
+              ${stop.place.rating ? `<div class="route-stop__rating">${tr('rating')} ${stop.place.rating}</div>` : ''}
               ${altsHtml}
             </div>
           </div>`;
@@ -643,7 +884,7 @@
       <div class="route-day">
         <div class="route-day__dot"></div>
         <div class="route-day__header">
-          <span class="route-day__title">Day ${day.day}</span>
+          <span class="route-day__title">${tr('dayLabel')} ${day.day}</span>
           <span class="route-day__date">${dateLabel}</span>
           ${day.theme ? `<span class="route-day__theme">${day.theme}</span>` : ''}
         </div>
@@ -653,21 +894,21 @@
       .join('');
 
     const tags = [];
-    if (route.prefs.nature) tags.push('Nature');
-    if (route.prefs.couple) tags.push('Couple');
-    if (route.prefs.family) tags.push('Family');
-    if (route.prefs.cafe) tags.push('Cafe');
-    if (route.prefs.photo) tags.push('Photo');
+    if (route.prefs.nature) tags.push(tr('theme_nature'));
+    if (route.prefs.couple) tags.push(tr('theme_romantic'));
+    if (route.prefs.family) tags.push(tr('theme_family'));
+    if (route.prefs.cafe) tags.push(lang() === 'th' ? 'คาเฟ่' : 'Cafe');
+    if (route.prefs.photo) tags.push(tr('theme_photography'));
 
     const bd = route.budgetDetail;
     const budgetBlock = bd
       ? `<div class="route-budget-grid">
-          <div class="route-budget-item"><span>Food</span><strong>${bd.food.toLocaleString()}</strong></div>
-          <div class="route-budget-item"><span>Activities</span><strong>${bd.attractions.toLocaleString()}</strong></div>
-          <div class="route-budget-item"><span>Stay</span><strong>${bd.hotel.toLocaleString()}</strong></div>
-          <div class="route-budget-item"><span>Transport</span><strong>${bd.transport.toLocaleString()}</strong></div>
+          <div class="route-budget-item"><span>${tr('budgetFood')}</span><strong>${bd.food.toLocaleString()}</strong></div>
+          <div class="route-budget-item"><span>${tr('budgetActivities')}</span><strong>${bd.attractions.toLocaleString()}</strong></div>
+          <div class="route-budget-item"><span>${tr('budgetStay')}</span><strong>${bd.hotel.toLocaleString()}</strong></div>
+          <div class="route-budget-item"><span>${tr('budgetTransport')}</span><strong>${bd.transport.toLocaleString()}</strong></div>
         </div>
-        <p class="route-budget-range">Estimated range ${bd.min.toLocaleString()} - ${bd.max.toLocaleString()} baht</p>`
+        <p class="route-budget-range">${tr('estimatedRange', { min: bd.min.toLocaleString(), max: bd.max.toLocaleString() })}</p>`
       : '';
 
     return `
@@ -677,7 +918,7 @@
           <p style="font-family:var(--font-thai);font-size:0.88rem;color:var(--t-secondary);line-height:1.7">${route.summary}</p>
           <div class="route-summary__budget">
             <span class="route-summary__budget-value">${route.budget.toLocaleString()}</span>
-            <span class="route-summary__budget-label">baht / person (estimate)</span>
+            <span class="route-summary__budget-label">${tr('perPersonEstimate')}</span>
           </div>
           ${budgetBlock}
           <div class="route-summary__meta">
@@ -689,9 +930,9 @@
         ${
           showActions
             ? `<div class="route-actions">
-            <button type="button" class="btn-primary smart-route-dashboard">Open Travel Dashboard</button>
-            <button type="button" class="btn-primary smart-route-map">Show on Map</button>
-            <button type="button" class="btn-ghost smart-route-save">Save Route</button>
+            <button type="button" class="btn-primary smart-route-dashboard">${tr('openDashboard')}</button>
+            <button type="button" class="btn-primary smart-route-map">${tr('showOnMap')}</button>
+            <button type="button" class="btn-ghost smart-route-save">${tr('saveRoute')}</button>
           </div>`
             : ''
         }
@@ -716,9 +957,9 @@
     container.querySelector('.smart-route-save')?.addEventListener('click', () => {
       try {
         localStorage.setItem('phatthalung_saved_route', JSON.stringify(route));
-        alert('Route saved');
+        alert(tr('routeSaved'));
       } catch (_) {
-        alert('Could not save route');
+        alert(tr('routeSaveFailed'));
       }
     });
   }
@@ -726,25 +967,25 @@
     const bd = route.budgetDetail || {};
     const stopsCount = route.days.reduce((n, d) => n + d.stops.length, 0);
     const atmosTags = [];
-    if (route.prefs.nature) atmosTags.push('ธรรมชาติ');
-    if (route.prefs.couple) atmosTags.push('โรแมนติก');
-    if (route.prefs.family) atmosTags.push('ครอบครัว');
-    if (route.prefs.photo) atmosTags.push('ถ่ายรูป');
-    if (route.prefs.adventure) atmosTags.push('Adventure');
-    if (route.prefs.food) atmosTags.push('Food');
-    if (route.prefs.culture) atmosTags.push('Culture');
-    if (route.prefs.budgetRange === 'low') atmosTags.push('Budget');
-    if (route.prefs.budgetRange === 'high') atmosTags.push('Premium');
+    if (route.prefs.nature) atmosTags.push(tr('theme_nature'));
+    if (route.prefs.couple) atmosTags.push(tr('theme_romantic'));
+    if (route.prefs.family) atmosTags.push(tr('theme_family'));
+    if (route.prefs.photo) atmosTags.push(tr('theme_photography'));
+    if (route.prefs.adventure) atmosTags.push(tr('theme_adventure'));
+    if (route.prefs.food) atmosTags.push(tr('theme_food'));
+    if (route.prefs.culture) atmosTags.push(tr('theme_culture'));
+    if (route.prefs.budgetRange === 'low') atmosTags.push(tr('budgetLow'));
+    if (route.prefs.budgetRange === 'high') atmosTags.push(tr('budgetHigh'));
 
     const highlights = route.places.slice(0, 4);
     const highlightsHtml = highlights
       .map(
         (p) => `
       <article class="dash-highlight" data-place-id="${p.id}" data-district-id="${p.districtId}" data-category-id="${p.categoryId || 'attractions'}">
-        <img src="${p.image || ''}" alt="" loading="lazy" onerror="this.style.display='none'">
+        ${thumbHTML(p, 'dash-highlight__img')}
         <div>
-          <div class="dash-highlight__name">${p.name}</div>
-          <div class="dash-highlight__meta">${p.districtName} - Rating ${p.rating || '4.5'}</div>
+          <div class="dash-highlight__name">${pname(p)}</div>
+          <div class="dash-highlight__meta">${dname({ name: p.districtName, nameEn: p.districtNameEn })} - ${tr('rating')} ${p.rating || '4.5'}</div>
         </div>
       </article>`
       )
@@ -756,11 +997,11 @@
         (day, di) => {
           const dayDate = new Date(startDate);
           dayDate.setDate(startDate.getDate() + di);
-          const dateLabel = formatThaiDate(dayDate);
+          const dateLabel = formatDate(dayDate);
           return `
       <div class="dash-day">
         <div class="dash-day__head">
-          <span class="dash-day__num">DAY ${day.day}</span>
+          <span class="dash-day__num">${tr('dayLabel')} ${day.day}</span>
           <span class="dash-day__date-label" style="font-size:0.78rem;color:var(--t-secondary,#aaa);font-family:var(--font-thai,sans-serif);margin-left:0.4rem;">${dateLabel}</span>
           <span class="dash-day__theme">${day.theme || ''}</span>
         </div>
@@ -770,10 +1011,10 @@
               (s) => `
             <div class="dash-stop">
               <span class="dash-stop__time">${s.time}</span>
-              <img src="${s.place.image || ''}" alt="" onerror="this.style.display='none'">
+              ${thumbHTML(s.place, 'dash-stop__img')}
               <div>
-                <div class="dash-stop__name">${s.place.name}</div>
-                <div class="dash-stop__meta">${s.place.districtName}</div>
+                <div class="dash-stop__name">${pname(s.place)}</div>
+                <div class="dash-stop__meta">${dname({ name: s.place.districtName, nameEn: s.place.districtNameEn })}</div>
               </div>
             </div>`
             )
@@ -791,42 +1032,42 @@
           <h2 class="travel-dashboard__title">${route.title}</h2>
           <p class="travel-dashboard__summary">${route.summary}</p>
           <div class="travel-dashboard__stats">
-            <div class="dash-stat"><span>${route.days.length}</span><label>days</label></div>
-            <div class="dash-stat"><span>${stopsCount}</span><label>stops</label></div>
-            <div class="dash-stat"><span>${route.districtIds.length}</span><label>districts</label></div>
-            <div class="dash-stat dash-stat--gold"><span>${route.budget.toLocaleString()}</span><label>baht/person</label></div>
+            <div class="dash-stat"><span>${route.days.length}</span><label>${tr('days')}</label></div>
+            <div class="dash-stat"><span>${stopsCount}</span><label>${tr('stops')}</label></div>
+            <div class="dash-stat"><span>${route.districtIds.length}</span><label>${tr('districts')}</label></div>
+            <div class="dash-stat dash-stat--gold"><span>${route.budget.toLocaleString()}</span><label>${tr('perPerson')}</label></div>
           </div>
           ${atmosTags.length ? `<div class="dash-atmosphere">${atmosTags.map((t) => `<span>${t}</span>`).join('')}</div>` : ''}
-          <p class="dash-transport">ðŸš— ${route.transport}</p>
-          ${bd.min ? `<p class="dash-range">Estimated range ${bd.min.toLocaleString()} - ${bd.max.toLocaleString()} baht - ~${(bd.daily || 0).toLocaleString()} baht/day</p>` : ''}
+          <p class="dash-transport">${route.transport}</p>
+          ${bd.min ? `<p class="dash-range">${tr('rangeLabel', { min: bd.min.toLocaleString(), max: bd.max.toLocaleString(), daily: (bd.daily || 0).toLocaleString() })}</p>` : ''}
         </header>
         ${
           highlights.length
             ? `<section class="dash-panel dash-panel--highlights">
-            <h3 class="dash-panel__title">ไฮไลท์แนะนำ</h3>
+            <h3 class="dash-panel__title">${tr('highlights')}</h3>
             <div class="dash-highlights">${highlightsHtml}</div>
           </section>`
             : ''
         }
         <div class="travel-dashboard__grid">
           <section class="dash-panel">
-            <h3 class="dash-panel__title">งบประมาณ</h3>
+            <h3 class="dash-panel__title">${tr('budgetTitle')}</h3>
             <div class="dash-budget-bars">
-              <div class="dash-bar"><label>Food</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, (bd.food / route.budget) * 100)}%"></div></div><span>${(bd.food || 0).toLocaleString()}</span></div>
-              <div class="dash-bar"><label>Activities</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, (bd.attractions / route.budget) * 100)}%"></div></div><span>${(bd.attractions || 0).toLocaleString()}</span></div>
-              <div class="dash-bar"><label>Stay</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, (bd.hotel / route.budget) * 100)}%"></div></div><span>${(bd.hotel || 0).toLocaleString()}</span></div>
-              <div class="dash-bar"><label>Transport</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, (bd.transport / route.budget) * 100)}%"></div></div><span>${(bd.transport || 0).toLocaleString()}</span></div>
+              <div class="dash-bar"><label>${tr('budgetFood')}</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, ((bd.food || 0) / (route.budget || 1)) * 100)}%"></div></div><span>${(bd.food || 0).toLocaleString()}</span></div>
+              <div class="dash-bar"><label>${tr('budgetActivities')}</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, ((bd.attractions || 0) / (route.budget || 1)) * 100)}%"></div></div><span>${(bd.attractions || 0).toLocaleString()}</span></div>
+              <div class="dash-bar"><label>${tr('budgetStay')}</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, ((bd.hotel || 0) / (route.budget || 1)) * 100)}%"></div></div><span>${(bd.hotel || 0).toLocaleString()}</span></div>
+              <div class="dash-bar"><label>${tr('budgetTransport')}</label><div class="dash-bar__track"><div class="dash-bar__fill" style="width:${Math.min(100, ((bd.transport || 0) / (route.budget || 1)) * 100)}%"></div></div><span>${(bd.transport || 0).toLocaleString()}</span></div>
             </div>
-            ${route.accommodation ? `<p class="dash-hotel">Recommended stay: <strong>${route.accommodation.name}</strong> - ${route.accommodation.districtName}</p>` : ''}
+            ${route.accommodation ? `<p class="dash-hotel">${tr('recommendedStay')} <strong>${pname(route.accommodation)}</strong> - ${dname({ name: route.accommodation.districtName, nameEn: route.accommodation.districtNameEn })}</p>` : ''}
           </section>
           <section class="dash-panel dash-panel--wide">
-            <h3 class="dash-panel__title">แผนการเดินทาง</h3>
+            <h3 class="dash-panel__title">${tr('planTitle')}</h3>
             ${daysHtml}
           </section>
         </div>
         <div class="travel-dashboard__actions">
-          <button type="button" class="btn-primary dash-sync-map">Sync with 3D Map</button>
-          <button type="button" class="btn-ghost dash-close">Close Dashboard</button>
+          <button type="button" class="btn-primary dash-sync-map">${tr('syncMap')}</button>
+          <button type="button" class="btn-ghost dash-close">${tr('closeDashboard')}</button>
         </div>
       </div>`;
   }
@@ -841,13 +1082,13 @@
       this.el.querySelector('.travel-dashboard__backdrop')?.addEventListener('click', () => this.close());
     },
 
-    open(route) {
-      if (!this.el || !route) return;
-      this.currentRoute = route;
-      const body = this.el.querySelector('.travel-dashboard__body');
-      body.innerHTML = renderTravelDashboard(route);
+    _bindBody(body, route) {
+      if (!body) return;
       body.querySelector('.dash-close')?.addEventListener('click', () => this.close());
-      body.querySelector('.dash-sync-map')?.addEventListener('click', () => syncRouteToMap(route));
+      body.querySelector('.dash-sync-map')?.addEventListener('click', () => {
+        syncRouteToMap(route);
+        this.close();
+      });
       body.querySelectorAll('.dash-highlight').forEach((el) => {
         el.addEventListener('click', () => {
           if (window.Router) {
@@ -857,19 +1098,43 @@
         });
       });
       bindRouteStops(body);
+    },
+
+    open(route) {
+      if (!this.el || !route) return;
+      this.currentRoute = route;
+      const body = this.el.querySelector('.travel-dashboard__body');
+      body.innerHTML = renderTravelDashboard(route);
+      this._bindBody(body, route);
+      rememberFocus();
+      this.el.setAttribute('aria-hidden', 'false');
       this.el.classList.add('is-open');
       document.body.style.overflow = 'hidden';
-      syncRouteToMap(route);
+      // Sync highlights but do NOT scroll the page behind the dashboard.
+      syncRouteToMap(route, { scroll: false });
+      focusFirst(this.el);
+    },
+
+    // Re-render after a language switch without losing the route.
+    rerender() {
+      if (!this.el || !this.currentRoute) return;
+      const body = this.el.querySelector('.travel-dashboard__body');
+      if (!body) return;
+      body.innerHTML = renderTravelDashboard(this.currentRoute);
+      this._bindBody(body, this.currentRoute);
     },
     close() {
       this.el?.classList.remove('is-open');
+      this.el?.setAttribute('aria-hidden', 'true');
       if (!document.querySelector('.smart-panel.is-open')) {
         document.body.style.overflow = '';
       }
+      restoreFocus();
     },
   };
 
-  function syncRouteToMap(route) {
+  function syncRouteToMap(route, options = {}) {
+    const { scroll = true } = options;
     if (!route?.districtIds?.length) return;
     if (window.Map3D) {
       if (typeof Map3D.setDistrictHighlights === 'function') {
@@ -881,11 +1146,9 @@
         Map3D.animateRoutePath(route.districtIds);
       }
       const mapSection = document.getElementById('districts');
-      if (mapSection) mapSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (scroll && mapSection) mapSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
-    TravelDashboard.close();
-    closePanel(document.getElementById('aiAssistantPanel'));
-    closePanel(document.getElementById('routePlannerPanel'));
+    // Closing overlays is the caller's responsibility (explicit buttons or Esc).
   }
 
   function highlightMapDistricts(ids) {
@@ -913,6 +1176,59 @@
 
   /* â”€â”€â”€ Panel utilities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   let backdropEl = null;
+  let focusBeforeOverlay = null;
+
+  const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function rememberFocus() {
+    if (focusBeforeOverlay == null) focusBeforeOverlay = document.activeElement;
+  }
+
+  function focusFirst(container) {
+    if (!container) return;
+    const target = container.querySelector(FOCUSABLE);
+    if (target) target.focus({ preventScroll: true });
+  }
+
+  function restoreFocus() {
+    const anyOpen = document.querySelector(
+      '.travel-dashboard.is-open, .smart-panel.is-open, .map-district-panel.is-open'
+    );
+    if (anyOpen) return;
+    const target =
+      focusBeforeOverlay && document.body.contains(focusBeforeOverlay)
+        ? focusBeforeOverlay
+        : document.getElementById('fabPlanner');
+    focusBeforeOverlay = null;
+    if (target && typeof target.focus === 'function') target.focus({ preventScroll: true });
+  }
+
+  function topOverlay() {
+    const dash = document.getElementById('travelDashboard');
+    if (dash && dash.classList.contains('is-open')) return dash;
+    const panel = document.querySelector('.smart-panel.is-open');
+    if (panel) return panel;
+    const mapPanel = document.querySelector('.map-district-panel.is-open');
+    return mapPanel || null;
+  }
+
+  function trapTab(e) {
+    const container = topOverlay();
+    if (!container) return;
+    const items = [...container.querySelectorAll(FOCUSABLE)].filter(
+      (el) => el.offsetParent !== null || el === document.activeElement
+    );
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
 
   function ensureBackdrop() {
     if (backdropEl) return backdropEl;
@@ -924,25 +1240,39 @@
   }
 
   function openPanel(panel) {
+    if (!panel) return;
+    rememberFocus();
     ensureBackdrop().classList.add('is-open');
+    panel.setAttribute('aria-hidden', 'false');
     panel.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    focusFirst(panel);
   }
 
   function closePanel(panel) {
+    if (!panel) return;
     panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
     if (!document.querySelector('.smart-panel.is-open')) {
       backdropEl?.classList.remove('is-open');
       document.body.style.overflow = '';
     }
+    restoreFocus();
   }
 
   function closeAllPanels() {
-    document.querySelectorAll('.smart-panel.is-open').forEach((p) => p.classList.remove('is-open'));
+    document.querySelectorAll('.smart-panel.is-open').forEach((p) => {
+      p.classList.remove('is-open');
+      p.setAttribute('aria-hidden', 'true');
+    });
     document.getElementById('mapDistrictPanel')?.classList.remove('is-open');
+    document.getElementById('mapDistrictPanel')?.setAttribute('aria-hidden', 'true');
     TravelDashboard.close();
     backdropEl?.classList.remove('is-open');
     document.body.style.overflow = '';
+    // Esc always returns the user to the launcher.
+    const fab = document.getElementById('fabPlanner');
+    if (fab) fab.focus({ preventScroll: true });
   }
 
   /* â”€â”€â”€ AI Assistant â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -954,175 +1284,21 @@
     'Cafe hopping',
     'Solo slow travel',
   ];
-  const TravelAssistant = {
+  const TripPlanner = {
     panel: null,
-    messagesContainer: null,
-    thinkingEl: null,
-    inputEl: null,
-    thinking: false,
-    chatState: 0,
-    chatParams: {},
-
-    init() {
-      this.panel = document.getElementById('aiAssistantPanel');
-      if (!this.panel) return;
-
-      this.messagesContainer = document.getElementById('aiChatMessages');
-      this.thinkingEl = document.getElementById('aiChatThinking');
-      this.inputEl = this.panel.querySelector('.ai-chat__input');
-
-      this.panel.querySelector('.smart-panel__close')?.addEventListener('click', () => closePanel(this.panel));
-    },
-
-    open() {
-      openPanel(this.panel);
-      if (this.chatState === 0 && (!this.messagesContainer.innerHTML.trim() || this.messagesContainer.children.length === 0)) {
-        this.startConversation();
-      }
-    },
-
-    startConversation() {
-      this.chatState = 0;
-      this.chatParams = {};
-      this.messagesContainer.innerHTML = '';
-      this.addBotMessage("สวัสดีครับ! ยินดีต้อนรับสู่ระบบแนะนำการท่องเที่ยวอัจฉริยะ (AI Travel Planner)<br>ให้ผมช่วยจัดทริปแบบ Exclusive สำหรับคุณไหมครับ?<br>ก่อนอื่น... คุณมีเวลาเที่ยวที่พัทลุงกี่วันครับ?", [
-        { label: "ครึ่งวัน (Half-Day)", value: "0.5" },
-        { label: "1 วัน (One-Day)", value: "1" },
-        { label: "2 วัน 1 คืน", value: "2" },
-        { label: "3 วัน 2 คืน", value: "3" }
-      ]);
-    },
-
-    addBotMessage(text, options) {
-      const msg = document.createElement('div');
-      msg.className = 'ai-chat__msg ai-chat__msg--bot';
-      msg.innerHTML = `<div class="ai-chat__bubble">${text}</div>`;
-      
-      if (options && options.length > 0) {
-        const optsDiv = document.createElement('div');
-        optsDiv.className = 'ai-chat__options';
-        options.forEach(opt => {
-          const btn = document.createElement('button');
-          btn.className = 'ai-chat__option-btn';
-          btn.innerHTML = opt.label;
-          btn.onclick = () => {
-            optsDiv.style.pointerEvents = 'none';
-            optsDiv.style.opacity = '0.5';
-            this.handleUserOption(opt.value, opt.label);
-          };
-          optsDiv.appendChild(btn);
-        });
-        msg.appendChild(optsDiv);
-      }
-      this.messagesContainer.appendChild(msg);
-      this.scrollToBottom();
-    },
-
-    addUserMessage(text) {
-      const msg = document.createElement('div');
-      msg.className = 'ai-chat__msg ai-chat__msg--user';
-      msg.innerHTML = `<div class="ai-chat__bubble">${text}</div>`;
-      this.messagesContainer.appendChild(msg);
-      this.scrollToBottom();
-    },
-
-    setThinking(isThinking) {
-      if (!this.thinkingEl) return;
-      if (isThinking) {
-        this.thinkingEl.classList.add('is-active');
-        this.scrollToBottom();
-      } else {
-        this.thinkingEl.classList.remove('is-active');
-      }
-    },
-
-    scrollToBottom() {
-      setTimeout(() => {
-        if (this.messagesContainer) {
-          this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
-        }
-      }, 50);
-    },
-
-    handleUserOption(value, label) {
-      this.addUserMessage(label);
-      this.setThinking(true);
-      
-      setTimeout(() => {
-        this.setThinking(false);
-        
-        switch (this.chatState) {
-          case 0:
-            this.chatParams.days = parseFloat(value);
-            this.chatState = 1;
-            this.addBotMessage("โอเคครับ รับทราบ! 🗓️<br>เพื่อให้ทริปนี้ตรงใจคุณที่สุด คุณชอบการท่องเที่ยวสไตล์ไหนครับ?", [
-              { label: "🌿 ธรรมชาติ & พื้นที่สีเขียว", value: "nature" },
-              { label: "☕ คาเฟ่ & ชิลเอาท์", value: "cafe" },
-              { label: "📸 ถ่ายรูป & จุดชมวิว", value: "photo" },
-              { label: "🏛️ ศิลปะวัฒนธรรม & ประวัติศาสตร์", value: "culture" },
-              { label: "🛶 ผจญภัย & กิจกรรม", value: "adventure" }
-            ]);
-            break;
-          case 1:
-            this.chatParams[value] = true;
-            this.chatState = 2;
-            this.addBotMessage("เยี่ยมเลยครับ!<br>เพื่อให้แนะนำสถานที่ได้ถูกใจที่สุด... ปกติเวลาเที่ยวคุณมักจะไปกับใครครับ?", [
-              { label: "👫 แฟน / คนรัก", value: "couple" },
-              { label: "👨‍👩‍👧 ครอบครัว / เด็ก", value: "family" },
-              { label: "👯 แก๊งเพื่อน", value: "friends" },
-              { label: "🎒 ลุยเดี่ยว", value: "solo" },
-              { label: "💼 คุยงาน / ธุรกิจ", value: "work" }
-            ]);
-            break;
-          case 2:
-            this.chatParams[value] = true;
-            this.chatState = 3;
-            this.addBotMessage("เข้าใจแล้วครับ 👍<br>สุดท้ายนี้... คุณตั้งงบประมาณไว้ประมาณเท่าไหร่สำหรับทริปนี้ครับ?", [
-              { label: "💰 ประหยัด (Low)", value: "low" },
-              { label: "💵 ปานกลาง (Medium)", value: "medium" },
-              { label: "💎 จัดเต็ม (High)", value: "high" }
-            ]);
-            break;
-          case 3:
-            this.chatParams.budgetLevel = value;
-            this.addBotMessage("ขอบคุณสำหรับข้อมูลครับ! ตอนนี้ผมกำลังประมวลผลข้อมูล... ⏳", []);
-            this.setThinking(true);
-            setTimeout(() => {
-              this.setThinking(false);
-              this.generateAndShowDashboard();
-            }, 1500);
-            break;
-        }
-      }, 600);
-    },
-
-    generateAndShowDashboard() {
-        if (this.inputEl) this.inputEl.value = 'กำลังจัดเส้นทางให้คุณ กรุณารอสักครู่...';
-        const route = TravelBrain.generate(this.chatParams, this.chatParams.days);
-        if (route) {
-            TravelDashboard.open(route);
-            closePanel(this.panel);
-            this.chatState = 0;
-            this.messagesContainer.innerHTML = '';
-        }
-    }
-  };
-
-  /* â”€â”€â”€ Route Planner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-  const RoutePlanner = {
-    panel: null,
-    districtFilter: null,
+    wizardEl: null,
     resultEl: null,
+    districtFilter: null,
+    lastRoute: null,
 
     init() {
-      this.panel = document.getElementById('routePlannerPanel');
+      this.panel = document.getElementById('tripPlannerPanel');
       if (!this.panel) return;
-      this.resultEl = this.panel.querySelector('.planner-result');
-      const wizard = this.panel.querySelector('.route-wizard');
-      if (wizard) bindWizardControls(wizard);
-
+      this.wizardEl = this.panel.querySelector('.route-wizard');
+      this.resultEl = document.getElementById('tripResult');
+      if (this.wizardEl) bindWizardControls(this.wizardEl);
       this.panel.querySelector('.smart-panel__close')?.addEventListener('click', () => closePanel(this.panel));
-      this.panel.querySelector('.planner-generate')?.addEventListener('click', () => this.generate());
+      document.getElementById('tripGenerate')?.addEventListener('click', () => this.generate());
     },
 
     open(districtId) {
@@ -1131,14 +1307,24 @@
     },
 
     generate() {
-      const wizard = this.panel.querySelector('.route-wizard');
-      runWizardGenerate(wizard || this.panel, {
+      runWizardGenerate(this.wizardEl || this.panel, {
         targetEl: this.resultEl,
         districtFilter: this.districtFilter,
         delay: 900,
+        onComplete: (route) => {
+          this.lastRoute = route;
+          this.lastState = readWizardState(this.wizardEl || this.panel);
+          this.lastFilter = this.districtFilter;
+        },
       });
     },
   };
+
+  // Keep backward compat
+  const TravelAssistant = { open() { TripPlanner.open(); }, init() {} };
+  const RoutePlanner = { open(d) { TripPlanner.open(d); }, init() {}, generate() { TripPlanner.generate(); } };
+
+  /* â”€â”€â”€ Route Planner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   /* â”€â”€â”€ Map District Panel â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const MapDistrictPanel = {
@@ -1175,13 +1361,13 @@
         ...restaurants.slice(0, 2).map((p) => ({ ...p, categoryId: 'restaurants' })),
         ...workshops.slice(0, 2).map((p) => ({ ...p, categoryId: 'workshops' })),
       ];
-      const badge = DISTRICT_BADGES[districtId] || atmosphere[0] || '';
+      const badge = districtBadge(districtId) || atmosphere[0] || '';
 
       const galleryHtml = gallery.length
         ? `<div class="map-district-gallery">${gallery
             .map(
               (p) =>
-                `<button type="button" class="map-district-gallery__item" data-place-id="${p.id}" data-district-id="${districtId}" data-category-id="${p.categoryId || 'attractions'}"><img src="${p.image || ''}" alt="" loading="lazy"></button>`
+                `<button type="button" class="map-district-gallery__item" data-place-id="${p.id}" data-district-id="${districtId}" data-category-id="${p.categoryId || 'attractions'}">${thumbHTML(p, 'map-gallery__img')}</button>`
             )
             .join('')}</div>`
         : '';
@@ -1191,44 +1377,54 @@
           .map(
             (p) => `
         <div class="map-district-mini" data-place-id="${p.id}" data-district-id="${districtId}" data-category-id="${cat}">
-          <img src="${p.image || ''}" alt="" loading="lazy" onerror="this.style.background='var(--c-surface-2)'">
+          ${thumbHTML(p, 'map-mini__img')}
           <div>
-            <div class="map-district-mini__name">${p.name}</div>
-            <div class="map-district-mini__rating">Rating ${p.rating || '4.5'} - ${type}</div>
+            <div class="map-district-mini__name">${pname(p)}</div>
+            <div class="map-district-mini__rating">${tr('rating')} ${p.rating || '4.5'} - ${type}</div>
           </div>
         </div>`
           )
           .join('');
 
       this.el.innerHTML = `
-        <div class="map-district-panel__eyebrow">EXPLORE - SMART MAP</div>
-        <h3 class="map-district-panel__name">${d.name}</h3>
-        <p class="map-district-panel__tagline">${d.tagline || ''}</p>
+        <div class="map-district-panel__eyebrow">${tr('exploreSmartMap')}</div>
+        <h3 class="map-district-panel__name">${dname(d)}</h3>
+        <p class="map-district-panel__tagline">${lang() === 'en' && d.taglineEn ? d.taglineEn : (d.tagline || '')}</p>
         ${badge ? `<div class="map-district-badge">${badge}</div>` : ''}
         <div class="map-atmosphere-tags">
           ${atmosphere.map((t) => `<span class="map-atmosphere-tag">${t}</span>`).join('')}
         </div>
         ${galleryHtml}
-        <p class="map-district-panel__history">${(d.history || '').slice(0, 200)}${(d.history || '').length > 200 ? '...' : ''}</p>
-        <div class="map-district-panel__section-title">Recommended</div>
-        <div class="map-district-mini-grid">${mini(topRated, 'Recommended', topRated[0]?.categoryId || 'attractions')}</div>
-        ${
-          hiddenGems.length
-            ? `<div class="map-district-panel__section-title">Recommended</div>`
-            : ''
-        }
-        <div class="map-district-panel__section-title">Recommended</div>
-        <div class="map-district-mini-grid">${mini(attractions, 'Place', 'attractions') || '<p style="color:var(--t-muted);font-size:0.85rem">Adding more data soon</p>'}</div>
-        <div class="map-district-panel__section-title">Recommended</div>
-        <div class="map-district-mini-grid">${mini(restaurants, 'Food', 'restaurants') || ''}</div>
-        ${accommodations.length ? `<div class="map-district-panel__section-title">Recommended</div>` : ''}
+        <p class="map-district-panel__history">${(() => {
+          const h = lang() === 'en' && d.historyEn ? d.historyEn : (d.history || '');
+          return h.slice(0, 200) + (h.length > 200 ? '...' : '');
+        })()}</p>
+        ${topRated.length ? `
+          <div class="map-district-panel__section-title">${tr('highlights')}</div>
+          <div class="map-district-mini-grid">${mini(topRated, catName(topRated[0].categoryId || 'attractions'), topRated[0].categoryId || 'attractions')}</div>` : ''}
+        ${hiddenGems.length ? `
+          <div class="map-district-panel__section-title">${tr('hiddenGems')}</div>
+          <div class="map-district-mini-grid">${mini(hiddenGems.map((p) => ({ ...p, categoryId: p.categoryId || 'attractions' })), tr('hiddenGems'), 'attractions')}</div>` : ''}
+        ${attractions.length ? `
+          <div class="map-district-panel__section-title">${catName('attractions')}</div>
+          <div class="map-district-mini-grid">${mini(attractions, catName('attractions'), 'attractions')}</div>` : ''}
+        ${restaurants.length ? `
+          <div class="map-district-panel__section-title">${catName('restaurants')}</div>
+          <div class="map-district-mini-grid">${mini(restaurants, catName('restaurants'), 'restaurants')}</div>` : ''}
+        ${accommodations.length ? `
+          <div class="map-district-panel__section-title">${catName('accommodations')}</div>
+          <div class="map-district-mini-grid">${mini(accommodations, catName('accommodations'), 'accommodations')}</div>` : ''}
+        ${!attractions.length && !restaurants.length ? `<p style="color:var(--t-muted);font-size:0.85rem">${tr('addingMore')}</p>` : ''}
         <div class="map-district-panel__actions">
-          <button type="button" class="btn-primary map-panel-explore">Explore District</button>
-          <button type="button" class="btn-ghost map-panel-plan">Plan This Area</button>
-          <button type="button" class="btn-ghost map-panel-close">Close</button>
+          <button type="button" class="btn-primary map-panel-explore">${tr('exploreDistrict')}</button>
+          <button type="button" class="btn-ghost map-panel-plan">${tr('planArea')}</button>
+          <button type="button" class="btn-ghost map-panel-close">${tr('closePanel')}</button>
         </div>`;
 
+      rememberFocus();
       this.el.classList.add('is-open');
+      this.el.setAttribute('aria-hidden', 'false');
+      focusFirst(this.el);
 
       this.el.querySelector('.map-panel-explore')?.addEventListener('click', () => {
         this.close();
@@ -1236,8 +1432,8 @@
       });
       this.el.querySelector('.map-panel-plan')?.addEventListener('click', () => {
         this.close();
-        RoutePlanner.open(districtId);
-        RoutePlanner.generate();
+        TripPlanner.open(districtId);
+        TripPlanner.generate();
       });
       this.el.querySelector('.map-panel-close')?.addEventListener('click', () => this.close());
 
@@ -1256,6 +1452,7 @@
 
     close() {
       this.el?.classList.remove('is-open');
+      this.el?.setAttribute('aria-hidden', 'true');
       this.currentId = null;
       if (window.Map3D?.clearDistrictHighlights) Map3D.clearDistrictHighlights();
       if (window.Map3D?.resetZoom) Map3D.resetZoom();
@@ -1273,64 +1470,37 @@
     root.id = 'smartTourismRoot';
     root.innerHTML = `
       <div class="smart-fab-group">
-        <button type="button" class="smart-fab smart-fab--primary" id="fabAi" aria-label="AI Travel Assistant">
-          <span class="smart-fab__icon">AI</span>
-          <span class="smart-fab__label">AI Planner</span>
-        </button>
-        <button type="button" class="smart-fab" id="fabRoute" aria-label="Route Planner">
-          <span class="smart-fab__icon">3D</span>
-          <span class="smart-fab__label">Route</span>
+        <button type="button" class="smart-fab smart-fab--primary" id="fabPlanner" aria-label="${tr('fabLabel')}">
+          <span class="smart-fab__icon">✈</span>
+          <span class="smart-fab__label">${tr('fabLabel')}</span>
         </button>
       </div>
 
-      <aside class="smart-panel" id="aiAssistantPanel" aria-hidden="true">
+      <aside class="smart-panel" id="tripPlannerPanel" aria-hidden="true" role="dialog" aria-modal="true" aria-label="${tr('plannerTitle')}">
         <header class="smart-panel__header">
           <div>
-            <div class="smart-panel__title">AI Travel Planner</div>
-            <div class="smart-panel__subtitle">Smart Tourism - Phatthalung</div>
+            <div class="smart-panel__title">${tr('plannerTitle')}</div>
+            <div class="smart-panel__subtitle">${tr('plannerSubtitle')}</div>
           </div>
-          <button type="button" class="smart-panel__close" aria-label="Close">x</button>
-        </header>
-        <div class="smart-panel__body" style="display:flex; flex-direction:column; padding: var(--sp-md) var(--sp-lg); overflow:hidden;">
-          <div class="ai-chat" id="aiChatWrapper" style="flex:1; display:flex; flex-direction:column; overflow:hidden;">
-            <div class="ai-chat__messages" id="aiChatMessages" style="flex:1; overflow-y:auto; padding-right:8px;">
-            </div>
-            <div class="ai-thinking" id="aiChatThinking" style="display:none; padding-bottom:1rem;">
-              Typing <div class="ai-thinking__dots"><span></span><span></span><span></span></div>
-            </div>
-          </div>
-            <input type="text" class="ai-chat__input" placeholder="Type or choose an option above..." disabled />
-            <input type="text" class="ai-chat__input" placeholder="Type or choose an option above..." disabled />
-          </div>
-        </div>
-      </aside>
-
-      <aside class="smart-panel" id="routePlannerPanel" aria-hidden="true">
-        <header class="smart-panel__header">
-          <div>
-            <div class="smart-panel__title">Route Planner</div>
-            <div class="smart-panel__subtitle">Auto Schedule</div>
-          </div>
-          <button type="button" class="smart-panel__close" aria-label="Close">x</button>
+          <button type="button" class="smart-panel__close" aria-label="${tr('close')}">x</button>
         </header>
         <div class="smart-panel__body">
-          <div class="route-wizard">
+          <div class="route-wizard" id="tripWizard">
             ${wizardControlsHTML(false)}
           </div>
-          <button type="button" class="btn-primary planner-generate" style="width:100%;margin:0 0 1.5rem">Generate Route</button>
-          <div class="planner-result"></div>
+          <button type="button" class="btn-primary planner-generate" id="tripGenerate" style="width:100%;margin:0 0 1.5rem">${tr('generate')}</button>
+          <div class="planner-result" id="tripResult"></div>
         </div>
       </aside>
 
-      <div class="travel-dashboard" id="travelDashboard" aria-hidden="true">
+      <div class="travel-dashboard" id="travelDashboard" aria-hidden="true" role="dialog" aria-modal="true" aria-label="${tr('plannerTitle')}">
         <div class="travel-dashboard__backdrop"></div>
         <div class="travel-dashboard__body"></div>
       </div>
     `;
     document.body.appendChild(root);
 
-    document.getElementById('fabAi')?.addEventListener('click', () => TravelAssistant.open());
-    document.getElementById('fabRoute')?.addEventListener('click', () => RoutePlanner.open());
+    document.getElementById('fabPlanner')?.addEventListener('click', () => TripPlanner.open());
   }
 
   function injectMapPanel() {
@@ -1339,6 +1509,9 @@
     const panel = document.createElement('div');
     panel.id = 'mapDistrictPanel';
     panel.className = 'map-district-panel glass-strong';
+    panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'District explorer');
     if (!mapWrap.style.position || mapWrap.style.position === 'static') {
       mapWrap.style.position = 'relative';
     }
@@ -1361,7 +1534,7 @@
         runWizardGenerate(wizard, { targetEl: null, delay: 800 });
       }
     });
-    section.querySelector('.smart-os__cta-ai')?.addEventListener('click', () => TravelAssistant.open());
+    section.querySelector('.smart-os__cta-ai')?.addEventListener('click', () => TripPlanner.open());
     section.querySelector('.smart-os__cta-map')?.addEventListener('click', () => {
       document.getElementById('districts')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
@@ -1371,8 +1544,7 @@
     init() {
       injectShell();
       injectMapPanel();
-      TravelAssistant.init();
-      RoutePlanner.init();
+      TripPlanner.init();
       MapDistrictPanel.init();
       TravelDashboard.init();
       initHomeSmartSection();
@@ -1385,13 +1557,68 @@
       if (app) observer.observe(app, { childList: true, subtree: true });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAllPanels();
+        if (e.key === 'Escape') {
+          closeAllPanels();
+          return;
+        }
+        if (e.key === 'Tab') trapTab(e);
       });
     },
 
+    /* Re-render all injected chrome after Lang.toggle() changed the language. */
+    onLocaleChange() {
+      const fab = document.getElementById('fabPlanner');
+      if (fab) {
+        fab.setAttribute('aria-label', tr('fabLabel'));
+        const label = fab.querySelector('.smart-fab__label');
+        if (label) label.textContent = tr('fabLabel');
+      }
+
+      const panel = document.getElementById('tripPlannerPanel');
+      if (panel) {
+        panel.setAttribute('aria-label', tr('plannerTitle'));
+        const title = panel.querySelector('.smart-panel__title');
+        const subtitle = panel.querySelector('.smart-panel__subtitle');
+        const closeBtn = panel.querySelector('.smart-panel__close');
+        if (title) title.textContent = tr('plannerTitle');
+        if (subtitle) subtitle.textContent = tr('plannerSubtitle');
+        if (closeBtn) closeBtn.setAttribute('aria-label', tr('close'));
+
+        const wizard = panel.querySelector('.route-wizard');
+        if (wizard) {
+          wizard.innerHTML = wizardControlsHTML(false);
+          delete wizard.dataset.wizardBound;
+          bindWizardControls(wizard);
+        }
+        const gen = document.getElementById('tripGenerate');
+        if (gen) gen.textContent = tr('generate');
+      }
+
+      if (TripPlanner.lastRoute) {
+        // Route titles/summaries were baked in the old language: rebuild them.
+        let route = TripPlanner.lastRoute;
+        if (TripPlanner.lastState) {
+          const regenerated = TravelBrain.generate(
+            TripPlanner.lastState,
+            TripPlanner.lastState.days,
+            TripPlanner.lastFilter || null
+          );
+          regenerated.startDate = route.startDate || new Date();
+          TripPlanner.lastRoute = regenerated;
+          TravelDashboard.currentRoute = regenerated;
+          route = regenerated;
+        }
+        const res = document.getElementById('tripResult');
+        if (res && res.innerHTML.trim()) {
+          res.innerHTML = renderRouteResult(route);
+          bindRouteActions(res, route);
+        }
+        TravelDashboard.rerender();
+      }
+    },
+
     TravelBrain,
-    TravelAssistant,
-    RoutePlanner,
+    TripPlanner,
     MapDistrictPanel,
     TravelDashboard,
     highlightMapDistricts,
@@ -1401,6 +1628,7 @@
 
   window.SmartTourism = SmartTourism;
   window.MapDistrictPanel = MapDistrictPanel;
+  window.TripPlanner = TripPlanner;
   window.TravelBrain = TravelBrain;
   window.TravelDashboard = TravelDashboard;
 })();
