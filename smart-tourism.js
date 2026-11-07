@@ -37,14 +37,14 @@
       routeSaved: 'บันทึกเส้นทางแล้ว',
       routeSaveFailed: 'บันทึกเส้นทางไม่สำเร็จ',
       startFromAccommodation: 'ออกจากที่พัก - เดินทางประมาณ 20 นาที',
-      nextStopNear: 'จุดถัดไปใกล้นี้ ~5 นาที',
-      nextStopFar: 'จุดถัดไป ~20 นาที',
+      nextStopNear: 'ตรวจสอบเวลาเดินทางก่อนออกเดินทาง',
+      nextStopFar: 'ตรวจสอบเวลาเดินทางก่อนออกเดินทาง',
       days: 'วัน', stops: 'จุดแวะ', districts: 'อำเภอ', perPerson: 'บาท/คน',
       highlights: 'ไฮไลท์แนะนำ',
       budgetTitle: 'งบประมาณ',
       planTitle: 'แผนการเดินทาง',
       recommendedStay: 'ที่พักแนะนำ:',
-      syncMap: 'ซิงก์กับแผนที่ 3D',
+      syncMap: 'ดูจุดแวะบนแผนที่',
       closeDashboard: 'ปิดแดชบอร์ด',
       rangeLabel: 'ช่วงงบประมาณ {min} - {max} บาท · เฉลี่ย ~{daily} บาท/วัน',
       exploreSmartMap: 'สำรวจ - แผนที่อัจฉริยะ',
@@ -129,14 +129,14 @@
       routeSaved: 'Route saved',
       routeSaveFailed: 'Could not save route',
       startFromAccommodation: 'Leave the hotel - about 20 min drive',
-      nextStopNear: 'Next stop ~5 min away',
-      nextStopFar: 'Next stop ~20 min',
+      nextStopNear: 'Check travel time before leaving',
+      nextStopFar: 'Check travel time before leaving',
       days: 'days', stops: 'stops', districts: 'districts', perPerson: 'baht/person',
       highlights: 'Trip highlights',
       budgetTitle: 'Budget',
       planTitle: 'Day-by-day plan',
       recommendedStay: 'Recommended stay:',
-      syncMap: 'Sync with 3D Map',
+      syncMap: 'View stops on map',
       closeDashboard: 'Close Dashboard',
       rangeLabel: 'Estimated range {min} - {max} baht · about {daily} baht/day',
       exploreSmartMap: 'EXPLORE - SMART MAP',
@@ -257,10 +257,12 @@
           if (!p.duration) p.duration = 1.5;
           if (!p.price) p.price = p.budgetLevel === 'free' ? 'Free' : '?';
           if (!p.budgetLevel) {
-            const priceBaht = parseInt((p.price || '0').replace(/,/g, '').replace(/\u0E3F/g, '00'), 10) || 0;
-            p.budgetLevel = priceBaht === 0 ? 'free' : priceBaht > 500 ? 'high' : priceBaht < 150 ? 'low' : 'medium';
+            const price = String(p.price || '').trim();
+            const symbols = (price.match(/฿/g) || []).length;
+            p.budgetLevel = /^(ฟรี|free)$/i.test(price) ? 'free' : symbols === 1 ? 'low' : symbols === 2 ? 'medium' : symbols >= 3 ? 'high' : 'unknown';
           }
-          if (!p.coordinates) p.coordinates = { lat: 7.616, lng: 100.074 };
+          // Ratings have no source in the current dataset.
+          delete p.rating;
           if (!p.tags) p.tags = [];
         });
       });
@@ -317,6 +319,9 @@
     { id: 'photography', key: 'theme_photography' },
     { id: 'family', key: 'theme_family' },
     { id: 'adventure', key: 'theme_adventure' },
+    { id: 'cafe', key: 'theme_cafe' },
+    { id: 'relax', key: 'theme_relax' },
+    { id: 'mixed', key: 'theme_mixed' },
   ];
 
   function districtAtmosphereTags(districtId) {
@@ -339,6 +344,8 @@
     prefs.budgetRange = opts.budgetRange || 'medium';
     prefs.travelType = opts.travelType || 'solo';
     prefs.days = opts.days || 1;
+    if (opts.budget > 0) prefs.budget = opts.budget;
+    prefs.transportMode = opts.transportMode || 'car';
     if (opts.travelType === 'couple') prefs.couple = true;
     if (opts.travelType === 'family') prefs.family = true;
     if (opts.travelType === 'solo') prefs.solo = true;
@@ -385,7 +392,7 @@
   }
 
   function scorePlace(place, prefs) {
-    let score = (place.rating || 4) * 10;
+    let score = 40;
     const tags = place.tags || [];
     const suitable = place.suitableFor || [];
 
@@ -475,8 +482,10 @@
   const TIME_SLOTS = ['08:30', '10:30', '12:30', '14:30', '16:30', '18:00'];
 
   function getDistance(p1, p2) {
-    if (!p1.coordinates || !p2.coordinates) return 999;
-    return Math.hypot(p1.coordinates.lat - p2.coordinates.lat, p1.coordinates.lng - p2.coordinates.lng);
+    const a = window.TourismMap?.reference(p1)?.point;
+    const b = window.TourismMap?.reference(p2)?.point;
+    if (!a || !b) return p1.districtId === p2.districtId ? 0.05 : 999;
+    return Math.hypot(a[0] - b[0], a[1] - b[1]);
   }
 
   function formatTime(hoursFrom0830) {
@@ -494,7 +503,7 @@
       let currentHours = 0;
 
       // Ensure we have at least one place for this day, even if we reuse
-      let currentPlace = unassigned.shift() || places[Math.floor(Math.random() * places.length)];
+      let currentPlace = unassigned.shift();
       if (!currentPlace) break; // Should not happen if places has items
 
       dayStops.push({
@@ -505,15 +514,15 @@
       currentHours += (currentPlace.duration || 1.5) + 0.5;
 
       // Try to add up to 2-3 more places to the day
-      while (unassigned.length > 0 && currentHours < 8.5) {
+      while (unassigned.length > 0 && (currentHours < 8.5 || unassigned[0].requestedStop)) {
         // Find closest place
-        unassigned.sort((a, b) => getDistance(currentPlace, a) - getDistance(currentPlace, b));
+        unassigned.sort((a, b) => Number(!!b.requestedStop) - Number(!!a.requestedStop) || getDistance(currentPlace, a) - getDistance(currentPlace, b));
 
         const nextPlace = unassigned[0];
         const dist = getDistance(currentPlace, nextPlace);
         
         // If it's too far and we have more days left, save it for tomorrow
-        if (dist > 0.08 && dayCount > d + 1 && currentHours >= 4) break;
+        if (!nextPlace.requestedStop && dist > 0.08 && dayCount > d + 1 && currentHours >= 4) break;
 
         currentPlace = unassigned.shift();
         dayStops.push({
@@ -537,9 +546,7 @@
       (p) => p.districtId === districtId && !excludeIds.includes(p.id)
     );
     const tagged = pool.filter((p) => (p.tags || []).some((t) => /hidden|local|secret/i.test(t)));
-    const quiet = pool
-      .filter((p) => (p.rating || 5) <= 4.65)
-      .sort((a, b) => (a.rating || 0) - (b.rating || 0));
+    const quiet = pool;
     const merged = [...tagged, ...quiet];
     const seen = new Set();
     const out = [];
@@ -564,6 +571,8 @@
       atmosphere: themeBtn?.dataset.theme || 'nature',
       budgetRange: budgetBtn?.dataset.budget || 'medium',
       travelType: travelBtn?.dataset.travel || 'solo',
+      budget: Number(root.querySelector('.planner-budget-amount')?.value) || 0,
+      transportMode: root.querySelector('.planner-transport-mode')?.value || 'car',
       startDate,
     };
   }
@@ -627,8 +636,8 @@
     const todayVal = todayInputValue();
     return `
       <div class="planner-block${cls}">
-        <p class="planner-block__label">${tr('startDate')}</p>
-        <input type="date" class="planner-start-date" value="${todayVal}" min="${todayVal}" style="width:100%;padding:0.65rem 0.85rem;border-radius:10px;border:1.5px solid #CBD5E1;background:#FFFFFF;color:#0F172A;font-family:var(--font-thai,sans-serif);font-size:0.95rem;font-weight:600;cursor:pointer;box-sizing:border-box;box-shadow:0 1px 3px rgba(0,0,0,0.05);outline:none;" />
+        <label class="planner-block__label" for="planner-date-${compact ? 'compact' : 'full'}">${tr('startDate')}</label>
+        <input id="planner-date-${compact ? 'compact' : 'full'}" type="date" class="planner-start-date" value="${todayVal}" min="${todayVal}" style="width:100%;padding:0.65rem 0.85rem;border-radius:10px;border:1.5px solid #CBD5E1;background:#FFFFFF;color:#0F172A;font-family:var(--font-thai,sans-serif);font-size:0.95rem;font-weight:600;cursor:pointer;box-sizing:border-box;box-shadow:0 1px 3px rgba(0,0,0,0.05);" />
       </div>
       <div class="planner-block${cls}">
         <p class="planner-block__label">${tr('tripLength')}</p>
@@ -643,13 +652,14 @@
         <div class="planner-theme-grid">
           ${PLANNER_THEMES.map(
             (t, i) =>
-              `<button type="button" class="planner-theme${i === 0 ? ' is-active' : ''}" data-theme="${t.id}">${tr(t.key)}</button>`
+              `<button type="button" class="planner-theme${i === 0 ? ' is-active' : ''}" data-theme="${t.id}">${({relax:lang() === 'th' ? 'พักผ่อน' : 'Relaxation',mixed:lang() === 'th' ? 'ผสมผสาน' : 'Mixed',cafe:lang() === 'th' ? 'คาเฟ่' : 'Cafés'})[t.id] || tr(t.key)}</button>`
           ).join('')}
         </div>
       </div>
       <div class="planner-block planner-block--row${cls}">
         <div>
           <p class="planner-block__label">${tr('budget')}</p>
+          <label class="planner-budget-label">${lang() === 'th' ? 'งบต่อคน (บาท)' : 'Budget per person (THB)'}<input class="planner-budget-amount" type="number" min="1" max="1000000" step="1" inputmode="numeric" /></label>
           <div class="planner-opts">
             <button type="button" class="planner-opt" data-budget="low">${tr('budgetLow')}</button>
             <button type="button" class="planner-opt is-active" data-budget="medium">${tr('budgetMid')}</button>
@@ -662,7 +672,9 @@
             <button type="button" class="planner-opt is-active" data-travel="solo">${tr('solo')}</button>
             <button type="button" class="planner-opt" data-travel="couple">${tr('couple')}</button>
             <button type="button" class="planner-opt" data-travel="family">${tr('family')}</button>
+            <button type="button" class="planner-opt" data-travel="friends">${lang() === 'th' ? 'เพื่อน' : 'Friends'}</button>
           </div>
+          <label class="planner-budget-label">${lang() === 'th' ? 'พาหนะ' : 'Transport'}<select class="planner-transport-mode"><option value="car">${lang() === 'th' ? 'รถยนต์' : 'Car'}</option><option value="motorcycle">${lang() === 'th' ? 'มอเตอร์ไซค์' : 'Motorcycle'}</option></select></label>
         </div>
       </div>`;
   }
@@ -689,17 +701,17 @@
     let food = 0;
     let attractions = 0;
     places.forEach((p) => {
-      const cost = BUDGET_LEVEL_COST[p.budgetLevel] ?? priceToBaht(p.price);
+      const cost = BUDGET_LEVEL_COST[p.budgetLevel] ?? 0;
       if (p.categoryId === 'restaurants') food += cost;
       else if (p.categoryId === 'accommodations') return;
-      else if (p.categoryId === 'workshops') attractions += cost || 220;
-      else attractions += p.entranceFee ?? (p.budgetLevel === 'free' ? 0 : Math.max(30, cost * 0.4));
+      else if (p.categoryId === 'workshops') attractions += cost;
+      else attractions += p.entranceFee ?? (p.budgetLevel === 'free' || p.budgetLevel === 'unknown' ? 0 : Math.max(30, cost * 0.4));
     });
     const tier = prefs.budgetRange || 'medium';
     const hotelNights = Math.max(0, days - 1);
     const hotel = hotelNights * (HOTEL_PER_NIGHT[tier] || 1200);
     const districts = new Set(places.map((p) => p.districtId)).size;
-    const transport = days * (TRANSPORT_PER_DAY[tier] || 400) + districts * 120;
+    const transport = Math.round((days * (TRANSPORT_PER_DAY[tier] || 400) + districts * 120) * (prefs.transportMode === 'motorcycle' ? 0.65 : 1));
     const buffer = Math.round((food + attractions + hotel + transport) * 0.12);
     const total = food + attractions + hotel + transport + buffer;
     const daily = Math.round(total / days);
@@ -737,6 +749,10 @@
     return days === 1 ? tr('transport1day') : tr('transportMulti');
   }
 
+  function placeRouteKey(place) {
+    return `#place/${place.districtId}/${place.categoryId}/${place.id}`;
+  }
+
   const TravelBrain = {
     generate(query, dayCount = 1, districtFilter = null) {
       const prefs =
@@ -754,9 +770,8 @@
       let places = pickPlaces(prefs, totalStops, districtFilter);
       
       // Failsafe: guarantee at least one place
-      if (places.length === 0 && allAttractionsAndFood.length > 0) {
-        places.push(allAttractionsAndFood[0]);
-      }
+      const fallback = allAttractionsAndFood.find(p => p.categoryId !== 'accommodations' && (!districtFilter || p.districtId === districtFilter));
+      if (!places.length && fallback) places.push(fallback);
       
       if (days > 1) {
         const hotel = pickAccommodation(prefs, districtFilter || places[0]?.districtId);
@@ -765,10 +780,17 @@
         }
       }
 
-      const visitPlaces = places.filter((p) => p.categoryId !== 'accommodations');
+      let requested = [];
+      try {
+        const keys = JSON.parse(localStorage.getItem('nolatalung_requested_stops') || '[]');
+        if (Array.isArray(keys)) requested = allAttractionsAndFood.filter(p => p.categoryId !== 'accommodations' && (!districtFilter || p.districtId === districtFilter) && keys.slice(0,3).includes(placeRouteKey(p)));
+      } catch {}
+      const requestedKeys = new Set(requested.map(placeRouteKey));
+      const visitPlaces = [...requested.map(p => ({...p, requestedStop:true})), ...places.filter(p => p.categoryId !== 'accommodations' && !requestedKeys.has(placeRouteKey(p)))];
       const routeDays = buildDays(visitPlaces, days, prefs);
 
-      const budgetDetail = estimateBudgetDetailed(places, days, prefs);
+      const scheduledPlaces = routeDays.flatMap(day => day.stops.map(stop => stop.place));
+      const budgetDetail = estimateBudgetDetailed([...scheduledPlaces, ...places.filter(p => p.categoryId === 'accommodations')], days, prefs);
       const districtIds = [...new Set(routeDays.flatMap(d => d.stops.map(s => s.place.districtId)))];
 
       return {
@@ -779,7 +801,7 @@
         budgetDetail,
         transport: transportHint(days),
         districtIds,
-        places: visitPlaces,
+        places: scheduledPlaces,
         accommodation: places.find((p) => p.categoryId === 'accommodations') || null,
         summary: this._summary(prefs, days, budgetDetail),
       };
@@ -914,6 +936,7 @@
     return `
       <div class="route-result">
         <div class="route-summary">
+          <p role="note">${lang() === 'th' ? 'แผน เวลาเดินทาง และงบเป็นเพียงตัวอย่างประมาณการ ไม่รวมค่าใช้จ่ายที่ยังไม่ทราบ โปรดตรวจสอบพิกัด เวลาเปิด ราคา และการเดินทางกับสถานที่ก่อนออกเดินทาง' : 'This itinerary, travel time and budget are estimates and exclude unknown costs. Confirm locations, opening times, prices and transport before travelling.'}</p>
           <div class="route-summary__title">${route.title}</div>
           <p style="font-family:var(--font-thai);font-size:0.88rem;color:var(--t-secondary);line-height:1.7">${route.summary}</p>
           <div class="route-summary__budget">
@@ -952,7 +975,10 @@
         }
       });
     });
-    container.querySelector('.smart-route-map')?.addEventListener('click', () => syncRouteToMap(route));
+    container.querySelector('.smart-route-map')?.addEventListener('click', () => {
+      closeAllPanels();
+      window.TourismMap?.openItinerary(route);
+    });
     container.querySelector('.smart-route-dashboard')?.addEventListener('click', () => TravelDashboard.open(route));
     container.querySelector('.smart-route-save')?.addEventListener('click', () => {
       try {
@@ -985,7 +1011,7 @@
         ${thumbHTML(p, 'dash-highlight__img')}
         <div>
           <div class="dash-highlight__name">${pname(p)}</div>
-          <div class="dash-highlight__meta">${dname({ name: p.districtName, nameEn: p.districtNameEn })} - ${tr('rating')} ${p.rating || '4.5'}</div>
+          <div class="dash-highlight__meta">${dname({ name: p.districtName, nameEn: p.districtNameEn })}</div>
         </div>
       </article>`
       )
@@ -1008,18 +1034,21 @@
         <div class="dash-day__stops">
           ${day.stops
             .map(
-              (s) => `
+              (s, stopIndex) => `
             <div class="dash-stop">
               <span class="dash-stop__time">${s.time}</span>
               ${thumbHTML(s.place, 'dash-stop__img')}
               <div>
                 <div class="dash-stop__name">${pname(s.place)}</div>
                 <div class="dash-stop__meta">${dname({ name: s.place.districtName, nameEn: s.place.districtNameEn })}</div>
+                <small>${lang() === 'th' ? 'เวลาแวะโดยประมาณ' : 'Estimated visit'} ${Math.round((s.place.duration || 1.5) * 60)} ${lang() === 'th' ? 'นาที' : 'min'}</small>
+                <div class="dash-stop__edit" data-day="${di}" data-stop="${stopIndex}"></div>
               </div>
             </div>`
             )
             .join('')}
         </div>
+        <div class="dash-add-stop" data-day="${di}"></div>
       </div>`;
         }
       )
@@ -1028,9 +1057,11 @@
     return `
       <div class="travel-dashboard__inner">
         <header class="travel-dashboard__hero">
-          <span class="travel-dashboard__eyebrow">SMART TOURISM OS</span>
+          <p>${lang() === 'th' ? 'แผนแนะนำจากกฎและข้อมูลในคู่มือ' : 'Rule-based itinerary using guide data'}</p>
+          ${route.prefs.budget > 0 ? `<p>${lang() === 'th' ? 'งบที่ตั้งไว้' : 'Budget target'} ฿${route.prefs.budget.toLocaleString()} · ${route.budget > route.prefs.budget ? (lang() === 'th' ? 'ประมาณการเกินงบ' : 'Estimate exceeds target') : (lang() === 'th' ? 'ประมาณการอยู่ในงบ' : 'Estimate within target')}</p>` : ''}
           <h2 class="travel-dashboard__title">${route.title}</h2>
           <p class="travel-dashboard__summary">${route.summary}</p>
+          <p role="note">${lang() === 'th' ? 'แผน เวลาเดินทาง และงบเป็นเพียงตัวอย่างประมาณการ ไม่รวมค่าใช้จ่ายที่ยังไม่ทราบ โปรดตรวจสอบพิกัด เวลาเปิด ราคา และการเดินทางกับสถานที่ก่อนออกเดินทาง' : 'This itinerary, travel time and budget are estimates and exclude unknown costs. Confirm locations, opening times, prices and transport before travelling.'}</p>
           <div class="travel-dashboard__stats">
             <div class="dash-stat"><span>${route.days.length}</span><label>${tr('days')}</label></div>
             <div class="dash-stat"><span>${stopsCount}</span><label>${tr('stops')}</label></div>
@@ -1066,9 +1097,12 @@
           </section>
         </div>
         <div class="travel-dashboard__actions">
+          <button type="button" class="btn-ghost dash-save">${lang() === 'th' ? 'บันทึกแผนนี้' : 'Save itinerary'}</button>
+          <button type="button" class="btn-ghost dash-preferences">${lang() === 'th' ? 'แก้ตัวเลือกและสร้างใหม่' : 'Edit preferences and regenerate'}</button>
           <button type="button" class="btn-primary dash-sync-map">${tr('syncMap')}</button>
           <button type="button" class="btn-ghost dash-close">${tr('closeDashboard')}</button>
         </div>
+        <p class="dash-feedback" role="status"></p>
       </div>`;
   }
 
@@ -1084,10 +1118,103 @@
 
     _bindBody(body, route) {
       if (!body) return;
+      const updateDay = day => {
+        let hours = 0;
+        day.stops.forEach(stop => {
+          stop.time = formatTime(hours);
+          hours += (stop.place.duration || 1.5) + 0.5;
+        });
+        day.theme = dayTheme(day.stops, route.prefs);
+        route.places = route.days.flatMap(d => d.stops.map(s => s.place));
+        route.districtIds = [...new Set(route.places.map(p => p.districtId))];
+        route.budgetDetail = estimateBudgetDetailed([...route.places, ...[route.accommodation].filter(Boolean)], route.days.length, route.prefs);
+        route.budget = route.budgetDetail.total;
+        route.summary = TravelBrain._summary(route.prefs, route.days.length, route.budgetDetail);
+        const result = document.getElementById('tripResult');
+        if (result && TripPlanner.lastRoute === route) {
+          result.innerHTML = renderRouteResult(route);
+          bindRouteActions(result, route);
+        }
+        this.rerender();
+        body.querySelector('.dash-close')?.focus();
+      };
+      const usedKeys = new Set(route.places.map(placeRouteKey));
+      const available = ['attractions','restaurants','workshops'].flatMap(getAllPlaces).filter(place => !usedKeys.has(placeRouteKey(place)));
+      body.querySelectorAll('.dash-add-stop').forEach(editor => {
+        const day = route.days[Number(editor.dataset.day)];
+        if (!available.length) return;
+        const select = document.createElement('select');
+        const label = lang() === 'th' ? 'เพิ่มจุดแวะ' : 'Add a stop';
+        select.setAttribute('aria-label', `${label} · ${tr('dayLabel')} ${day.day}`);
+        select.add(new Option(label, ''));
+        available.forEach((place,index) => select.add(new Option(`${pname(place)} · ${dname({name:place.districtName,nameEn:place.districtNameEn})}`, String(index))));
+        select.addEventListener('change', () => {
+          if (!select.value) return;
+          day.stops.push({ place:available[Number(select.value)], time:'', transport:'' });
+          updateDay(day);
+        });
+        editor.append(select);
+      });
+      body.querySelectorAll('.dash-stop__edit').forEach(editor => {
+        const day = route.days[Number(editor.dataset.day)];
+        const index = Number(editor.dataset.stop);
+        const current = day.stops[index].place;
+        const used = new Set(route.places.map(placeRouteKey));
+        const alternatives = getAllPlaces(current.categoryId).filter(p => p.districtId === current.districtId && !used.has(placeRouteKey(p)));
+        const update = (replacement) => {
+          if (current.requestedStop) {
+            try {
+              const keys = JSON.parse(localStorage.getItem('nolatalung_requested_stops') || '[]');
+              if (Array.isArray(keys)) localStorage.setItem('nolatalung_requested_stops', JSON.stringify(keys.filter(key => key !== placeRouteKey(current))));
+            } catch {}
+          }
+          if (replacement) day.stops[index].place = replacement;
+          else day.stops.splice(index, 1);
+          updateDay(day);
+        };
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.textContent = lang() === 'th' ? 'ลบจุดแวะ' : 'Remove stop';
+        remove.disabled = route.places.length <= 1;
+        remove.addEventListener('click', () => update(null));
+        editor.append(remove);
+        for (const offset of [-1,1]) {
+          const nextIndex = index + offset;
+          if (!day.stops[nextIndex]) continue;
+          const move = document.createElement('button'); move.type = 'button';
+          move.textContent = offset < 0 ? (lang() === 'th' ? 'เลื่อนขึ้น' : 'Move up') : (lang() === 'th' ? 'เลื่อนลง' : 'Move down');
+          move.addEventListener('click', () => {
+            [day.stops[index],day.stops[nextIndex]] = [day.stops[nextIndex],day.stops[index]];
+            updateDay(day);
+          });
+          editor.append(move);
+        }
+        if (alternatives.length) {
+          const select = document.createElement('select');
+          const prompt = lang() === 'th' ? 'เปลี่ยนจุดแวะ' : 'Replace stop';
+          select.setAttribute('aria-label', `${prompt}: ${pname(current)}`);
+          select.add(new Option(prompt, ''));
+          alternatives.forEach((place, i) => select.add(new Option(pname(place), String(i))));
+          select.addEventListener('change', () => { if (select.value !== '') update(alternatives[Number(select.value)]); });
+          editor.append(select);
+        }
+      });
       body.querySelector('.dash-close')?.addEventListener('click', () => this.close());
-      body.querySelector('.dash-sync-map')?.addEventListener('click', () => {
-        syncRouteToMap(route);
+      body.querySelector('.dash-save')?.addEventListener('click', () => {
+        const feedback = body.querySelector('.dash-feedback');
+        try {
+          localStorage.setItem('phatthalung_saved_route', JSON.stringify(route));
+          feedback.textContent = lang() === 'th' ? 'บันทึกแผนไว้ในเบราว์เซอร์นี้แล้ว' : 'Itinerary saved in this browser.';
+        } catch { feedback.textContent = lang() === 'th' ? 'บันทึกแผนไม่ได้' : 'Could not save the itinerary.'; }
+      });
+      body.querySelector('.dash-preferences')?.addEventListener('click', () => {
         this.close();
+        if (!TripPlanner.panel?.classList.contains('is-open')) TripPlanner.open();
+        TripPlanner.panel?.querySelector('.smart-panel__close')?.focus();
+      });
+      body.querySelector('.dash-sync-map')?.addEventListener('click', () => {
+        closeAllPanels();
+        window.TourismMap?.openItinerary(route);
       });
       body.querySelectorAll('.dash-highlight').forEach((el) => {
         el.addEventListener('click', () => {
@@ -1270,9 +1397,7 @@
     TravelDashboard.close();
     backdropEl?.classList.remove('is-open');
     document.body.style.overflow = '';
-    // Esc always returns the user to the launcher.
-    const fab = document.getElementById('fabPlanner');
-    if (fab) fab.focus({ preventScroll: true });
+    restoreFocus();
   }
 
   /* â”€â”€â”€ AI Assistant â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -1298,12 +1423,64 @@
       this.resultEl = document.getElementById('tripResult');
       if (this.wizardEl) bindWizardControls(this.wizardEl);
       this.panel.querySelector('.smart-panel__close')?.addEventListener('click', () => closePanel(this.panel));
-      document.getElementById('tripGenerate')?.addEventListener('click', () => this.generate());
+      document.getElementById('tripGenerate')?.addEventListener('click', () => {
+        const invalid = [...this.wizardEl.querySelectorAll('input')].find(input => !input.checkValidity());
+        if (invalid) { invalid.reportValidity(); return; }
+        this.generate();
+      });
     },
 
     open(districtId) {
       this.districtFilter = districtId || null;
       openPanel(this.panel);
+    },
+
+    addRequestedStop(key) {
+      try {
+        const stored = JSON.parse(localStorage.getItem('nolatalung_requested_stops') || '[]');
+        const stops = Array.isArray(stored) ? stored : [];
+        if (!stops.includes(key) && stops.length >= 3) return 'full';
+        localStorage.setItem('nolatalung_requested_stops', JSON.stringify([...new Set([...stops,key])]));
+        this.open();
+        return 'added';
+      } catch { return 'unavailable'; }
+    },
+
+    restoreSaved() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('phatthalung_saved_route') || 'null');
+        if (!Array.isArray(saved?.days) || !saved.days.length) return false;
+        const catalog = new Map(['attractions','restaurants','workshops','accommodations'].flatMap(getAllPlaces).map(place => [placeRouteKey(place),place]));
+        const preferences = saved.prefs || {};
+        const prefs = prefsFromWizard({
+          days: Math.min(3,saved.days.length),
+          atmosphere: PLANNER_THEMES.find(theme => theme.id === preferences.atmosphere)?.id || 'nature',
+          travelType: ['solo','couple','family','friends'].includes(preferences.travelType) ? preferences.travelType : 'solo',
+          budgetRange: ['low','medium','high'].includes(preferences.budgetRange) ? preferences.budgetRange : 'medium',
+          budget: Math.min(1000000,Number(preferences.budget) || 0),
+          transportMode: preferences.transportMode === 'motorcycle' ? 'motorcycle' : 'car',
+        });
+        const days = saved.days.slice(0,3).map((day,index) => {
+          let hours = 0;
+          const stops = (Array.isArray(day?.stops) ? day.stops : []).slice(0,20).flatMap(stop => {
+            const place = stop?.place && catalog.get(placeRouteKey(stop.place));
+            if (!place || place.categoryId === 'accommodations') return [];
+            const time = formatTime(hours); hours += (place.duration || 1.5) + 0.5;
+            return [{place,time,transport:tr('nextStopNear')}];
+          });
+          return {day:index+1,stops,theme:dayTheme(stops,prefs)};
+        });
+        const places = days.flatMap(day => day.stops.map(stop => stop.place));
+        if (!places.length) return false;
+        const accommodation = saved.accommodation && catalog.get(placeRouteKey(saved.accommodation));
+        const budgetDetail = estimateBudgetDetailed(accommodation ? [...places,accommodation] : places,days.length,prefs);
+        const date = new Date(saved.startDate);
+        TravelDashboard.open({ days,places,prefs,accommodation,budgetDetail,budget:budgetDetail.total,
+          startDate: Number.isFinite(date.valueOf()) && saved.startDate ? date : new Date(),
+          title:routeTitle(prefs,days.length), transport:transportHint(days.length),
+          summary:TravelBrain._summary(prefs,days.length,budgetDetail), districtIds:[...new Set(places.map(place => place.districtId))] });
+        return true;
+      } catch { return false; }
     },
 
     generate() {
@@ -1380,7 +1557,7 @@
           ${thumbHTML(p, 'map-mini__img')}
           <div>
             <div class="map-district-mini__name">${pname(p)}</div>
-            <div class="map-district-mini__rating">${tr('rating')} ${p.rating || '4.5'} - ${type}</div>
+            <div class="map-district-mini__rating">${type}</div>
           </div>
         </div>`
           )
@@ -1557,7 +1734,7 @@
       if (app) observer.observe(app, { childList: true, subtree: true });
 
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
+        if (e.key === 'Escape' && topOverlay()) {
           closeAllPanels();
           return;
         }
